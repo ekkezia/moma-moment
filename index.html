@@ -40,7 +40,8 @@
         top: 0; left: 0;
         width: 100%; height: 100%;
       }
-      #cam { opacity: 0.2; }
+      #cam { opacity: 0.2; transition: opacity 1.2s ease; }
+      #cam.hidden { opacity: 0; }
       #draw { z-index: 1; }
 
       /* ── top-left controls ── */
@@ -59,6 +60,7 @@
         color: #fff;
         padding: 6px 14px;
         border-radius: 8px;
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
         font-size: 13px;
         cursor: pointer;
         transition: background .15s;
@@ -74,63 +76,72 @@
       /* ── painter's palette panel ── */
       #palette {
         position: absolute;
-        right: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 162px;
+        right: 18px;
+        bottom: 18px;
+        width: 220px;
+        height: 220px;
         background:
           repeating-linear-gradient(
-            92deg,
-            rgba(255,200,100,0.025) 0px, rgba(255,200,100,0.025) 1px,
-            transparent 1px, transparent 18px
+            8deg,
+            transparent 0px, transparent 6px,
+            rgba(160,100,50,0.07) 6px, rgba(160,100,50,0.07) 7px,
+            transparent 7px, transparent 14px
           ),
-          linear-gradient(160deg, #3e2410 0%, #2c1a0a 55%, #1c1006 100%);
-        border-radius: 81px 81px 58px 58px;
-        border: 1px solid rgba(160,110,50,0.3);
+          repeating-linear-gradient(
+            175deg,
+            transparent 0px, transparent 22px,
+            rgba(120,70,30,0.05) 22px, rgba(120,70,30,0.05) 23px,
+            transparent 23px, transparent 44px
+          ),
+          radial-gradient(ellipse at 30% 20%, #D4A068 0%, #C08850 40%, #A87040 70%, #8C5C30 100%);
+        border-radius: 50%;
+        border: 2px solid rgba(140,90,40,0.5);
         box-shadow:
-          0 14px 48px rgba(0,0,0,0.75),
-          inset 0 1px 0 rgba(220,175,80,0.14),
-          inset 0 -2px 0 rgba(0,0,0,0.3);
-        padding: 48px 16px 24px;
+          0 18px 56px rgba(0,0,0,0.7),
+          inset 0 2px 0 rgba(240,190,120,0.35),
+          inset 0 -3px 0 rgba(80,40,10,0.4),
+          inset 3px 0 8px rgba(80,40,10,0.15);
+        padding: 28px 22px 22px;
         z-index: 10;
         display: flex;
         flex-direction: column;
-        gap: 14px;
-        max-height: 92vh;
+        gap: 10px;
         overflow-y: auto;
         scrollbar-width: none;
       }
       #palette::-webkit-scrollbar { display: none; }
 
+      /* thumb hole */
       #palette::before {
         content: '';
         position: absolute;
-        top: -14px;
+        top: 22px;
         left: 50%;
         transform: translateX(-50%);
-        width: 30px;
-        height: 30px;
+        width: 26px;
+        height: 26px;
         border-radius: 50%;
-        background: #0a0a0f;
-        border: 1.5px solid rgba(160,110,50,0.28);
-        box-shadow: 0 0 0 4px #1c1006;
+        background: rgba(0,0,0,0.55);
+        border: 2px solid rgba(100,60,20,0.6);
+        box-shadow: inset 0 2px 6px rgba(0,0,0,0.7), 0 1px 0 rgba(200,150,80,0.2);
         z-index: 1;
       }
 
       .pal-label {
-        font-size: 9.5px;
-        letter-spacing: 0.1em;
+        font-size: 8.5px;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: rgba(210,155,60,0.55);
+        color: rgba(80,40,10,0.55);
         text-align: center;
         margin-bottom: 6px;
+        font-weight: 600;
       }
 
       #paintingSelect {
         width: 100%;
-        background: rgba(0,0,0,0.45);
-        border: 1px solid rgba(160,110,50,0.28);
-        color: rgba(255,225,140,0.9);
+        background: rgba(0,0,0,0.22);
+        border: 1px solid rgba(100,60,20,0.4);
+        color: rgba(255,230,170,0.95);
         padding: 5px 8px;
         border-radius: 8px;
         font-size: 11px;
@@ -138,35 +149,60 @@
         outline: none;
         appearance: none;
         text-align: center;
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
       }
-      #paintingSelect option { background: #2c1a0a; color: #e0c080; }
+      #paintingSelect option { background: #7a4820; color: #f0d090; }
       #paintingArtist {
         font-size: 10px;
-        color: rgba(210,155,60,0.42);
+        color: rgba(80,40,10,0.5);
         text-align: center;
         margin-top: 3px;
       }
 
+      /* paint blob swatches */
       #swatches {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 9px;
+        gap: 10px;
         justify-items: center;
+        padding: 2px 0;
       }
       .swatch {
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        border-radius: 52% 48% 55% 45% / 48% 55% 45% 52%;
         cursor: pointer;
-        border: 2.5px solid transparent;
-        transition: border-color .14s, transform .12s, box-shadow .12s;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        border: none;
+        transition: transform .12s, box-shadow .12s;
+        box-shadow:
+          inset -4px -4px 8px rgba(0,0,0,0.32),
+          inset 3px 3px 5px rgba(255,255,255,0.28),
+          0 4px 10px rgba(0,0,0,0.45);
+        position: relative;
       }
+      .swatch::after {
+        content: '';
+        position: absolute;
+        top: 18%;
+        left: 22%;
+        width: 28%;
+        height: 18%;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.38);
+        transform: rotate(-35deg);
+        pointer-events: none;
+      }
+      .swatch:hover { transform: scale(1.14); }
       .swatch.active {
-        border-color: #fff;
-        transform: scale(1.22) !important;
+        transform: scale(1.25) !important;
+        box-shadow:
+          inset -4px -4px 8px rgba(0,0,0,0.35),
+          inset 3px 3px 5px rgba(255,255,255,0.3),
+          0 0 0 2.5px #fff,
+          0 6px 16px rgba(0,0,0,0.55);
       }
 
+      /* stamp buttons */
       #stamp-list {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -174,17 +210,18 @@
         justify-items: center;
       }
       .stamp-btn {
-        width: 42px;
-        height: 42px;
-        border-radius: 9px;
-        background: rgba(0,0,0,0.32);
-        border: 1.5px solid rgba(160,110,50,0.2);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: rgba(0,0,0,0.22);
+        border: 1.5px solid rgba(100,60,20,0.35);
         cursor: pointer;
         transition: border-color .14s, transform .12s, box-shadow .12s;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.25), 0 2px 4px rgba(0,0,0,0.3);
       }
       .stamp-btn canvas {
         position: relative !important;
@@ -195,19 +232,21 @@
       }
       .stamp-btn.active {
         border-color: rgba(255,255,255,0.85);
-        transform: scale(1.1) !important;
-        box-shadow: 0 0 10px rgba(255,255,255,0.25);
+        transform: scale(1.15) !important;
+        box-shadow: 0 0 12px rgba(255,255,255,0.3), inset 0 2px 4px rgba(0,0,0,0.2);
       }
       .stamp-name {
-        font-size: 9px;
-        color: rgba(210,155,60,0.45);
+        font-size: 8.5px;
+        color: rgba(80,40,10,0.5);
         text-align: center;
-        margin-top: 2px;
+        margin-top: 3px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
       }
 
       #sizeSlider {
         width: 100%;
-        accent-color: rgba(210,155,60,0.85);
+        accent-color: #8C5C30;
         cursor: pointer;
       }
 
@@ -218,14 +257,16 @@
       }
       #pal-actions button {
         width: 100%;
-        font-size: 11.5px;
-        padding: 6px 4px;
-        background: rgba(0,0,0,0.35);
-        border-color: rgba(160,110,50,0.28);
-        color: rgba(255,220,130,0.82);
-        border-radius: 7px;
+        font-size: 11px;
+        padding: 7px 4px;
+        background: rgba(0,0,0,0.22);
+        border: 1px solid rgba(100,60,20,0.38);
+        color: rgba(255,225,160,0.9);
+        border-radius: 20px;
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        letter-spacing: 0.04em;
       }
-      #pal-actions button:hover { background: rgba(160,110,50,0.22); }
+      #pal-actions button:hover { background: rgba(100,60,20,0.3); }
 
       /* ── MoMA Moment diary modal ── */
       #share-modal {
@@ -687,7 +728,6 @@
         </div>
         <div id="pal-actions">
           <button id="clearBtn">clear canvas</button>
-          <button id="exportBtn">export PNG</button>
           <button id="shareBtn">share via email</button>
         </div>
       </div>
@@ -1545,7 +1585,6 @@
         openShareModal(cropped);
       }
 
-      document.getElementById('exportBtn').onclick = openExportOverlay;
       exportConfirmBtn.onclick = confirmExportSelection;
       exportCancelBtn.onclick  = closeExportOverlay;
 
@@ -1685,7 +1724,7 @@
         });
       }
 
-      document.getElementById('shareBtn').onclick = () => openShareModal(compositeSnapshot());
+      document.getElementById('shareBtn').onclick = openExportOverlay;
       cancelModalBtn.onclick = closeShareModal;
       sendBtn.onclick = saveMoment;
 
@@ -1744,21 +1783,35 @@
         }
       }
 
-      // ── pinch ──────────────────────────────────────────────────────────────
-      const PINCH_ON  = 0.055;
-      const PINCH_OFF = 0.075;
-      let isPinching        = false;
-      let lastPinch         = false;
-      let pinchStartedOnPal = false;
+      // ── grip gesture (replaces pinch) ─────────────────────────────────────
+      // Works from any camera angle: measures avg fingertip distance from wrist,
+      // normalised by hand size. Closed fist / "holding brush" = grip.
+      // Open palm = idle (cursor still visible as guide).
+      const GRIP_ON  = 1.35; // score below this → gripping
+      const GRIP_OFF = 1.65; // score above this → open/idle
+      let isGripping       = false;
+      let lastGrip         = false;
+      let gripStartedOnPal = false;
 
-      function pinchDist(lm) {
-        const dx = lm[4].x - lm[8].x, dy = lm[4].y - lm[8].y;
-        return Math.sqrt(dx*dx + dy*dy);
+      function gripScore(lm) {
+        // hand scale = wrist(0) to middle-finger MCP(9)
+        const sx = lm[9].x - lm[0].x, sy = lm[9].y - lm[0].y;
+        const scale = Math.sqrt(sx*sx + sy*sy);
+        if (scale < 0.005) return 2.0; // can't measure — treat as open
+        const tips = [8, 12, 16, 20];
+        let total = 0;
+        tips.forEach(i => {
+          const dx = lm[i].x - lm[0].x, dy = lm[i].y - lm[0].y;
+          total += Math.sqrt(dx*dx + dy*dy);
+        });
+        return (total / tips.length) / scale;
       }
-      function pinchMidpoint(lm) {
+
+      // Cursor tracks palm centre — stable from any camera angle
+      function palmCenter(lm) {
         return {
-          x: ((lm[4].x + lm[8].x) / 2) * drawCvs.width,
-          y: ((lm[4].y + lm[8].y) / 2) * drawCvs.height,
+          x: ((lm[0].x + lm[5].x + lm[9].x + lm[13].x + lm[17].x) / 5) * drawCvs.width,
+          y: ((lm[0].y + lm[5].y + lm[9].y + lm[13].y + lm[17].y) / 5) * drawCvs.height,
         };
       }
 
@@ -1863,7 +1916,7 @@
           statusEl.textContent = 'no hand';
           fingerEl.style.opacity = '0';
           prevX = null; prevY = null;
-          isPinching = false; lastPinch = false; pinchStartedOnPal = false;
+          isGripping = false; lastGrip = false; gripStartedOnPal = false;
           if (cropActive) endCropSelection();
           if (lastHitKey) { applyHover(null); lastHitKey = null; }
           return;
@@ -2018,6 +2071,8 @@
           startBtn.style.opacity = '0.5';
           startBtn.style.cursor  = 'default';
           startBtn.disabled = true;
+          // hide camera feed once running
+          setTimeout(() => camCvs.classList.add('hidden'), 1200);
         } catch (e) {
           statusEl.textContent = 'camera error: ' + e.message;
           startBtn.disabled = false;
@@ -2025,6 +2080,17 @@
       };
 
       initHands();
+
+      // ── F key → fullscreen ─────────────────────────────────────────────────
+      document.addEventListener('keydown', e => {
+        if (e.key === 'f' || e.key === 'F') {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          } else {
+            document.exitFullscreen().catch(() => {});
+          }
+        }
+      });
     </script>
   </body>
 </html>
