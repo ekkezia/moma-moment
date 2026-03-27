@@ -4,7 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>hand brush</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+      @font-face {
+        font-family: "MoMA Sans";
+        src: url("https://db.onlinewebfonts.com/t/211be15f3b79857b52ec64538f6032a2.woff2") format("woff2"),
+             url("https://db.onlinewebfonts.com/t/211be15f3b79857b52ec64538f6032a2.woff") format("woff"),
+             url("https://db.onlinewebfonts.com/t/211be15f3b79857b52ec64538f6032a2.ttf") format("truetype");
+        font-weight: 600;
+        font-display: swap;
+      }
+
       * { margin: 0; padding: 0; box-sizing: border-box; }
 
       body {
@@ -12,7 +24,7 @@
         width: 100vw;
         height: 100vh;
         overflow: hidden;
-        font-family: sans-serif;
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
       }
 
       #container {
@@ -215,145 +227,368 @@
       }
       #pal-actions button:hover { background: rgba(160,110,50,0.22); }
 
-      /* ── share modal ── */
+      /* ── MoMA Moment diary modal ── */
       #share-modal {
         position: fixed;
         inset: 0;
         z-index: 200;
         display: none;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
+        padding: 16px;
         background: rgba(0,0,0,0.6);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        overflow-y: auto;
       }
       #share-modal.open { display: flex; }
 
       .modal-box {
-        background: linear-gradient(145deg, #18182a 0%, #12121e 100%);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 22px;
-        padding: 28px 26px 24px;
-        width: 340px;
-        max-width: 90vw;
-        box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+        background:
+          repeating-linear-gradient(
+            transparent,
+            transparent 31px,
+            rgba(160,110,50,0.1) 31px,
+            rgba(160,110,50,0.1) 32px
+          ),
+          linear-gradient(160deg, #FAF5E8 0%, #F0E8D2 100%);
+        border: none;
+        border-radius: 4px 18px 18px 4px;
+        padding: 0;
+        width: min(700px, calc(100vw - 24px));
+        max-width: 96vw;
+        max-height: 95vh;
+        overflow: auto;
+        scrollbar-width: none;
+        box-shadow:
+          -5px 0 0 0 #B8860B,
+          0 28px 80px rgba(0,0,0,0.65),
+          6px 6px 24px rgba(0,0,0,0.25);
         display: flex;
         flex-direction: column;
+        position: relative;
+      }
+      .modal-box::-webkit-scrollbar { display: none; }
+      .modal-box::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 56px; bottom: 0;
+        width: 1.5px;
+        background: rgba(220,80,80,0.22);
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* diary header */
+      .diary-header {
+        padding: 22px 28px 16px 72px;
+        border-bottom: 1px solid rgba(160,110,50,0.18);
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .diary-header-left {}
+      .diary-brand {
+        font-size: 10px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: #D4001A;
+        font-weight: 600;
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        margin-bottom: 1px;
+      }
+      .diary-title {
+        font-size: 30px;
+        font-weight: 600;
+        color: #1A0800;
+        letter-spacing: -0.01em;
+        line-height: 1;
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      }
+      .diary-date {
+        font-size: 11px;
+        color: rgba(80,45,10,0.45);
+        font-style: italic;
+        font-family: 'Caveat', cursive;
+        white-space: nowrap;
+        padding-bottom: 3px;
+      }
+
+      /* diary body */
+      .diary-body {
+        padding: 18px 28px 24px 72px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      /* diary fields */
+      .diary-fields-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px 20px;
+      }
+      .diary-field-wrap {}
+      .diary-field-label {
+        font-size: 8.5px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(80,45,10,0.38);
+        margin-bottom: 3px;
+      }
+      .diary-field-input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1.5px solid rgba(160,110,50,0.3);
+        color: #1A0800;
+        padding: 5px 0;
+        font-size: 17px;
+        font-family: 'Caveat', cursive;
+        outline: none;
+        caret-color: #D4001A;
+        cursor: pointer;
+        transition: border-color 0.18s;
+        resize: none;
+        display: block;
+      }
+      .diary-field-input::placeholder {
+        color: rgba(80,45,10,0.25);
+        font-style: italic;
+      }
+      .diary-field-input.active-field {
+        border-bottom-color: #D4001A;
+        border-bottom-width: 2px;
+      }
+      .diary-field-input.field-hover {
+        border-bottom-color: rgba(212,0,26,0.5);
+        background: rgba(212,0,26,0.03);
+      }
+
+      /* moment question + textarea */
+      .diary-moment-section {}
+      .diary-question {
+        font-size: 13px;
+        color: rgba(80,45,10,0.52);
+        font-style: normal;
+        margin-bottom: 4px;
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        letter-spacing: 0.01em;
+      }
+      #momentInput {
+        min-height: 56px;
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      /* artwork polaroid */
+      .diary-artwork-wrap {
+        display: flex;
+        align-items: flex-start;
         gap: 16px;
       }
-
-      .modal-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: rgba(255,255,255,0.9);
-        letter-spacing: -0.01em;
+      .diary-artwork {
+        background: #fff;
+        padding: 8px 8px 28px;
+        box-shadow: 2px 4px 18px rgba(0,0,0,0.2);
+        border-radius: 2px;
+        flex: 0 0 auto;
+        width: 52%;
+        transform: rotate(-1.2deg);
+        margin-top: 2px;
       }
-      .modal-subtitle {
-        font-size: 12px;
-        color: rgba(210,155,60,0.7);
-        margin-top: -10px;
-      }
-
-      /* preview thumbnail */
-      #modal-preview {
-        width: 100%;
-        height: 130px;
-        border-radius: 12px;
-        overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.08);
-        background: #0a0a0f;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      #previewCvs {
+      .diary-artwork canvas {
         position: relative !important;
         top: auto !important; left: auto !important;
         width: 100% !important;
-        height: 100% !important;
-        object-fit: cover;
+        height: auto !important;
+        display: block;
       }
-
-      /* email input */
-      .modal-input-wrap {
-        position: relative;
+      .diary-artwork-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding-top: 4px;
       }
-      .modal-input-label {
+      .diary-artwork-painting {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1A0800;
+        line-height: 1.3;
+      }
+      .diary-artwork-artist {
+        font-size: 11px;
+        color: rgba(80,45,10,0.5);
+        font-style: italic;
+      }
+      .diary-artwork-inspired {
         font-size: 10px;
-        letter-spacing: 0.08em;
+        color: rgba(80,45,10,0.38);
+        letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: rgba(255,255,255,0.35);
-        margin-bottom: 6px;
       }
-      #emailInput {
-        width: 100%;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.14);
-        color: rgba(255,255,255,0.9);
-        padding: 10px 14px;
+
+      /* VK inside diary */
+      #vkWrap {
+        border: 1px solid rgba(160,110,50,0.2);
         border-radius: 10px;
-        font-size: 14px;
-        outline: none;
-        transition: border-color .15s, box-shadow .15s;
+        background: rgba(250,240,210,0.6);
+        padding: 9px;
       }
-      #emailInput:focus {
-        border-color: rgba(210,155,60,0.6);
-        box-shadow: 0 0 0 3px rgba(210,155,60,0.12);
+      #vkRows {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
       }
-      #emailInput::placeholder { color: rgba(255,255,255,0.22); }
+      .vk-row { display: grid; gap: 6px; }
+      .vk-row[data-cols="10"] { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+      .vk-row[data-cols="9"]  { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+      .vk-row[data-cols="8"]  { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+      .vk-row[data-cols="7"]  { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+      .vk-row[data-cols="6"]  { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .vk-key {
+        border: 1px solid rgba(160,110,50,0.28);
+        border-radius: 6px;
+        background: rgba(255,253,245,0.9);
+        color: rgba(30,12,2,0.82);
+        font-size: 12px;
+        height: 33px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        cursor: pointer;
+        padding: 0;
+        transition: background 0.07s, box-shadow 0.07s, transform 0.07s;
+      }
+      .vk-key[data-key="{bksp}"],
+      .vk-key[data-key="{clear}"],
+      .vk-key[data-key=".com"],
+      .vk-key[data-key="{space}"] {
+        color: rgba(160,50,30,0.88);
+        border-color: rgba(190,70,40,0.3);
+        background: rgba(255,240,232,0.9);
+        font-size: 10px;
+      }
+      .vk-key.finger-hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 12px rgba(200,150,60,0.4);
+        background: rgba(255,220,100,0.85);
+        border-color: rgba(180,120,30,0.6);
+      }
 
-      /* finger-hover hint under input */
+      /* modal hint */
       .modal-hint {
-        font-size: 10.5px;
-        color: rgba(255,255,255,0.22);
+        font-size: 9.5px;
+        color: rgba(80,45,10,0.28);
         text-align: center;
-        margin-top: -6px;
+        margin: -2px 0;
       }
 
-      /* send / cancel row */
+      /* buttons */
       .modal-btns {
         display: flex;
         gap: 10px;
       }
       .modal-btns button {
         flex: 1;
-        padding: 10px;
+        padding: 11px;
         font-size: 13px;
-        border-radius: 10px;
+        border-radius: 8px;
       }
       #cancelModalBtn {
-        background: rgba(255,255,255,0.07);
-        border-color: rgba(255,255,255,0.14);
-        color: rgba(255,255,255,0.55);
+        background: transparent;
+        border: 1px solid rgba(160,110,50,0.28);
+        color: rgba(80,45,10,0.5);
       }
-      #cancelModalBtn:hover { background: rgba(255,255,255,0.12); }
+      #cancelModalBtn:hover { background: rgba(160,110,50,0.07); }
       #sendBtn {
-        background: rgba(210,155,60,0.18);
-        border-color: rgba(210,155,60,0.5);
-        color: rgba(255,220,130,0.95);
-        font-weight: 500;
+        background: #D4001A;
+        border: 1px solid #D4001A;
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 0.03em;
       }
-      #sendBtn:hover { background: rgba(210,155,60,0.28); }
+      #sendBtn:hover { background: #B8001A; }
       #sendBtn.finger-hover {
-        background: rgba(210,155,60,0.38);
-        box-shadow: 0 0 18px rgba(210,155,60,0.4);
-        transform: scale(1.04);
+        background: #FF1A34;
+        box-shadow: 0 0 22px rgba(212,0,26,0.55);
+        transform: scale(1.03);
       }
       #cancelModalBtn.finger-hover {
-        background: rgba(255,255,255,0.18);
-        box-shadow: 0 0 12px rgba(255,255,255,0.18);
-        transform: scale(1.04);
+        background: rgba(160,110,50,0.14);
+        box-shadow: 0 0 10px rgba(160,110,50,0.2);
+        transform: scale(1.03);
       }
 
       #sendStatus {
         font-size: 12px;
         text-align: center;
         min-height: 16px;
-        color: rgba(255,255,255,0.45);
+        color: rgba(80,45,10,0.5);
         transition: color .2s;
+        font-family: 'Caveat', cursive;
+        font-size: 14px;
       }
-      #sendStatus.ok  { color: rgba(120,220,130,0.9); }
-      #sendStatus.err { color: rgba(255,120,100,0.9); }
+      #sendStatus.ok  { color: rgba(30,130,60,0.9); }
+      #sendStatus.err { color: rgba(200,30,30,0.9); }
+
+      /* ── export selection overlay ── */
+
+      #export-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 150;
+        display: none;
+        background: rgba(0,0,0,0.24);
+      }
+      #export-overlay.open { display: block; }
+      #crop-selection {
+        position: absolute;
+        display: none;
+        border: 2px solid rgba(255,225,155,0.95);
+        box-shadow: 0 0 0 9999px rgba(0,0,0,0.42), 0 0 26px rgba(255,210,130,0.32);
+        border-radius: 8px;
+        pointer-events: none;
+      }
+      #export-ui {
+        position: absolute;
+        left: 50%;
+        bottom: 22px;
+        transform: translateX(-50%);
+        width: min(480px, calc(100vw - 32px));
+        background: rgba(9,9,14,0.9);
+        border: 1px solid rgba(255,255,255,0.18);
+        border-radius: 14px;
+        padding: 12px 14px;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+      }
+      #export-instruction {
+        font-size: 12px;
+        line-height: 1.35;
+        color: rgba(255,255,255,0.78);
+        text-align: center;
+      }
+      #export-ui .modal-btns { margin-top: 10px; }
+      #exportConfirmBtn {
+        background: rgba(210,155,60,0.18);
+        border-color: rgba(210,155,60,0.5);
+        color: rgba(255,220,130,0.95);
+        font-weight: 500;
+      }
+      #exportConfirmBtn.finger-hover {
+        background: rgba(210,155,60,0.38);
+        box-shadow: 0 0 18px rgba(210,155,60,0.4);
+        transform: scale(1.04);
+      }
+      #exportCancelBtn.finger-hover {
+        background: rgba(255,255,255,0.18);
+        box-shadow: 0 0 12px rgba(255,255,255,0.18);
+        transform: scale(1.04);
+      }
 
       /* ── finger cursor ── */
       #finger {
@@ -448,7 +683,7 @@
         </div>
         <div>
           <div class="pal-label">brush size</div>
-          <input type="range" id="sizeSlider" min="2" max="64" value="14" />
+          <input type="range" id="sizeSlider" min="2" max="64" value="28" />
         </div>
         <div id="pal-actions">
           <button id="clearBtn">clear canvas</button>
@@ -457,26 +692,63 @@
         </div>
       </div>
 
-      <!-- share modal -->
+      <!-- export crop overlay -->
+      <div id="export-overlay">
+        <div id="crop-selection"></div>
+        <div id="export-ui">
+          <div id="export-instruction">pinch and drag to select a crop area, then hover a button and pinch</div>
+          <div class="modal-btns">
+            <button id="exportCancelBtn">cancel</button>
+            <button id="exportConfirmBtn">yes, use this crop</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MoMA Moment diary modal -->
       <div id="share-modal">
         <div class="modal-box">
-          <div>
-            <div class="modal-title">share your painting</div>
-            <div class="modal-subtitle" id="modal-painting-name"></div>
+          <div class="diary-header">
+            <div class="diary-header-left">
+              <div class="diary-brand">MoMA</div>
+              <div class="diary-title">MoMENT</div>
+            </div>
+            <div class="diary-date" id="diary-date"></div>
           </div>
-          <div id="modal-preview">
-            <canvas id="previewCvs"></canvas>
+          <div class="diary-body">
+            <div class="diary-fields-row">
+              <div class="diary-field-wrap">
+                <div class="diary-field-label">your name</div>
+                <input id="nameInput" class="diary-field-input" type="text" placeholder="first name" readonly inputmode="none" maxlength="60" />
+              </div>
+              <div class="diary-field-wrap">
+                <div class="diary-field-label">your email</div>
+                <input id="emailInput" class="diary-field-input" type="email" placeholder="email address" autocomplete="off" readonly inputmode="none" maxlength="100" />
+              </div>
+            </div>
+            <div class="diary-moment-section">
+              <div class="diary-question">What's your MoMA MoMENT today?</div>
+              <div class="diary-field-wrap">
+                <textarea id="momentInput" class="diary-field-input" placeholder="describe your experience…" readonly rows="3" maxlength="280"></textarea>
+              </div>
+            </div>
+            <div class="diary-artwork-wrap">
+              <div class="diary-artwork">
+                <canvas id="previewCvs"></canvas>
+              </div>
+              <div class="diary-artwork-info">
+                <div class="diary-artwork-inspired">inspired by</div>
+                <div class="diary-artwork-painting" id="artwork-painting-name"></div>
+                <div class="diary-artwork-artist" id="artwork-artist-name"></div>
+              </div>
+            </div>
+            <div id="vkWrap"><div id="vkRows"></div></div>
+            <p class="modal-hint">hover a field + pinch to select it · use keyboard to type · hover button + pinch to confirm</p>
+            <div class="modal-btns">
+              <button id="cancelModalBtn">cancel</button>
+              <button id="sendBtn">save my moment ✦</button>
+            </div>
+            <div id="sendStatus"></div>
           </div>
-          <div class="modal-input-wrap">
-            <div class="modal-input-label">recipient email</div>
-            <input id="emailInput" type="email" placeholder="friend@example.com" autocomplete="email" />
-          </div>
-          <p class="modal-hint">type email with keyboard · hover button + pinch to send</p>
-          <div class="modal-btns">
-            <button id="cancelModalBtn">cancel</button>
-            <button id="sendBtn">send painting</button>
-          </div>
-          <div id="sendStatus"></div>
         </div>
       </div>
 
@@ -491,8 +763,10 @@
       <div id="tip">pinch to draw · hover palette + pinch to pick · stamp shapes</div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="camera-switch.js"></script>
     <!-- EmailJS — sign up free at emailjs.com, then fill in the three constants below -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
@@ -511,6 +785,18 @@
                                      .some(v => v.startsWith('YOUR_'));
 
       if (EMAILJS_CONFIGURED) emailjs.init(EMAILJS_PUBLIC_KEY);
+
+      // ── Supabase config ────────────────────────────────────────────────────
+      // 1. Create a free project at https://supabase.com
+      // 2. Run the SQL in the README to create the moments table
+      // 3. Copy your project URL and anon key from Settings > API
+      const SUPABASE_URL      = 'https://eabaoxpoplpngczpuhps.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhYmFveHBvcGxwbmdjenB1aHBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MzAwMzEsImV4cCI6MjA5MDIwNjAzMX0.8UdSHdU3dbsfTeDRncfqY6C0do9nUuyDil9SvSj4MNg';
+      const SUPABASE_CONFIGURED = ![SUPABASE_URL, SUPABASE_ANON_KEY].some(v => v.startsWith('YOUR_'));
+      let db = null;
+      if (SUPABASE_CONFIGURED) {
+        db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
 
       // ── canvas refs ────────────────────────────────────────────────────────
       const vid      = document.getElementById('vid');
@@ -977,24 +1263,40 @@
       let activePainting = PAINTINGS.starry_night;
       let activeColor    = activePainting.colors[0];
       let activeStamp    = null;
-      let brushSize      = 14;
+      let brushSize      = 28;
       let modalOpen      = false;
+      let exportModeOpen = false;
+      let shareImageData = '';
+      let shareCanvas    = null;
+      let cropStartPt    = null;
+      let cropRect       = null;
+      let cropActive     = false;
+      let activeMomentField = 'name'; // 'name' | 'email' | 'moment'
 
       // ── DOM refs ───────────────────────────────────────────────────────────
-      const swatchesDiv    = document.getElementById('swatches');
-      const stampListDiv   = document.getElementById('stamp-list');
-      const paintingSelect = document.getElementById('paintingSelect');
-      const artistLabel    = document.getElementById('paintingArtist');
-      const shareModal     = document.getElementById('share-modal');
-      const emailInput     = document.getElementById('emailInput');
-      const sendBtn        = document.getElementById('sendBtn');
-      const cancelModalBtn = document.getElementById('cancelModalBtn');
-      const sendStatus     = document.getElementById('sendStatus');
-      const previewCvs     = document.getElementById('previewCvs');
+      const swatchesDiv       = document.getElementById('swatches');
+      const stampListDiv      = document.getElementById('stamp-list');
+      const paintingSelect    = document.getElementById('paintingSelect');
+      const artistLabel       = document.getElementById('paintingArtist');
+      const shareModal        = document.getElementById('share-modal');
+      const emailInput        = document.getElementById('emailInput');
+      const sendBtn           = document.getElementById('sendBtn');
+      const cancelModalBtn    = document.getElementById('cancelModalBtn');
+      const sendStatus        = document.getElementById('sendStatus');
+      const previewCvs        = document.getElementById('previewCvs');
+      const vkRows            = document.getElementById('vkRows');
+      const exportOverlay     = document.getElementById('export-overlay');
+      const cropSelectionEl   = document.getElementById('crop-selection');
+      const exportConfirmBtn  = document.getElementById('exportConfirmBtn');
+      const exportCancelBtn   = document.getElementById('exportCancelBtn');
+      const exportInstruction = document.getElementById('export-instruction');
+      const nameInput    = document.getElementById('nameInput');
+      const momentInput  = document.getElementById('momentInput');
 
       let swatchEls    = [];
       let stampEls     = [];
       let stampCvsList = [];
+      let vkKeyEls     = [];
 
       Object.entries(PAINTINGS).forEach(([key, p]) => {
         const opt = document.createElement('option');
@@ -1132,28 +1434,146 @@
         return out;
       }
 
-      document.getElementById('exportBtn').onclick = () => {
-        const a = document.createElement('a');
-        a.href     = compositeSnapshot().toDataURL('image/png');
-        a.download = `hand-brush-${activePainting.id}.png`;
-        a.click();
-      };
+      // ── crop / export helpers ──────────────────────────────────────────────
+      function scaleCanvasMaxWidth(source, maxW = 0) {
+        if (!maxW || source.width <= maxW) return source;
+        const out = document.createElement('canvas');
+        out.width  = maxW;
+        out.height = Math.round(source.height * maxW / source.width);
+        out.getContext('2d').drawImage(source, 0, 0, out.width, out.height);
+        return out;
+      }
+
+      function normalizeRect(a, b) {
+        return {
+          x: Math.min(a.x, b.x), y: Math.min(a.y, b.y),
+          w: Math.abs(b.x - a.x), h: Math.abs(b.y - a.y),
+        };
+      }
+
+      function clampRect(rect, maxW, maxH) {
+        const x = Math.max(0, Math.min(maxW, rect.x));
+        const y = Math.max(0, Math.min(maxH, rect.y));
+        const r = Math.max(0, Math.min(maxW, rect.x + rect.w));
+        const b = Math.max(0, Math.min(maxH, rect.y + rect.h));
+        return { x, y, w: Math.max(0, r - x), h: Math.max(0, b - y) };
+      }
+
+      function updateCropSelectionVisual() {
+        if (!cropRect || cropRect.w < 1 || cropRect.h < 1) {
+          cropSelectionEl.style.display = 'none'; return;
+        }
+        cropSelectionEl.style.display = 'block';
+        cropSelectionEl.style.left    = `${cropRect.x}px`;
+        cropSelectionEl.style.top     = `${cropRect.y}px`;
+        cropSelectionEl.style.width   = `${cropRect.w}px`;
+        cropSelectionEl.style.height  = `${cropRect.h}px`;
+      }
+
+      function beginCropSelection(x, y) {
+        cropStartPt = { x, y };
+        cropRect    = { x, y, w: 1, h: 1 };
+        cropActive  = true;
+        exportInstruction.textContent = 'drag while pinching to define your crop, then pinch "yes"';
+        updateCropSelectionVisual();
+      }
+
+      function updateCropSelection(x, y) {
+        if (!cropActive || !cropStartPt) return;
+        cropRect = normalizeRect(cropStartPt, { x, y });
+        updateCropSelectionVisual();
+      }
+
+      function endCropSelection() {
+        cropActive  = false;
+        cropStartPt = null;
+      }
+
+      function closeExportOverlay() {
+        exportModeOpen = false;
+        exportOverlay.classList.remove('open');
+        cropRect = null; cropStartPt = null; cropActive = false;
+        exportInstruction.textContent = 'pinch and drag to select a crop area, then hover a button and pinch';
+        updateCropSelectionVisual();
+      }
+
+      function openExportOverlay() {
+        closeShareModal();
+        exportModeOpen = true;
+        exportOverlay.classList.add('open');
+        cropRect = null; cropStartPt = null; cropActive = false;
+        exportInstruction.textContent = 'pinch and drag to select a crop area, then hover a button and pinch';
+        updateCropSelectionVisual();
+        setStatus('', '');
+        applyHover(null);
+        lastHitKey = null;
+      }
+
+      function cropSnapshotFromSelection() {
+        if (!cropRect) return null;
+        const src  = compositeSnapshot();
+        const rect = clampRect(cropRect, src.width, src.height);
+        if (rect.w < 24 || rect.h < 24) return null;
+        const out = document.createElement('canvas');
+        out.width  = Math.round(rect.w);
+        out.height = Math.round(rect.h);
+        out.getContext('2d').drawImage(
+          src,
+          Math.round(rect.x), Math.round(rect.y), Math.round(rect.w), Math.round(rect.h),
+          0, 0, out.width, out.height
+        );
+        return out;
+      }
+
+      function prepareShareCanvas(sourceCanvas) {
+        shareCanvas = sourceCanvas;
+        const preview = scaleCanvasMaxWidth(sourceCanvas, 600);
+        previewCvs.width  = preview.width;
+        previewCvs.height = preview.height;
+        previewCvs.getContext('2d').drawImage(preview, 0, 0);
+        const outgoing = scaleCanvasMaxWidth(sourceCanvas, 1000);
+        shareImageData = outgoing.toDataURL('image/jpeg', 0.84);
+      }
+
+      function confirmExportSelection() {
+        const cropped = cropSnapshotFromSelection();
+        if (!cropped) {
+          exportInstruction.textContent = 'create a crop first (pinch-drag), then pinch yes.';
+          return;
+        }
+        closeExportOverlay();
+        openShareModal(cropped);
+      }
+
+      document.getElementById('exportBtn').onclick = openExportOverlay;
+      exportConfirmBtn.onclick = confirmExportSelection;
+      exportCancelBtn.onclick  = closeExportOverlay;
 
       // ── share modal ────────────────────────────────────────────────────────
-      function openShareModal() {
+      function openShareModal(sourceCanvas = compositeSnapshot()) {
         modalOpen = true;
+        exportModeOpen = false;
+        exportOverlay.classList.remove('open');
         shareModal.classList.add('open');
+
+        // clear fields
+        nameInput.value = '';
         emailInput.value = '';
+        momentInput.value = '';
+        activeMomentField = 'name';
+        updateFieldActiveStates();
         setStatus('', '');
-        document.getElementById('modal-painting-name').textContent = activePainting.name;
 
-        // render preview thumbnail
-        const snap = compositeSnapshot(600);
-        previewCvs.width  = snap.width;
-        previewCvs.height = snap.height;
-        previewCvs.getContext('2d').drawImage(snap, 0, 0);
+        // set diary date
+        const now = new Date();
+        document.getElementById('diary-date').textContent =
+          now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-        setTimeout(() => emailInput.focus(), 80);
+        // fill painting info
+        document.getElementById('artwork-painting-name').textContent = activePainting.name;
+        document.getElementById('artwork-artist-name').textContent   = activePainting.artist;
+
+        prepareShareCanvas(sourceCanvas);
       }
 
       function closeShareModal() {
@@ -1166,65 +1586,113 @@
         sendStatus.className   = cls;
       }
 
-      async function sendPainting() {
-        const email = emailInput.value.trim();
-        if (!email || !email.includes('@')) {
-          setStatus('please enter a valid email address', 'err');
-          emailInput.focus();
-          return;
+      async function saveMoment() {
+        const name    = nameInput.value.trim();
+        const email   = emailInput.value.trim();
+        const moment  = momentInput.value.trim();
+
+        if (!name) {
+          setStatus('enter your name first', 'err');
+          activeMomentField = 'name'; updateFieldActiveStates(); return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          setStatus('enter a valid email address', 'err');
+          activeMomentField = 'email'; updateFieldActiveStates(); return;
         }
 
+        if (!shareImageData) prepareShareCanvas(shareCanvas || compositeSnapshot());
+
         sendBtn.disabled = true;
-        setStatus('sending…', '');
+        setStatus('saving your moment…', '');
 
-        const imageData = compositeSnapshot(800).toDataURL('image/jpeg', 0.82);
-
-        if (EMAILJS_CONFIGURED) {
+        if (SUPABASE_CONFIGURED) {
           try {
-            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-              to_email:      email,
-              painting_name: activePainting.name,
-              artist:        activePainting.artist,
-              image_data:    imageData,
+            const { error } = await db.from('moments').insert({
+              visitor_name:    name,
+              email:           email,
+              moment_text:     moment || null,
+              image_data:      shareImageData,
+              painting_name:   activePainting.name,
+              painting_artist: activePainting.artist,
             });
-            setStatus('sent! check your inbox.', 'ok');
-            setTimeout(closeShareModal, 2200);
+            if (error) throw error;
+            setStatus('moment saved ✦ check your gallery at /gallery.html', 'ok');
+            setTimeout(closeShareModal, 3200);
           } catch (err) {
-            setStatus('send failed — downloading instead', 'err');
-            fallbackDownloadAndMailto(email, imageData);
+            console.error('Supabase error:', err);
+            setStatus('save failed — please try again', 'err');
           }
         } else {
-          // EmailJS not configured — download + mailto
-          fallbackDownloadAndMailto(email, imageData);
-          setStatus('painting downloaded · email client opening…', 'ok');
-          setTimeout(closeShareModal, 2800);
+          // Supabase not yet configured
+          setStatus('supabase not configured — set credentials to enable saving', 'err');
         }
 
         sendBtn.disabled = false;
       }
 
-      function fallbackDownloadAndMailto(email, imageData) {
-        // trigger download
-        const a = document.createElement('a');
-        a.href     = imageData;
-        a.download = `hand-brush-${activePainting.name.replace(/[^a-z0-9]/gi,'-').toLowerCase()}.jpg`;
-        a.click();
-        // open mail client pre-filled
-        setTimeout(() => {
-          const subject = encodeURIComponent(`My painting — ${activePainting.name}`);
-          const body    = encodeURIComponent(`Here's my hand-gesture painting inspired by ${activePainting.name} (${activePainting.artist}).\n\n[Attach the downloaded image]`);
-          window.open(`mailto:${email}?subject=${subject}&body=${body}`);
-        }, 400);
+      function applyVirtualKey(key) {
+        let input;
+        let limit;
+        if      (activeMomentField === 'name')    { input = nameInput;   limit = 60; }
+        else if (activeMomentField === 'email')   { input = emailInput;  limit = 100; }
+        else if (activeMomentField === 'moment')  { input = momentInput; limit = 280; }
+        else return;
+
+        const cur = input.value;
+        if      (key === '{bksp}')  input.value = cur.slice(0, -1);
+        else if (key === '{clear}') input.value = '';
+        else if (key === '{space}') { if (cur.length < limit) input.value = cur + ' '; }
+        else if (cur.length < limit) input.value = cur + key;
+        setStatus('', '');
+        updateFieldActiveStates();
       }
 
-      document.getElementById('shareBtn').onclick = openShareModal;
+      function updateFieldActiveStates() {
+        [
+          { el: nameInput,   field: 'name'   },
+          { el: emailInput,  field: 'email'  },
+          { el: momentInput, field: 'moment' },
+        ].forEach(({ el, field }) => {
+          el.classList.toggle('active-field', field === activeMomentField);
+        });
+      }
+
+      function buildVirtualKeyboard() {
+        const rows = [
+          ['1','2','3','4','5','6','7','8','9','0'],
+          ['q','w','e','r','t','y','u','i','o','p'],
+          ['a','s','d','f','g','h','j','k','l'],
+          ['z','x','c','v','b','n','m','@','.'],
+          ['{space}','-','_','.com','{bksp}','{clear}'],
+        ];
+        vkRows.innerHTML = '';
+        vkKeyEls = [];
+        rows.forEach(row => {
+          const rowEl = document.createElement('div');
+          rowEl.className = 'vk-row';
+          rowEl.dataset.cols = String(row.length);
+          row.forEach(key => {
+            const keyEl = document.createElement('button');
+            keyEl.type = 'button';
+            keyEl.className = 'vk-key';
+            keyEl.dataset.key = key;
+            keyEl.textContent = key === '{bksp}' ? '⌫ back' : key === '{clear}' ? '✕ clear' : key === '{space}' ? 'space' : key;
+            keyEl.onclick = () => applyVirtualKey(key);
+            rowEl.appendChild(keyEl);
+            vkKeyEls.push(keyEl);
+          });
+          vkRows.appendChild(rowEl);
+        });
+      }
+
+      document.getElementById('shareBtn').onclick = () => openShareModal(compositeSnapshot());
       cancelModalBtn.onclick = closeShareModal;
-      sendBtn.onclick = sendPainting;
-      emailInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendPainting(); });
+      sendBtn.onclick = saveMoment;
 
       // close on backdrop click
       shareModal.addEventListener('click', e => { if (e.target === shareModal) closeShareModal(); });
 
+      buildVirtualKeyboard();
       buildPalette(PAINTINGS.starry_night);
 
       // ── canvas resize ──────────────────────────────────────────────────────
@@ -1270,9 +1738,9 @@
       function placeStamp(x, y) {
         if (!activeStamp) return;
         if (activeStamp.src) {
-          drawImageStamp(dctx, x, y, brushSize * 3, activeColor, activeStamp.src);
+          drawImageStamp(dctx, x, y, brushSize * 6, activeColor, activeStamp.src);
         } else {
-          activeStamp.draw(dctx, x, y, brushSize * 3, activeColor);
+          activeStamp.draw(dctx, x, y, brushSize * 6, activeColor);
         }
       }
 
@@ -1289,23 +1757,48 @@
       }
       function pinchMidpoint(lm) {
         return {
-          x: (1 - (lm[4].x + lm[8].x) / 2) * drawCvs.width,
+          x: ((lm[4].x + lm[8].x) / 2) * drawCvs.width,
           y: ((lm[4].y + lm[8].y) / 2) * drawCvs.height,
         };
       }
 
-      // ── hit detection (palette + modal buttons) ────────────────────────────
+      // ── hit detection (palette + modal buttons + vk + export) ───────────────
       function hitTest(fx, fy) {
         const pad = 10;
 
-        // modal buttons (only when modal is open)
+        // modal buttons + virtual keyboard (only when modal is open)
         if (modalOpen) {
           for (const el of [sendBtn, cancelModalBtn]) {
             const r = el.getBoundingClientRect();
             if (fx >= r.left - pad && fx <= r.right + pad && fy >= r.top - pad && fy <= r.bottom + pad)
               return { type: 'modal-btn', el, action: el === sendBtn ? 'send' : 'cancel' };
           }
-          return null; // don't interact with palette while modal is open
+          // field focus (name / email / moment)
+          for (const { el, field } of [
+            { el: nameInput,   field: 'name'   },
+            { el: emailInput,  field: 'email'  },
+            { el: momentInput, field: 'moment' },
+          ]) {
+            const r = el.getBoundingClientRect();
+            if (fx >= r.left - pad && fx <= r.right + pad && fy >= r.top - pad && fy <= r.bottom + pad)
+              return { type: 'field', el, field };
+          }
+          for (const el of vkKeyEls) {
+            const r = el.getBoundingClientRect();
+            if (fx >= r.left - pad && fx <= r.right + pad && fy >= r.top - pad && fy <= r.bottom + pad)
+              return { type: 'vk-key', el, key: el.dataset.key };
+          }
+          return null;
+        }
+
+        // export crop overlay buttons (only when export mode is open)
+        if (exportModeOpen) {
+          for (const el of [exportConfirmBtn, exportCancelBtn]) {
+            const r = el.getBoundingClientRect();
+            if (fx >= r.left - pad && fx <= r.right + pad && fy >= r.top - pad && fy <= r.bottom + pad)
+              return { type: 'export-btn', el, action: el === exportConfirmBtn ? 'confirm' : 'cancel' };
+          }
+          return null;
         }
 
         // palette swatches
@@ -1337,9 +1830,13 @@
           el.style.boxShadow = '';
           el.style.transform = '';
         });
-        // clear modal button highlights
+        // clear all button + key highlights
         sendBtn.classList.remove('finger-hover');
         cancelModalBtn.classList.remove('finger-hover');
+        exportConfirmBtn.classList.remove('finger-hover');
+        exportCancelBtn.classList.remove('finger-hover');
+        vkKeyEls.forEach(el => el.classList.remove('finger-hover'));
+        [nameInput, emailInput, momentInput].forEach(el => el.classList.remove('field-hover'));
 
         if (!hit) return;
         if (hit.type === 'color') {
@@ -1348,8 +1845,10 @@
         } else if (hit.type === 'stamp') {
           hit.el.style.boxShadow = '0 0 10px rgba(255,255,255,0.4)';
           hit.el.style.transform = 'scale(1.18)';
-        } else if (hit.type === 'modal-btn') {
+        } else if (hit.type === 'modal-btn' || hit.type === 'export-btn' || hit.type === 'vk-key') {
           hit.el.classList.add('finger-hover');
+        } else if (hit.type === 'field') {
+          hit.el.classList.add('field-hover');
         }
       }
 
@@ -1357,8 +1856,6 @@
       function onResults(results) {
         cctx.clearRect(0, 0, camCvs.width, camCvs.height);
         cctx.save();
-        cctx.translate(camCvs.width, 0);
-        cctx.scale(-1, 1);
         cctx.drawImage(results.image, 0, 0, camCvs.width, camCvs.height);
         cctx.restore();
 
@@ -1367,6 +1864,7 @@
           fingerEl.style.opacity = '0';
           prevX = null; prevY = null;
           isPinching = false; lastPinch = false; pinchStartedOnPal = false;
+          if (cropActive) endCropSelection();
           if (lastHitKey) { applyHover(null); lastHitKey = null; }
           return;
         }
@@ -1379,7 +1877,7 @@
         if (isPinching  && dist > PINCH_OFF) isPinching = false;
 
         const hit    = hitTest(x, y);
-        const hitKey = hit ? `${hit.type}-${hit.idx ?? hit.action}` : null;
+        const hitKey = hit ? `${hit.type}-${hit.idx ?? hit.action ?? hit.key}` : null;
         if (hitKey !== lastHitKey) { applyHover(hit); lastHitKey = hitKey; }
 
         const pinchEdge = isPinching && !lastPinch;
@@ -1387,10 +1885,23 @@
 
         if (pinchEdge && hit) {
           pinchStartedOnPal = true;
-          if      (hit.type === 'color')     selectColor(hit.value);
-          else if (hit.type === 'stamp')     selectStamp(hit.value, hit.idx);
-          else if (hit.type === 'modal-btn') {
-            hit.action === 'send' ? sendPainting() : closeShareModal();
+          if      (hit.type === 'color')      selectColor(hit.value);
+          else if (hit.type === 'stamp')      selectStamp(hit.value, hit.idx);
+          else if (hit.type === 'modal-btn')  { hit.action === 'send' ? saveMoment() : closeShareModal(); }
+          else if (hit.type === 'vk-key')     applyVirtualKey(hit.key);
+          else if (hit.type === 'export-btn') { hit.action === 'confirm' ? confirmExportSelection() : closeExportOverlay(); }
+          else if (hit.type === 'field') {
+            activeMomentField = hit.field;
+            updateFieldActiveStates();
+          }
+          prevX = null; prevY = null;
+        } else if (exportModeOpen) {
+          if (pinchEdge && !hit) {
+            beginCropSelection(x, y);
+          } else if (isPinching && cropActive) {
+            updateCropSelection(x, y);
+          } else if (!isPinching && cropActive) {
+            endCropSelection();
           }
           prevX = null; prevY = null;
         } else if (isPinching && !hit && !pinchStartedOnPal && !modalOpen) {
@@ -1405,7 +1916,17 @@
 
         lastPinch = isPinching;
 
-        if (!modalOpen) {
+        if (exportModeOpen) {
+          statusEl.textContent = isPinching && cropActive
+            ? 'selecting crop area'
+            : (hit?.type === 'export-btn'
+                ? (hit.action === 'confirm' ? 'confirm crop' : 'cancel export')
+                : (cropRect ? 'crop ready — pinch yes to continue' : 'pinch-drag to create crop'));
+        } else if (modalOpen) {
+          statusEl.textContent = isPinching
+            ? (hit?.type === 'modal-btn' ? (hit.action === 'send' ? 'save moment' : 'cancel') : hit?.type === 'field' ? `editing ${hit.field}` : 'typing')
+            : (hit?.type === 'vk-key' ? `key: ${hit.key}` : hit?.type === 'field' ? `tap to edit ${hit.field}` : 'share mode');
+        } else {
           statusEl.textContent = isPinching
             ? (hit ? (hit.type === 'color' ? 'pick color' : 'pick shape') : (activeStamp ? `stamp: ${activeStamp.name}` : 'drawing'))
             : (hit ? `hover: ${hit.type === 'color' ? 'color' : (hit.value?.name ?? hit.type)}` : 'hand detected');
@@ -1414,7 +1935,11 @@
         // finger cursor
         const dotSize = isPinching ? 9 : 18;
         const cursorColor = hit
-          ? (hit.type === 'color' ? hit.value : hit.type === 'modal-btn' ? 'rgba(210,155,60,0.9)' : 'rgba(255,255,255,0.9)')
+          ? (hit.type === 'color'
+              ? hit.value
+              : (hit.type === 'modal-btn' || hit.type === 'export-btn' || hit.type === 'vk-key'
+                  ? 'rgba(210,155,60,0.9)'
+                  : 'rgba(255,255,255,0.9)'))
           : (isPinching ? activeColor : 'rgba(255,255,255,0.32)');
         fingerEl.style.left       = x + 'px';
         fingerEl.style.top        = y + 'px';
@@ -1461,7 +1986,7 @@
           await vid.play();
 
           let sending = false;
-          const camera = new Camera(vid, {
+          let camera = new Camera(vid, {
             onFrame: async () => {
               if (sending) return;
               sending = true;
@@ -1470,6 +1995,23 @@
             width: 640, height: 480,
           });
           camera.start();
+
+          // Camera-switch: init and add picker to topbar
+          await CameraSwitch.init(vid, () => {
+            // Restart the MediaPipe Camera wrapper after a device switch
+            camera.stop();
+            sending = false;
+            camera = new Camera(vid, {
+              onFrame: async () => {
+                if (sending) return;
+                sending = true;
+                try { await handsInstance.send({ image: vid }); } finally { sending = false; }
+              },
+              width: 640, height: 480,
+            });
+            camera.start();
+          });
+          CameraSwitch.buildUI(document.getElementById('topbar'));
 
           statusEl.textContent = 'looking for hand…';
           startBtn.textContent = 'running';

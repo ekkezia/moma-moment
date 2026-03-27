@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoMA MoMENT — Your Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: "MoMA Sans";
+      src: url("https://db.onlinewebfonts.com/t/211be15f3b79857b52ec64538f6032a2.woff2") format("woff2"),
+           url("https://db.onlinewebfonts.com/t/211be15f3b79857b52ec64538f6032a2.woff") format("woff"),
+           url("https://db.onlinewebfonts.com/t/211be15f3b79857b52ec64538f6032a2.ttf") format("truetype");
+      font-weight: 600;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #F5EFE0;
+      font-family: system-ui, -apple-system, sans-serif;
+      color: #1A0800;
+      min-height: 100vh;
+    }
+
+    /* ── header ── */
+    #site-header {
+      background: #fff;
+      border-bottom: 2px solid #D4001A;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-brand {
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #D4001A;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .header-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: #1A0800;
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+    .header-divider {
+      width: 1px;
+      height: 28px;
+      background: rgba(160,110,50,0.25);
+      margin: 0 4px;
+    }
+    .header-sub {
+      font-size: 12px;
+      color: rgba(80,45,10,0.45);
+      font-style: italic;
+    }
+
+    /* ── login section ── */
+    #login-section {
+      max-width: 520px;
+      margin: 80px auto 40px;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .login-eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(80,45,10,0.38);
+      margin-bottom: 10px;
+    }
+    .login-heading {
+      font-size: 32px;
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-weight: 600;
+      color: #1A0800;
+      margin-bottom: 6px;
+      line-height: 1.1;
+    }
+    .login-sub {
+      font-size: 13px;
+      color: rgba(80,45,10,0.5);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .email-form {
+      display: flex;
+      gap: 10px;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .email-form input {
+      flex: 1;
+      background: #fff;
+      border: 1.5px solid rgba(160,110,50,0.3);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 15px;
+      color: #1A0800;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .email-form input:focus {
+      border-color: #D4001A;
+      box-shadow: 0 0 0 3px rgba(212,0,26,0.1);
+    }
+    .email-form input::placeholder { color: rgba(80,45,10,0.28); }
+    .email-form button {
+      background: #D4001A;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 22px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .email-form button:hover { background: #B8001A; }
+    .email-form button:disabled { opacity: 0.5; cursor: default; }
+
+    #login-error {
+      margin-top: 12px;
+      font-size: 12px;
+      color: rgba(200,30,30,0.8);
+      min-height: 18px;
+    }
+
+    /* ── gallery section ── */
+    #gallery-section {
+      display: none;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    #gallery-section.visible { display: block; }
+
+    .gallery-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .gallery-greeting {
+      font-size: 28px;
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-weight: 600;
+      color: #1A0800;
+    }
+    .gallery-count {
+      font-size: 11px;
+      color: rgba(80,45,10,0.38);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding-bottom: 4px;
+    }
+    #logout-btn {
+      background: transparent;
+      border: 1px solid rgba(160,110,50,0.28);
+      color: rgba(80,45,10,0.5);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    #logout-btn:hover { background: rgba(160,110,50,0.08); }
+
+    /* moment cards grid */
+    #moments-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .moment-card {
+      background:
+        repeating-linear-gradient(
+          transparent, transparent 27px,
+          rgba(160,110,50,0.09) 27px, rgba(160,110,50,0.09) 28px
+        ),
+        linear-gradient(160deg, #FAF5E8 0%, #F0E8D2 100%);
+      border-radius: 3px 14px 14px 3px;
+      box-shadow:
+        -3px 0 0 0 #B8860B,
+        0 6px 24px rgba(0,0,0,0.12);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .moment-card:hover {
+      transform: translateY(-3px) rotate(-0.3deg);
+      box-shadow: -3px 0 0 0 #D4001A, 0 14px 36px rgba(0,0,0,0.2);
+    }
+    .moment-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 36px; bottom: 0;
+      width: 1px;
+      background: rgba(220,80,80,0.18);
+    }
+
+    .card-artwork {
+      width: 100%;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      background: #0a0a0f;
+    }
+    .card-artwork img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-body {
+      padding: 14px 16px 16px 46px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+    .card-date {
+      font-size: 9.5px;
+      color: rgba(80,45,10,0.4);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .card-name {
+      font-size: 18px;
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      color: #1A0800;
+      line-height: 1.1;
+    }
+    .card-moment {
+      font-size: 13px;
+      color: rgba(80,45,10,0.7);
+      font-style: italic;
+      line-height: 1.5;
+      font-family: 'Caveat', cursive;
+      font-size: 15px;
+    }
+    .card-painting {
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px solid rgba(160,110,50,0.15);
+      font-size: 10px;
+      color: rgba(80,45,10,0.38);
+    }
+    .card-painting strong {
+      display: block;
+      font-size: 11px;
+      color: rgba(80,45,10,0.55);
+      margin-bottom: 1px;
+    }
+
+    /* empty state */
+    #empty-state {
+      display: none;
+      text-align: center;
+      padding: 60px 24px;
+    }
+    #empty-state.visible { display: block; }
+    .empty-title {
+      font-size: 26px;
+      font-family: 'Caveat', cursive;
+      color: rgba(80,45,10,0.4);
+      margin-bottom: 10px;
+    }
+    .empty-sub {
+      font-size: 13px;
+      color: rgba(80,45,10,0.3);
+    }
+
+    /* loading */
+    #loading {
+      display: none;
+      text-align: center;
+      padding: 48px;
+      font-size: 13px;
+      color: rgba(80,45,10,0.4);
+      font-style: italic;
+    }
+    #loading.visible { display: block; }
+
+    /* visit badge */
+    .visit-badge {
+      display: inline-block;
+      background: #D4001A;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 20px;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <header id="site-header">
+    <div>
+      <div class="header-brand">MoMA</div>
+      <div class="header-title">MoMENT</div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-sub">your personal museum diary</div>
+  </header>
+
+  <!-- login -->
+  <div id="login-section">
+    <div class="login-eyebrow">welcome back</div>
+    <h1 class="login-heading">revisit your moments</h1>
+    <p class="login-sub">Enter the email you used at the kiosk to see<br>every painting you've co-created at MoMA.</p>
+    <form class="email-form" id="loginForm">
+      <input type="email" id="loginEmail" placeholder="your@email.com" required autocomplete="email" />
+      <button type="submit" id="loginBtn">view moments</button>
+    </form>
+    <div id="login-error"></div>
+  </div>
+
+  <!-- gallery -->
+  <div id="gallery-section">
+    <div class="gallery-header">
+      <div>
+        <div class="gallery-greeting" id="gallery-greeting"></div>
+        <div class="gallery-count" id="gallery-count"></div>
+      </div>
+      <button id="logout-btn">← different email</button>
+    </div>
+    <div id="loading">finding your moments…</div>
+    <div id="empty-state">
+      <div class="empty-title">no moments yet</div>
+      <p class="empty-sub">Visit a MoMA kiosk and create your first painting to get started.</p>
+    </div>
+    <div id="moments-grid"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    // ── Supabase config ── (fill in from your Supabase project Settings > API)
+    const SUPABASE_URL      = 'https://eabaoxpoplpngczpuhps.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhYmFveHBvcGxwbmdjenB1aHBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MzAwMzEsImV4cCI6MjA5MDIwNjAzMX0.8UdSHdU3dbsfTeDRncfqY6C0do9nUuyDil9SvSj4MNg';
+
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ── DOM refs ──
+    const loginSection  = document.getElementById('login-section');
+    const gallerySection = document.getElementById('gallery-section');
+    const loginForm     = document.getElementById('loginForm');
+    const loginEmailEl  = document.getElementById('loginEmail');
+    const loginBtn      = document.getElementById('loginBtn');
+    const loginError    = document.getElementById('login-error');
+    const galleryGreeting = document.getElementById('gallery-greeting');
+    const galleryCount  = document.getElementById('gallery-count');
+    const momentsGrid   = document.getElementById('moments-grid');
+    const loadingEl     = document.getElementById('loading');
+    const emptyState    = document.getElementById('empty-state');
+    const logoutBtn     = document.getElementById('logout-btn');
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+
+    function renderCard(m) {
+      const card = document.createElement('div');
+      card.className = 'moment-card';
+      card.innerHTML = `
+        ${m.image_data ? `
+          <div class="card-artwork">
+            <img src="${m.image_data}" alt="Your painting" loading="lazy" />
+          </div>` : ''}
+        <div class="card-body">
+          <div class="card-date">${formatDate(m.created_at)}</div>
+          <div class="card-name">${m.visitor_name || 'Anonymous'}</div>
+          ${m.moment_text ? `<div class="card-moment">"${m.moment_text}"</div>` : ''}
+          <div class="card-painting">
+            <strong>${m.painting_name || ''}</strong>
+            ${m.painting_artist || ''}
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    async function loadMoments(email) {
+      loadingEl.classList.add('visible');
+      emptyState.classList.remove('visible');
+      momentsGrid.innerHTML = '';
+
+      const { data, error } = await db
+        .from('moments')
+        .select('*')
+        .eq('email', email.toLowerCase())
+        .order('created_at', { ascending: false });
+
+      loadingEl.classList.remove('visible');
+
+      if (error) {
+        loginError.textContent = 'Could not load moments — please try again.';
+        showLogin();
+        return;
+      }
+
+      const name = data[0]?.visitor_name || email.split('@')[0];
+      galleryGreeting.textContent = `${name}'s MoMA MoMENTs`;
+
+      const visits = data.length;
+      galleryCount.innerHTML = visits === 0 ? '' :
+        `${visits} visit${visits !== 1 ? 's' : ''} · <span class="visit-badge">${visits}× visitor</span>`;
+
+      if (visits === 0) {
+        emptyState.classList.add('visible');
+        return;
+      }
+
+      data.forEach(m => momentsGrid.appendChild(renderCard(m)));
+    }
+
+    function showLogin() {
+      loginSection.style.display = '';
+      gallerySection.classList.remove('visible');
+      loginBtn.disabled = false;
+    }
+
+    function showGallery() {
+      loginSection.style.display = 'none';
+      gallerySection.classList.add('visible');
+    }
+
+    loginForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const email = loginEmailEl.value.trim();
+      if (!email) return;
+      loginError.textContent = '';
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'loading…';
+      showGallery();
+      await loadMoments(email);
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'view moments';
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      loginEmailEl.value = '';
+      showLogin();
+    });
+  </script>
+</body>
+</html>
