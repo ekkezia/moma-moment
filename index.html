@@ -69,8 +69,8 @@
       button:disabled { opacity: 0.45; cursor: default; }
 
       #status {
-        font-size: 12px;
-        color: rgba(255,255,255,0.38);
+        font-size: 13px;
+        color: rgba(255,255,255,0.45);
       }
 
       /* ── painter's palette panel ── */
@@ -78,8 +78,7 @@
         position: absolute;
         right: 18px;
         bottom: 18px;
-        width: 220px;
-        height: 220px;
+        width: 200px;
         background:
           repeating-linear-gradient(
             8deg,
@@ -94,22 +93,19 @@
             transparent 23px, transparent 44px
           ),
           radial-gradient(ellipse at 30% 20%, #D4A068 0%, #C08850 40%, #A87040 70%, #8C5C30 100%);
-        border-radius: 50%;
+        border-radius: 100px;
         border: 2px solid rgba(140,90,40,0.5);
         box-shadow:
           0 18px 56px rgba(0,0,0,0.7),
           inset 0 2px 0 rgba(240,190,120,0.35),
           inset 0 -3px 0 rgba(80,40,10,0.4),
           inset 3px 0 8px rgba(80,40,10,0.15);
-        padding: 28px 22px 22px;
+        padding: 36px 18px 20px;
         z-index: 10;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        overflow-y: auto;
-        scrollbar-width: none;
       }
-      #palette::-webkit-scrollbar { display: none; }
 
       /* thumb hole */
       #palette::before {
@@ -660,9 +656,10 @@
       /* ── inspiration prompt card ── */
       #prompt-card {
         position: absolute;
-        right: 14px;
         top: 14px;
-        width: 162px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 320px;
         text-align: center;
         pointer-events: none;
         z-index: 10;
@@ -705,6 +702,7 @@
 
       <div id="topbar">
         <button id="startBtn">start camera</button>
+        <button id="switchBtn" style="display:none">⇄ switch camera</button>
         <div id="status">loading model…</div>
       </div>
 
@@ -758,17 +756,17 @@
             <div class="diary-fields-row">
               <div class="diary-field-wrap">
                 <div class="diary-field-label">your name</div>
-                <input id="nameInput" class="diary-field-input" type="text" placeholder="first name" readonly inputmode="none" maxlength="60" />
+                <input id="nameInput" class="diary-field-input" type="text" placeholder="first name" maxlength="60" />
               </div>
               <div class="diary-field-wrap">
                 <div class="diary-field-label">your email</div>
-                <input id="emailInput" class="diary-field-input" type="email" placeholder="email address" autocomplete="off" readonly inputmode="none" maxlength="100" />
+                <input id="emailInput" class="diary-field-input" type="email" placeholder="email address" autocomplete="off" maxlength="100" />
               </div>
             </div>
             <div class="diary-moment-section">
               <div class="diary-question">What's your MoMA MoMENT today?</div>
               <div class="diary-field-wrap">
-                <textarea id="momentInput" class="diary-field-input" placeholder="describe your experience…" readonly rows="3" maxlength="280"></textarea>
+                <textarea id="momentInput" class="diary-field-input" placeholder="describe your experience…" rows="3" maxlength="280"></textarea>
               </div>
             </div>
             <div class="diary-artwork-wrap">
@@ -1854,6 +1852,16 @@
           return null;
         }
 
+        // palette action buttons (clear + share)
+        const palBtns = [
+          { el: document.getElementById('clearBtn'), action: 'clear' },
+          { el: document.getElementById('shareBtn'), action: 'share' },
+        ];
+        for (const { el, action } of palBtns) {
+          const r = el.getBoundingClientRect();
+          if (fx >= r.left - pad && fx <= r.right + pad && fy >= r.top - pad && fy <= r.bottom + pad)
+            return { type: 'pal-btn', el, action };
+        }
         // palette swatches
         for (let i = 0; i < swatchEls.length; i++) {
           const r = swatchEls[i].getBoundingClientRect();
@@ -1888,6 +1896,8 @@
         cancelModalBtn.classList.remove('finger-hover');
         exportConfirmBtn.classList.remove('finger-hover');
         exportCancelBtn.classList.remove('finger-hover');
+        document.getElementById('clearBtn').classList.remove('finger-hover');
+        document.getElementById('shareBtn').classList.remove('finger-hover');
         vkKeyEls.forEach(el => el.classList.remove('finger-hover'));
         [nameInput, emailInput, momentInput].forEach(el => el.classList.remove('field-hover'));
 
@@ -1898,7 +1908,7 @@
         } else if (hit.type === 'stamp') {
           hit.el.style.boxShadow = '0 0 10px rgba(255,255,255,0.4)';
           hit.el.style.transform = 'scale(1.18)';
-        } else if (hit.type === 'modal-btn' || hit.type === 'export-btn' || hit.type === 'vk-key') {
+        } else if (hit.type === 'modal-btn' || hit.type === 'export-btn' || hit.type === 'vk-key' || hit.type === 'pal-btn') {
           hit.el.classList.add('finger-hover');
         } else if (hit.type === 'field') {
           hit.el.classList.add('field-hover');
@@ -1909,6 +1919,8 @@
       function onResults(results) {
         cctx.clearRect(0, 0, camCvs.width, camCvs.height);
         cctx.save();
+        cctx.translate(camCvs.width, 0);
+        cctx.scale(-1, 1);
         cctx.drawImage(results.image, 0, 0, camCvs.width, camCvs.height);
         cctx.restore();
 
@@ -1922,86 +1934,88 @@
           return;
         }
 
-        const lm = results.multiHandLandmarks[0];
-        const dist = pinchDist(lm);
-        const { x, y } = pinchMidpoint(lm);
+        // mirror landmarks to match flipped camera display
+        const lm = results.multiHandLandmarks[0].map(p => ({ ...p, x: 1 - p.x }));
+        const score = gripScore(lm);
+        const { x, y } = palmCenter(lm);
 
-        if (!isPinching && dist < PINCH_ON)  isPinching = true;
-        if (isPinching  && dist > PINCH_OFF) isPinching = false;
+        if (!isGripping && score < GRIP_ON)  isGripping = true;
+        if (isGripping  && score > GRIP_OFF) isGripping = false;
 
         const hit    = hitTest(x, y);
         const hitKey = hit ? `${hit.type}-${hit.idx ?? hit.action ?? hit.key}` : null;
         if (hitKey !== lastHitKey) { applyHover(hit); lastHitKey = hitKey; }
 
-        const pinchEdge = isPinching && !lastPinch;
-        if (!isPinching) pinchStartedOnPal = false;
+        const gripEdge = isGripping && !lastGrip;
+        if (!isGripping) gripStartedOnPal = false;
 
-        if (pinchEdge && hit) {
-          pinchStartedOnPal = true;
+        if (gripEdge && hit) {
+          gripStartedOnPal = true;
           if      (hit.type === 'color')      selectColor(hit.value);
           else if (hit.type === 'stamp')      selectStamp(hit.value, hit.idx);
           else if (hit.type === 'modal-btn')  { hit.action === 'send' ? saveMoment() : closeShareModal(); }
           else if (hit.type === 'vk-key')     applyVirtualKey(hit.key);
           else if (hit.type === 'export-btn') { hit.action === 'confirm' ? confirmExportSelection() : closeExportOverlay(); }
+          else if (hit.type === 'pal-btn')    { hit.action === 'clear' ? dctx.clearRect(0, 0, drawCvs.width, drawCvs.height) : openExportOverlay(); }
           else if (hit.type === 'field') {
             activeMomentField = hit.field;
             updateFieldActiveStates();
           }
           prevX = null; prevY = null;
         } else if (exportModeOpen) {
-          if (pinchEdge && !hit) {
+          if (gripEdge && !hit) {
             beginCropSelection(x, y);
-          } else if (isPinching && cropActive) {
+          } else if (isGripping && cropActive) {
             updateCropSelection(x, y);
-          } else if (!isPinching && cropActive) {
+          } else if (!isGripping && cropActive) {
             endCropSelection();
           }
           prevX = null; prevY = null;
-        } else if (isPinching && !hit && !pinchStartedOnPal && !modalOpen) {
+        } else if (isGripping && !hit && !gripStartedOnPal && !modalOpen) {
           if (activeStamp) {
-            if (pinchEdge) placeStamp(x, y);
+            if (gripEdge) placeStamp(x, y);
           } else {
             drawSegment(x, y);
           }
-        } else if (!isPinching) {
+        } else if (!isGripping) {
           prevX = null; prevY = null;
         }
 
-        lastPinch = isPinching;
+        lastGrip = isGripping;
 
         if (exportModeOpen) {
-          statusEl.textContent = isPinching && cropActive
+          statusEl.textContent = isGripping && cropActive
             ? 'selecting crop area'
             : (hit?.type === 'export-btn'
                 ? (hit.action === 'confirm' ? 'confirm crop' : 'cancel export')
-                : (cropRect ? 'crop ready — pinch yes to continue' : 'pinch-drag to create crop'));
+                : (cropRect ? 'crop ready — grip yes to continue' : 'grip-drag to create crop'));
         } else if (modalOpen) {
-          statusEl.textContent = isPinching
+          statusEl.textContent = isGripping
             ? (hit?.type === 'modal-btn' ? (hit.action === 'send' ? 'save moment' : 'cancel') : hit?.type === 'field' ? `editing ${hit.field}` : 'typing')
             : (hit?.type === 'vk-key' ? `key: ${hit.key}` : hit?.type === 'field' ? `tap to edit ${hit.field}` : 'share mode');
         } else {
-          statusEl.textContent = isPinching
+          statusEl.textContent = isGripping
             ? (hit ? (hit.type === 'color' ? 'pick color' : 'pick shape') : (activeStamp ? `stamp: ${activeStamp.name}` : 'drawing'))
             : (hit ? `hover: ${hit.type === 'color' ? 'color' : (hit.value?.name ?? hit.type)}` : 'hand detected');
         }
 
-        // finger cursor
-        const dotSize = isPinching ? 9 : 18;
+        // finger cursor — open palm: large ring; gripping: small filled dot
+        const dotSize = isGripping ? 10 : 28;
         const cursorColor = hit
           ? (hit.type === 'color'
               ? hit.value
               : (hit.type === 'modal-btn' || hit.type === 'export-btn' || hit.type === 'vk-key'
                   ? 'rgba(210,155,60,0.9)'
                   : 'rgba(255,255,255,0.9)'))
-          : (isPinching ? activeColor : 'rgba(255,255,255,0.32)');
+          : (isGripping ? activeColor : 'transparent');
         fingerEl.style.left       = x + 'px';
         fingerEl.style.top        = y + 'px';
         fingerEl.style.opacity    = '1';
         fingerEl.style.width      = dotSize + 'px';
         fingerEl.style.height     = dotSize + 'px';
         fingerEl.style.background = cursorColor;
-        fingerEl.style.boxShadow  = (isPinching || hit) ? `0 0 10px ${cursorColor}` : 'none';
-        fingerEl.style.border     = (isPinching || hit) ? 'none' : '1.5px solid rgba(255,255,255,0.45)';
+        fingerEl.style.boxShadow  = (isGripping || hit) ? `0 0 10px ${isGripping ? activeColor : cursorColor}` : 'none';
+        fingerEl.style.border     = isGripping ? 'none' : '2px solid rgba(255,255,255,0.6)';
       }
 
       // ── MediaPipe ──────────────────────────────────────────────────────────
