@@ -100,7 +100,7 @@
           inset 0 2px 0 rgba(240,190,120,0.35),
           inset 0 -3px 0 rgba(80,40,10,0.4),
           inset 3px 0 8px rgba(80,40,10,0.15);
-        padding: 36px 18px 20px;
+        padding: 48px 28px 30px;
         z-index: 10;
         display: flex;
         flex-direction: column;
@@ -572,6 +572,110 @@
       #sendStatus.ok  { color: rgba(30,130,60,0.9); }
       #sendStatus.err { color: rgba(200,30,30,0.9); }
 
+      /* ── confirmation / diary screen ── */
+      #diary-confirm {
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        padding: 32px 28px 28px;
+        animation: confirmFadeIn 0.5s ease;
+      }
+      #diary-confirm.show { display: flex !important; }
+      @keyframes confirmFadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .confirm-notebook {
+        position: relative;
+        width: 160px;
+        height: 200px;
+        flex-shrink: 0;
+        filter: drop-shadow(0 12px 32px rgba(0,0,0,0.35));
+      }
+      .confirm-notebook-spine {
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 18px;
+        background: linear-gradient(180deg, #D4001A 0%, #A8001A 100%);
+        border-radius: 3px 0 0 3px;
+      }
+      .confirm-notebook-cover {
+        position: absolute;
+        left: 18px; top: 0; right: 0; bottom: 0;
+        background: linear-gradient(160deg, #FAF5E8 0%, #EDE5CF 100%);
+        border-radius: 0 6px 6px 0;
+        border: 1px solid rgba(160,110,50,0.2);
+        border-left: none;
+        padding: 16px 12px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        overflow: hidden;
+      }
+      .confirm-brand {
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        font-size: 8px;
+        letter-spacing: 0.28em;
+        color: #D4001A;
+        text-transform: uppercase;
+      }
+      .confirm-label {
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: #1A0800;
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+      .confirm-diary-line {
+        height: 1px;
+        background: rgba(160,110,50,0.18);
+        margin: 2px 0;
+      }
+      .confirm-preview {
+        width: 100%;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 3px;
+        margin-top: auto;
+        border: 1px solid rgba(160,110,50,0.15);
+      }
+      .confirm-text {
+        text-align: center;
+        max-width: 320px;
+      }
+      .confirm-headline {
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: #1A0800;
+        line-height: 1.25;
+        margin-bottom: 12px;
+      }
+      .confirm-sub {
+        font-size: 13px;
+        color: rgba(80,45,10,0.6);
+        line-height: 1.6;
+        margin-bottom: 22px;
+        font-family: 'Caveat', cursive;
+        font-size: 15px;
+      }
+      .confirm-sub strong { color: #1A0800; }
+      #confirmCloseBtn {
+        background: #D4001A;
+        border: none;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 12px 32px;
+        border-radius: 24px;
+        cursor: pointer;
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        letter-spacing: 0.04em;
+        transition: background 0.15s;
+      }
+      #confirmCloseBtn:hover { background: #B8001A; }
+
       /* ── export selection overlay ── */
 
       #export-overlay {
@@ -703,6 +807,7 @@
       <div id="topbar">
         <button id="startBtn">start camera</button>
         <button id="switchBtn" style="display:none">⇄ switch camera</button>
+        <button id="flipBtn">⟺ flip: on</button>
         <div id="status">loading model…</div>
       </div>
 
@@ -787,6 +892,26 @@
             </div>
             <div id="sendStatus"></div>
           </div>
+
+          <!-- confirmation screen — shown after successful save -->
+          <div id="diary-confirm" style="display:none">
+            <div class="confirm-notebook">
+              <div class="confirm-notebook-spine"></div>
+              <div class="confirm-notebook-cover">
+                <div class="confirm-brand">MoMA</div>
+                <div class="confirm-label">MoMENT</div>
+                <div class="confirm-diary-line"></div>
+                <div class="confirm-diary-line"></div>
+                <div class="confirm-diary-line"></div>
+                <canvas id="confirm-preview" class="confirm-preview"></canvas>
+              </div>
+            </div>
+            <div class="confirm-text">
+              <div class="confirm-headline">Your MoMA MoMENT diary<br>is on its way.</div>
+              <p class="confirm-sub">MoMA has shipped a personal diary to <strong id="confirm-email"></strong> — it contains the painting you co-created today. Open it whenever you want to relive this moment.</p>
+              <button id="confirmCloseBtn">done ✦</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -798,6 +923,12 @@
       </div>
 
       <div id="finger"></div>
+      <svg id="dwell-ring" width="60" height="60" style="position:absolute;pointer-events:none;z-index:1000;display:none;transform:translate(-50%,-50%)">
+        <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="3"/>
+        <circle id="dwell-arc" cx="30" cy="30" r="24" fill="none" stroke="white" stroke-width="3"
+                stroke-dasharray="150.8" stroke-dashoffset="150.8"
+                stroke-linecap="round" transform="rotate(-90 30 30)"/>
+      </svg>
       <div id="tip">pinch to draw · hover palette + pinch to pick · stamp shapes</div>
     </div>
 
@@ -1593,6 +1724,10 @@
         exportOverlay.classList.remove('open');
         shareModal.classList.add('open');
 
+        // reset confirm screen if it was shown
+        document.getElementById('diary-confirm').classList.remove('show');
+        document.querySelector('.diary-body').style.display = '';
+
         // clear fields
         nameInput.value = '';
         emailInput.value = '';
@@ -1644,28 +1779,72 @@
 
         if (SUPABASE_CONFIGURED) {
           try {
+            // check if returning visitor
+            const { data: existing } = await db.from('moments')
+              .select('id').eq('email', email.toLowerCase()).limit(1);
+            const isReturning = existing && existing.length > 0;
+
             const { error } = await db.from('moments').insert({
               visitor_name:    name,
-              email:           email,
+              email:           email.toLowerCase(),
               moment_text:     moment || null,
               image_data:      shareImageData,
               painting_name:   activePainting.name,
               painting_artist: activePainting.artist,
             });
             if (error) throw error;
-            setStatus('moment saved ✦ check your gallery at /gallery.html', 'ok');
-            setTimeout(closeShareModal, 3200);
+
+            showDiaryConfirm(name, email, isReturning);
           } catch (err) {
             console.error('Supabase error:', err);
             setStatus('save failed — please try again', 'err');
+            sendBtn.disabled = false;
           }
         } else {
-          // Supabase not yet configured
           setStatus('supabase not configured — set credentials to enable saving', 'err');
+          sendBtn.disabled = false;
+        }
+      }
+
+      function showDiaryConfirm(name, email, isReturning) {
+        const diaryConfirm = document.getElementById('diary-confirm');
+        const diaryBody    = document.querySelector('.diary-body');
+        diaryBody.style.display = 'none';
+        diaryConfirm.classList.add('show');
+
+        // populate confirm email
+        document.getElementById('confirm-email').textContent = email;
+
+        // headline for returning vs new visitor
+        const headline = diaryConfirm.querySelector('.confirm-headline');
+        const sub      = diaryConfirm.querySelector('.confirm-sub');
+        if (isReturning) {
+          headline.innerHTML = `Welcome back, ${name}!`;
+          sub.innerHTML = `We've written today's moment to your MoMA MoMENT diary. Your painting is now part of your collection — revisit it anytime at <strong>gallery.html</strong>.`;
+        } else {
+          headline.innerHTML = `Your MoMA MoMENT diary<br>is on its way.`;
+          sub.innerHTML = `MoMA has shipped a personal diary to <strong>${email}</strong> — it contains the painting you co-created today. Open it whenever you want to relive this moment.`;
         }
 
-        sendBtn.disabled = false;
+        // draw preview thumbnail
+        const confirmPreview = document.getElementById('confirm-preview');
+        if (shareImageData) {
+          const img = new Image();
+          img.onload = () => {
+            const ctx = confirmPreview.getContext('2d');
+            confirmPreview.width  = confirmPreview.offsetWidth  || 130;
+            confirmPreview.height = confirmPreview.offsetHeight || 80;
+            ctx.drawImage(img, 0, 0, confirmPreview.width, confirmPreview.height);
+          };
+          img.src = shareImageData;
+        }
       }
+
+      document.getElementById('confirmCloseBtn').addEventListener('click', () => {
+        document.getElementById('diary-confirm').classList.remove('show');
+        document.querySelector('.diary-body').style.display = '';
+        closeShareModal();
+      });
 
       function applyVirtualKey(key) {
         let input;
@@ -1725,6 +1904,11 @@
       document.getElementById('shareBtn').onclick = openExportOverlay;
       cancelModalBtn.onclick = closeShareModal;
       sendBtn.onclick = saveMoment;
+
+      // allow mouse click + keyboard typing in modal fields
+      nameInput.addEventListener('focus',   () => { activeMomentField = 'name';   updateFieldActiveStates(); });
+      emailInput.addEventListener('focus',  () => { activeMomentField = 'email';  updateFieldActiveStates(); });
+      momentInput.addEventListener('focus', () => { activeMomentField = 'moment'; updateFieldActiveStates(); });
 
       // close on backdrop click
       shareModal.addEventListener('click', e => { if (e.target === shareModal) closeShareModal(); });
@@ -1790,6 +1974,26 @@
       let isGripping       = false;
       let lastGrip         = false;
       let gripStartedOnPal = false;
+
+      // ── dwell-to-click ─────────────────────────────────────────────────────
+      const DWELL_TIME   = 1200;  // ms of stillness to trigger click
+      const DWELL_COOLDOWN = 900; // ms before same target can fire again
+      let dwellKey       = null;
+      let dwellStart     = 0;
+      let lastDwellFire  = 0;
+      let pushFlash      = 0;     // frames to show click flash
+      const dwellRingEl  = document.getElementById('dwell-ring');
+      const dwellArcEl   = document.getElementById('dwell-arc');
+
+      function triggerHitAction(hit) {
+        if      (hit.type === 'color')      selectColor(hit.value);
+        else if (hit.type === 'stamp')      selectStamp(hit.value, hit.idx);
+        else if (hit.type === 'modal-btn')  { hit.action === 'send' ? saveMoment() : closeShareModal(); }
+        else if (hit.type === 'vk-key')     applyVirtualKey(hit.key);
+        else if (hit.type === 'export-btn') { hit.action === 'confirm' ? confirmExportSelection() : closeExportOverlay(); }
+        else if (hit.type === 'pal-btn')    { hit.action === 'clear' ? dctx.clearRect(0, 0, drawCvs.width, drawCvs.height) : openExportOverlay(); }
+        else if (hit.type === 'field')      { activeMomentField = hit.field; updateFieldActiveStates(); }
+      }
 
       function gripScore(lm) {
         // hand scale = wrist(0) to middle-finger MCP(9)
@@ -1919,8 +2123,7 @@
       function onResults(results) {
         cctx.clearRect(0, 0, camCvs.width, camCvs.height);
         cctx.save();
-        cctx.translate(camCvs.width, 0);
-        cctx.scale(-1, 1);
+        if (camFlipped) { cctx.translate(camCvs.width, 0); cctx.scale(-1, 1); }
         cctx.drawImage(results.image, 0, 0, camCvs.width, camCvs.height);
         cctx.restore();
 
@@ -1929,13 +2132,13 @@
           fingerEl.style.opacity = '0';
           prevX = null; prevY = null;
           isGripping = false; lastGrip = false; gripStartedOnPal = false;
+          dwellKey = null; dwellRingEl.style.display = 'none';
           if (cropActive) endCropSelection();
           if (lastHitKey) { applyHover(null); lastHitKey = null; }
           return;
         }
 
-        // mirror landmarks to match flipped camera display
-        const lm = results.multiHandLandmarks[0].map(p => ({ ...p, x: 1 - p.x }));
+        const lm = results.multiHandLandmarks[0].map(p => ({ ...p, x: camFlipped ? 1 - p.x : p.x }));
         const score = gripScore(lm);
         const { x, y } = palmCenter(lm);
 
@@ -1949,18 +2152,34 @@
         const gripEdge = isGripping && !lastGrip;
         if (!isGripping) gripStartedOnPal = false;
 
-        if (gripEdge && hit) {
-          gripStartedOnPal = true;
-          if      (hit.type === 'color')      selectColor(hit.value);
-          else if (hit.type === 'stamp')      selectStamp(hit.value, hit.idx);
-          else if (hit.type === 'modal-btn')  { hit.action === 'send' ? saveMoment() : closeShareModal(); }
-          else if (hit.type === 'vk-key')     applyVirtualKey(hit.key);
-          else if (hit.type === 'export-btn') { hit.action === 'confirm' ? confirmExportSelection() : closeExportOverlay(); }
-          else if (hit.type === 'pal-btn')    { hit.action === 'clear' ? dctx.clearRect(0, 0, drawCvs.width, drawCvs.height) : openExportOverlay(); }
-          else if (hit.type === 'field') {
-            activeMomentField = hit.field;
-            updateFieldActiveStates();
+        // dwell-to-click detection
+        const now = performance.now();
+        let dwellFired = false;
+        if (hit) {
+          if (hitKey !== dwellKey) { dwellKey = hitKey; dwellStart = now; }
+          const elapsed = now - dwellStart;
+          const progress = Math.min(elapsed / DWELL_TIME, 1);
+          // update ring
+          const circumference = 150.8;
+          dwellArcEl.setAttribute('stroke-dashoffset', circumference * (1 - progress));
+          dwellRingEl.style.left = x + 'px';
+          dwellRingEl.style.top  = y + 'px';
+          dwellRingEl.style.display = '';
+          if (progress >= 1 && (now - lastDwellFire) > DWELL_COOLDOWN) {
+            dwellFired = true;
+            lastDwellFire = now;
+            pushFlash = 6;
+            dwellKey = null;
           }
+        } else {
+          dwellKey = null;
+          dwellRingEl.style.display = 'none';
+          dwellArcEl.setAttribute('stroke-dashoffset', '150.8');
+        }
+
+        if ((gripEdge && hit) || (dwellFired && hit)) {
+          if (gripEdge) gripStartedOnPal = true;
+          triggerHitAction(hit);
           prevX = null; prevY = null;
         } else if (exportModeOpen) {
           if (gripEdge && !hit) {
@@ -2008,13 +2227,15 @@
                   ? 'rgba(210,155,60,0.9)'
                   : 'rgba(255,255,255,0.9)'))
           : (isGripping ? activeColor : 'transparent');
+        if (pushFlash > 0) pushFlash--;
+        const isPushing = pushFlash > 0;
         fingerEl.style.left       = x + 'px';
         fingerEl.style.top        = y + 'px';
         fingerEl.style.opacity    = '1';
-        fingerEl.style.width      = dotSize + 'px';
-        fingerEl.style.height     = dotSize + 'px';
-        fingerEl.style.background = cursorColor;
-        fingerEl.style.boxShadow  = (isGripping || hit) ? `0 0 10px ${isGripping ? activeColor : cursorColor}` : 'none';
+        fingerEl.style.width      = (isPushing ? dotSize * 1.8 : dotSize) + 'px';
+        fingerEl.style.height     = (isPushing ? dotSize * 1.8 : dotSize) + 'px';
+        fingerEl.style.background = isPushing ? 'rgba(255,255,255,0.9)' : cursorColor;
+        fingerEl.style.boxShadow  = isPushing ? '0 0 22px rgba(255,255,255,0.8)' : ((isGripping || hit) ? `0 0 10px ${isGripping ? activeColor : cursorColor}` : 'none');
         fingerEl.style.border     = isGripping ? 'none' : '2px solid rgba(255,255,255,0.6)';
       }
 
@@ -2043,42 +2264,95 @@
       }
 
       startBtn.disabled = true;
+      const switchBtn = document.getElementById('switchBtn');
+      const flipBtn   = document.getElementById('flipBtn');
+      let camFlipped  = false; // default off (external webcam, no mirror needed)
+      flipBtn.textContent = '⟺ flip: off';
+      flipBtn.style.opacity = '0.45';
+
+      flipBtn.addEventListener('click', () => {
+        camFlipped = !camFlipped;
+        flipBtn.textContent = `⟺ flip: ${camFlipped ? 'on' : 'off'}`;
+        flipBtn.style.opacity = camFlipped ? '1' : '0.45';
+      });
+      let videoDevices = [];
+      let currentDeviceIdx = 0;
+      let sending = false;
+      let rafId = null;
+
+      function startMpCamera() {
+        if (rafId) cancelAnimationFrame(rafId);
+        sending = false;
+        async function loop() {
+          if (!vid.paused && !vid.ended && vid.readyState >= 2) {
+            if (!sending) {
+              sending = true;
+              try { await handsInstance.send({ image: vid }); } finally { sending = false; }
+            }
+          }
+          rafId = requestAnimationFrame(loop);
+        }
+        rafId = requestAnimationFrame(loop);
+      }
+
+      async function openCamera(deviceId) {
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        if (vid.srcObject) vid.srcObject.getTracks().forEach(t => t.stop());
+        const constraints = { video: { width: 1280, height: 720 } };
+        if (deviceId) constraints.video.deviceId = { exact: deviceId };
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        vid.srcObject = stream;
+        await vid.play();
+        startMpCamera();
+      }
+
+      function camLabel(idx) {
+        const d = videoDevices[idx];
+        if (!d) return '⇄ camera';
+        const name = d.label || `camera ${idx + 1}`;
+        // shorten long labels: strip "(Built-in)" etc, keep first meaningful segment
+        const short = name.replace(/\s*\(.*?\)\s*/g, '').trim() || name;
+        return `⇄ ${short}`;
+      }
+
+      switchBtn.onclick = async () => {
+        currentDeviceIdx = (currentDeviceIdx + 1) % videoDevices.length;
+        switchBtn.disabled = true;
+        switchBtn.textContent = 'switching…';
+        try {
+          await openCamera(videoDevices[currentDeviceIdx].deviceId);
+        } catch (e) {
+          statusEl.textContent = 'switch error: ' + e.message;
+        }
+        switchBtn.disabled = false;
+        switchBtn.textContent = camLabel(currentDeviceIdx);
+      };
+
       startBtn.onclick = async () => {
         statusEl.textContent = 'starting camera…';
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: { width: 640, height: 480, facingMode: 'user' },
-          });
-          vid.srcObject = stream;
-          await vid.play();
+          await openCamera(null);
 
-          let sending = false;
-          let camera = new Camera(vid, {
-            onFrame: async () => {
-              if (sending) return;
-              sending = true;
-              try { await handsInstance.send({ image: vid }); } finally { sending = false; }
-            },
-            width: 640, height: 480,
-          });
-          camera.start();
+          // enumerate cameras after first getUserMedia (permissions now granted)
+          const devices = await navigator.mediaDevices.enumerateDevices();
+          videoDevices = devices.filter(d => d.kind === 'videoinput');
 
-          // Camera-switch: init and add picker to topbar
-          await CameraSwitch.init(vid, () => {
-            // Restart the MediaPipe Camera wrapper after a device switch
-            camera.stop();
-            sending = false;
-            camera = new Camera(vid, {
-              onFrame: async () => {
-                if (sending) return;
-                sending = true;
-                try { await handsInstance.send({ image: vid }); } finally { sending = false; }
-              },
-              width: 640, height: 480,
-            });
-            camera.start();
-          });
-          CameraSwitch.buildUI(document.getElementById('topbar'));
+          // prefer Full HD Webcam if available
+          const preferredIdx = videoDevices.findIndex(d =>
+            d.label.toLowerCase().includes('full hd') || d.label.toLowerCase().includes('full-hd')
+          );
+          if (preferredIdx >= 0) {
+            currentDeviceIdx = preferredIdx;
+            await openCamera(videoDevices[preferredIdx].deviceId);
+          } else {
+            const activeId = vid.srcObject.getVideoTracks()[0].getSettings().deviceId;
+            currentDeviceIdx = Math.max(0, videoDevices.findIndex(d => d.deviceId === activeId));
+          }
+
+          if (videoDevices.length > 1) {
+            switchBtn.style.display = '';
+            switchBtn.textContent = camLabel(currentDeviceIdx);
+          }
 
           statusEl.textContent = 'looking for hand…';
           startBtn.textContent = 'running';

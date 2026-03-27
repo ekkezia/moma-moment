@@ -20,453 +20,825 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: #F5EFE0;
-      font-family: system-ui, -apple-system, sans-serif;
-      color: #1A0800;
+      background: radial-gradient(ellipse at 50% 60%, #2a1608 0%, #0e0804 100%);
       min-height: 100vh;
-    }
-
-    /* ── header ── */
-    #site-header {
-      background: #fff;
-      border-bottom: 2px solid #D4001A;
-      padding: 18px 32px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 14px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .header-brand {
+      justify-content: center;
       font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: #D4001A;
-      font-weight: 800;
-      line-height: 1;
-    }
-    .header-title {
-      font-size: 28px;
-      font-weight: 600;
-      color: #1A0800;
-      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
-      line-height: 1;
-      letter-spacing: -0.01em;
-    }
-    .header-divider {
-      width: 1px;
-      height: 28px;
-      background: rgba(160,110,50,0.25);
-      margin: 0 4px;
-    }
-    .header-sub {
-      font-size: 12px;
-      color: rgba(80,45,10,0.45);
-      font-style: italic;
+      overflow: hidden;
     }
 
-    /* ── login section ── */
-    #login-section {
-      max-width: 520px;
-      margin: 80px auto 40px;
-      padding: 0 24px;
-      text-align: center;
-    }
-    .login-eyebrow {
-      font-size: 9px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(80,45,10,0.38);
-      margin-bottom: 10px;
-    }
-    .login-heading {
-      font-size: 32px;
-      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
-      font-weight: 600;
-      color: #1A0800;
-      margin-bottom: 6px;
-      line-height: 1.1;
-    }
-    .login-sub {
-      font-size: 13px;
-      color: rgba(80,45,10,0.5);
-      margin-bottom: 32px;
-      line-height: 1.5;
-    }
-
-    .email-form {
+    /* ── Scene ── */
+    #scene {
+      perspective: 2800px;
+      perspective-origin: 50% 48%;
       display: flex;
-      gap: 10px;
-      max-width: 380px;
-      margin: 0 auto;
-    }
-    .email-form input {
-      flex: 1;
-      background: #fff;
-      border: 1.5px solid rgba(160,110,50,0.3);
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-size: 15px;
-      color: #1A0800;
-      outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-    .email-form input:focus {
-      border-color: #D4001A;
-      box-shadow: 0 0 0 3px rgba(212,0,26,0.1);
-    }
-    .email-form input::placeholder { color: rgba(80,45,10,0.28); }
-    .email-form button {
-      background: #D4001A;
-      border: none;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 12px 22px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s;
-    }
-    .email-form button:hover { background: #B8001A; }
-    .email-form button:disabled { opacity: 0.5; cursor: default; }
-
-    #login-error {
-      margin-top: 12px;
-      font-size: 12px;
-      color: rgba(200,30,30,0.8);
-      min-height: 18px;
-    }
-
-    /* ── gallery section ── */
-    #gallery-section {
-      display: none;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 40px 24px 80px;
-    }
-    #gallery-section.visible { display: block; }
-
-    .gallery-header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 32px;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .gallery-greeting {
-      font-size: 28px;
-      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
-      font-weight: 600;
-      color: #1A0800;
-    }
-    .gallery-count {
-      font-size: 11px;
-      color: rgba(80,45,10,0.38);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding-bottom: 4px;
-    }
-    #logout-btn {
-      background: transparent;
-      border: 1px solid rgba(160,110,50,0.28);
-      color: rgba(80,45,10,0.5);
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    #logout-btn:hover { background: rgba(160,110,50,0.08); }
-
-    /* moment cards grid */
-    #moments-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      flex-direction: column;
+      align-items: center;
       gap: 28px;
     }
 
-    .moment-card {
-      background:
-        repeating-linear-gradient(
-          transparent, transparent 27px,
-          rgba(160,110,50,0.09) 27px, rgba(160,110,50,0.09) 28px
-        ),
-        linear-gradient(160deg, #FAF5E8 0%, #F0E8D2 100%);
-      border-radius: 3px 14px 14px 3px;
-      box-shadow:
-        -3px 0 0 0 #B8860B,
-        0 6px 24px rgba(0,0,0,0.12);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.18s, box-shadow 0.18s;
+    /* ── Book ── */
+    #book {
       position: relative;
+      width: 900px;
+      height: 560px;
+      transform-style: preserve-3d;
     }
-    .moment-card:hover {
-      transform: translateY(-3px) rotate(-0.3deg);
-      box-shadow: -3px 0 0 0 #D4001A, 0 14px 36px rgba(0,0,0,0.2);
-    }
-    .moment-card::before {
+    #book::after {
       content: '';
       position: absolute;
-      top: 0; left: 36px; bottom: 0;
-      width: 1px;
-      background: rgba(220,80,80,0.18);
+      bottom: -28px;
+      left: 8%; right: 8%;
+      height: 28px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.55) 0%, transparent 75%);
+      filter: blur(6px);
+      pointer-events: none;
     }
 
-    .card-artwork {
+    /* ── Book halves ── */
+    .book-half {
+      position: absolute;
+      top: 0;
+      width: 450px;
+      height: 100%;
+      overflow: hidden;
+    }
+    #book-left  { left: 0;  border-radius: 4px 0 0 4px; box-shadow: inset -6px 0 18px rgba(0,0,0,0.12); }
+    #book-right { right: 0; border-radius: 0 4px 4px 0; box-shadow: inset 4px 0 12px rgba(0,0,0,0.06); }
+
+    /* ── Spine ── */
+    #spine {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 100%;
+      background: linear-gradient(90deg, #1a0505 0%, #4a0c0c 25%, #7a1818 50%, #4a0c0c 75%, #1a0505 100%);
+      z-index: 6;
+      box-shadow: 0 0 24px rgba(0,0,0,0.6), 0 0 8px rgba(0,0,0,0.4);
+    }
+
+    /* ── Page paper textures ── */
+    .page-paper {
       width: 100%;
-      aspect-ratio: 16/10;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .left-paper {
+      background:
+        repeating-linear-gradient(transparent, transparent 27px, rgba(160,110,50,0.08) 27px, rgba(160,110,50,0.08) 28px),
+        linear-gradient(165deg, #faf6ec 0%, #f2ebd8 100%);
+    }
+    .left-paper::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0; left: 48px;
+      width: 1px;
+      background: rgba(200,70,70,0.13);
+      pointer-events: none;
+    }
+    .right-paper {
+      background:
+        repeating-linear-gradient(transparent, transparent 27px, rgba(160,110,50,0.08) 27px, rgba(160,110,50,0.08) 28px),
+        linear-gradient(165deg, #f5efe0 0%, #ece4cc 100%);
+    }
+
+    /* page number */
+    .pg-num {
+      position: absolute;
+      bottom: 16px;
+      font-size: 9px;
+      color: rgba(100,60,20,0.26);
+      letter-spacing: 0.1em;
+    }
+    .pg-num-l { left: 28px; }
+    .pg-num-r { right: 28px; }
+
+    /* ─────────────────────────────────────────
+       LEFT PAGE — visit context
+    ───────────────────────────────────────── */
+    .left-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding-left: 52px; /* clear margin line */
+      gap: 6px;
+      text-align: center;
+    }
+    .lv-label {
+      font-size: 8px;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: rgba(160,80,20,0.3);
+    }
+    .lv-num {
+      font-family: 'MoMA Sans', sans-serif;
+      font-size: 80px;
+      color: rgba(160,80,20,0.1);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .lv-divider {
+      width: 32px;
+      height: 1px;
+      background: rgba(160,80,20,0.15);
+      margin: 4px 0;
+    }
+    .lv-painting {
+      font-family: 'MoMA Sans', sans-serif;
+      font-size: 11.5px;
+      color: rgba(100,55,15,0.42);
+      max-width: 180px;
+      line-height: 1.35;
+    }
+    .lv-artist {
+      font-size: 9.5px;
+      color: rgba(100,55,15,0.26);
+      font-style: italic;
+    }
+
+    /* title spread left page */
+    .left-title-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding-left: 52px;
+      gap: 10px;
+    }
+    .lt-brand { font-family: 'MoMA Sans', sans-serif; font-size: 9px; letter-spacing: 0.32em; color: rgba(160,80,20,0.38); text-transform: uppercase; }
+    .lt-title { font-family: 'MoMA Sans', sans-serif; font-size: 30px; color: rgba(80,30,10,0.5); }
+    .lt-line  { width: 36px; height: 1px; background: rgba(160,80,20,0.18); }
+    .lt-name  { font-size: 10px; color: rgba(100,60,20,0.28); font-style: italic; }
+
+    /* ─────────────────────────────────────────
+       RIGHT PAGE — full diary entry
+    ───────────────────────────────────────── */
+    .right-body {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 18px 22px 30px;
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+    }
+
+    /* ① top row: name, date, visit badge */
+    .entry-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 11px;
+      flex-shrink: 0;
+    }
+    .entry-name {
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1A0800;
+      line-height: 1;
+    }
+    .entry-top-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    .entry-date {
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-size: 8.5px;
+      color: rgba(100,55,15,0.65);
+      letter-spacing: 0.08em;
+    }
+    .entry-visit-badge {
+      background: #D4001A;
+      color: #fff;
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-size: 7.5px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    /* ② painting image */
+    .entry-photo {
+      width: 100%;
+      height: 170px;
       overflow: hidden;
       background: #0a0a0f;
+      flex-shrink: 0;
+      margin-bottom: 11px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
     }
-    .card-artwork img {
+    .entry-photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
+    .entry-no-photo {
+      width: 100%;
+      height: 170px;
+      flex-shrink: 0;
+      margin-bottom: 11px;
+      background: rgba(160,110,50,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'MoMA Sans', sans-serif;
+      font-size: 20px;
+      color: rgba(160,110,50,0.14);
+    }
 
-    .card-body {
-      padding: 14px 16px 16px 46px;
+    /* ③ question + moment */
+    .entry-question {
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-size: 7.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(180,30,30,0.82);
+      margin-bottom: 5px;
+      flex-shrink: 0;
+    }
+    .entry-moment {
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-size: 13px;
+      color: rgba(55,25,5,0.85);
+      line-height: 1.5;
+      flex: 1;
+      overflow: hidden;
+    }
+    .entry-moment.empty { color: rgba(100,60,20,0.2); }
+
+    /* ④ fun fact */
+    .entry-fact {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(160,110,50,0.14);
+      flex-shrink: 0;
+    }
+    .entry-fact-label {
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-size: 7px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(160,80,20,0.72);
+      margin-bottom: 3px;
+    }
+    .entry-fact-text {
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-size: 10px;
+      color: rgba(80,40,10,0.72);
+      line-height: 1.5;
+    }
+
+    /* outro / empty right page */
+    .right-center {
       display: flex;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
       gap: 8px;
-      flex: 1;
+      font-family: 'MoMA Sans', sans-serif;
     }
-    .card-date {
-      font-size: 9.5px;
-      color: rgba(80,45,10,0.4);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    .outro-brand { font-family: 'MoMA Sans', sans-serif; font-size: 9px; letter-spacing: 0.35em; color: rgba(160,80,20,0.28); text-transform: uppercase; }
+    .outro-line  { width: 32px; height: 1px; background: rgba(160,80,20,0.16); }
+    .outro-msg   { font-family: 'MoMA Sans', sans-serif; font-size: 10px; color: rgba(100,60,20,0.24); }
+    .empty-title { font-family: 'MoMA Sans', sans-serif; font-size: 22px; color: rgba(100,60,20,0.32); }
+    .empty-sub   { font-family: 'MoMA Sans', sans-serif; font-size: 10px; color: rgba(100,60,20,0.22); text-align: center; max-width: 240px; line-height: 1.6; }
+
+    /* ── Cover ── */
+    #cover {
+      position: absolute;
+      right: 0; top: 0;
+      width: 450px; height: 100%;
+      transform-origin: left center;
+      transform-style: preserve-3d;
+      transition: transform 1.15s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 10;
+      border-radius: 0 4px 4px 0;
     }
-    .card-name {
-      font-size: 18px;
-      font-family: 'Caveat', cursive;
-      font-weight: 700;
-      color: #1A0800;
-      line-height: 1.1;
+    #cover.open { transform: rotateY(-180deg); }
+
+    .cover-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 0 4px 4px 0;
     }
-    .card-moment {
-      font-size: 13px;
-      color: rgba(80,45,10,0.7);
-      font-style: italic;
-      line-height: 1.5;
-      font-family: 'Caveat', cursive;
-      font-size: 15px;
+
+    #cover-front {
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(180,40,40,0.18) 0%, transparent 60%),
+        linear-gradient(155deg, #5c0a14 0%, #380610 50%, #220308 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 52px 40px;
+      overflow: hidden;
     }
-    .card-painting {
-      margin-top: auto;
-      padding-top: 8px;
-      border-top: 1px solid rgba(160,110,50,0.15);
+    #cover-front::before {
+      content: '';
+      position: absolute;
+      inset: 14px;
+      border: 1.5px solid rgba(212,168,80,0.35);
+      pointer-events: none;
+    }
+    #cover-front::after {
+      content: '';
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(212,168,80,0.14);
+      pointer-events: none;
+    }
+
+    .cover-corner {
+      position: absolute;
+      width: 22px; height: 22px;
+      border-color: rgba(212,168,80,0.55);
+      border-style: solid;
+    }
+    .cover-corner.tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
+    .cover-corner.tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
+    .cover-corner.bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
+    .cover-corner.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+
+    .cover-eyebrow {
+      font-family: 'MoMA Sans', sans-serif;
       font-size: 10px;
-      color: rgba(80,45,10,0.38);
-    }
-    .card-painting strong {
-      display: block;
-      font-size: 11px;
-      color: rgba(80,45,10,0.55);
-      margin-bottom: 1px;
-    }
-
-    /* empty state */
-    #empty-state {
-      display: none;
-      text-align: center;
-      padding: 60px 24px;
-    }
-    #empty-state.visible { display: block; }
-    .empty-title {
-      font-size: 26px;
-      font-family: 'Caveat', cursive;
-      color: rgba(80,45,10,0.4);
-      margin-bottom: 10px;
-    }
-    .empty-sub {
-      font-size: 13px;
-      color: rgba(80,45,10,0.3);
-    }
-
-    /* loading */
-    #loading {
-      display: none;
-      text-align: center;
-      padding: 48px;
-      font-size: 13px;
-      color: rgba(80,45,10,0.4);
-      font-style: italic;
-    }
-    #loading.visible { display: block; }
-
-    /* visit badge */
-    .visit-badge {
-      display: inline-block;
-      background: #D4001A;
-      color: #fff;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.42em;
+      color: rgba(212,168,80,0.65);
       text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 20px;
+      margin-bottom: 14px;
+    }
+    .cover-title {
+      font-family: 'MoMA Sans', sans-serif;
+      font-size: 52px;
+      color: rgba(255,230,160,0.96);
+      letter-spacing: -0.01em;
+      line-height: 0.95;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .cover-sub {
+      font-size: 10px;
+      color: rgba(212,168,80,0.42);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 36px;
+    }
+    .cover-rule {
+      width: 56px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212,168,80,0.5), transparent);
+      margin-bottom: 32px;
+    }
+
+    #loginForm {
+      width: 100%;
+      max-width: 272px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    #loginForm input[type="email"] {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(212,168,80,0.32);
+      border-radius: 6px;
+      padding: 13px 18px;
+      font-size: 14px;
+      color: rgba(255,230,160,0.9);
+      outline: none;
+      text-align: center;
+      font-family: system-ui, sans-serif;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+    }
+    #loginForm input[type="email"]::placeholder { color: rgba(212,168,80,0.28); }
+    #loginForm input[type="email"]:focus {
+      border-color: rgba(212,168,80,0.65);
+      background: rgba(255,255,255,0.11);
+    }
+    #loginBtn {
+      background: rgba(212,168,80,0.16);
+      border: 1px solid rgba(212,168,80,0.45);
+      border-radius: 6px;
+      color: rgba(255,225,140,0.9);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 13px 20px;
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-family: 'MoMA Sans', system-ui, sans-serif;
+      transition: background 0.15s;
+      width: 100%;
+    }
+    #loginBtn:hover:not(:disabled) { background: rgba(212,168,80,0.32); }
+    #loginBtn:disabled { opacity: 0.45; cursor: default; }
+    #cover-error {
+      font-size: 11px;
+      color: rgba(255,100,80,0.8);
+      text-align: center;
+      min-height: 14px;
       margin-top: 2px;
     }
+
+    #cover-back {
+      background: linear-gradient(155deg, #320510 0%, #1e0308 100%);
+      transform: rotateY(180deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0 4px 4px 0;
+    }
+    #cover-back::before {
+      content: 'MoMA MoMENT';
+      font-family: 'MoMA Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      color: rgba(212,168,80,0.08);
+      text-transform: uppercase;
+    }
+
+    /* ── Flip page ── */
+    #flip-page {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 450px;
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+      z-index: 8;
+      pointer-events: none;
+      opacity: 0;
+    }
+    #flip-page.visible { opacity: 1; }
+    #flip-page.on-right { right: 0; left: auto; transform-origin: left center; }
+    #flip-page.on-left  { left: 0; right: auto; transform-origin: right center; }
+    #flip-page.flipping-fwd { transform: rotateY(-180deg); }
+    #flip-page.flipping-bwd { transform: rotateY(180deg); }
+
+    .flip-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      overflow: hidden;
+    }
+    #flip-back { transform: rotateY(180deg); }
+
+    /* ── Nav ── */
+    #book-nav { display: none; align-items: center; gap: 24px; }
+    #book-nav.visible { display: flex; }
+
+    .nav-btn {
+      background: rgba(212,168,80,0.1);
+      border: 1px solid rgba(212,168,80,0.28);
+      color: rgba(255,215,100,0.65);
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      font-size: 17px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .nav-btn:hover:not(:disabled) { background: rgba(212,168,80,0.24); transform: scale(1.08); }
+    .nav-btn:disabled { opacity: 0.22; cursor: default; }
+
+    #nav-info {
+      font-size: 11px;
+      color: rgba(212,168,80,0.42);
+      letter-spacing: 0.1em;
+      text-align: center;
+      min-width: 130px;
+    }
+
+    .loading-text {
+      font-size: 11px;
+      color: rgba(100,60,20,0.35);
+      font-style: italic;
+      letter-spacing: 0.12em;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 0.4 } 50% { opacity: 1 } }
   </style>
 </head>
 <body>
 
-  <header id="site-header">
-    <div>
-      <div class="header-brand">MoMA</div>
-      <div class="header-title">MoMENT</div>
-    </div>
-    <div class="header-divider"></div>
-    <div class="header-sub">your personal museum diary</div>
-  </header>
+<div id="scene">
+  <div id="book">
+    <div id="spine"></div>
 
-  <!-- login -->
-  <div id="login-section">
-    <div class="login-eyebrow">welcome back</div>
-    <h1 class="login-heading">revisit your moments</h1>
-    <p class="login-sub">Enter the email you used at the kiosk to see<br>every painting you've co-created at MoMA.</p>
-    <form class="email-form" id="loginForm">
-      <input type="email" id="loginEmail" placeholder="your@email.com" required autocomplete="email" />
-      <button type="submit" id="loginBtn">view moments</button>
-    </form>
-    <div id="login-error"></div>
-  </div>
-
-  <!-- gallery -->
-  <div id="gallery-section">
-    <div class="gallery-header">
-      <div>
-        <div class="gallery-greeting" id="gallery-greeting"></div>
-        <div class="gallery-count" id="gallery-count"></div>
+    <!-- Static left page -->
+    <div class="book-half" id="book-left">
+      <div class="page-paper left-paper" style="width:100%;height:100%;">
+        <div id="left-content"></div>
       </div>
-      <button id="logout-btn">← different email</button>
     </div>
-    <div id="loading">finding your moments…</div>
-    <div id="empty-state">
-      <div class="empty-title">no moments yet</div>
-      <p class="empty-sub">Visit a MoMA kiosk and create your first painting to get started.</p>
+
+    <!-- Static right page -->
+    <div class="book-half" id="book-right">
+      <div class="page-paper right-paper" style="width:100%;height:100%;">
+        <div id="right-content"></div>
+      </div>
     </div>
-    <div id="moments-grid"></div>
+
+    <!-- Flip page (animated) -->
+    <div id="flip-page" class="on-right">
+      <div class="flip-face" id="flip-front"></div>
+      <div class="flip-face" id="flip-back"></div>
+    </div>
+
+    <!-- Cover -->
+    <div id="cover">
+      <div class="cover-face" id="cover-front">
+        <span class="cover-corner tl"></span>
+        <span class="cover-corner tr"></span>
+        <span class="cover-corner bl"></span>
+        <span class="cover-corner br"></span>
+        <div class="cover-eyebrow">MoMA</div>
+        <div class="cover-title">MoMENT</div>
+        <div class="cover-sub">your museum diary</div>
+        <div class="cover-rule"></div>
+        <form id="loginForm">
+          <input type="email" id="loginEmail" placeholder="your@email.com" required autocomplete="email" />
+          <button type="submit" id="loginBtn">open your gallery</button>
+          <div id="cover-error"></div>
+        </form>
+      </div>
+      <div class="cover-face" id="cover-back"></div>
+    </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-  <script>
-    // ── Supabase config ── (fill in from your Supabase project Settings > API)
-    const SUPABASE_URL      = 'https://eabaoxpoplpngczpuhps.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhYmFveHBvcGxwbmdjenB1aHBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MzAwMzEsImV4cCI6MjA5MDIwNjAzMX0.8UdSHdU3dbsfTeDRncfqY6C0do9nUuyDil9SvSj4MNg';
+  <div id="book-nav">
+    <button class="nav-btn" id="prevBtn" disabled>&#8592;</button>
+    <div id="nav-info"></div>
+    <button class="nav-btn" id="nextBtn">&#8594;</button>
+  </div>
+</div>
 
-    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL      = 'https://eabaoxpoplpngczpuhps.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhYmFveHBvcGxwbmdjenB1aHBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MzAwMzEsImV4cCI6MjA5MDIwNjAzMX0.8UdSHdU3dbsfTeDRncfqY6C0do9nUuyDil9SvSj4MNg';
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // ── DOM refs ──
-    const loginSection  = document.getElementById('login-section');
-    const gallerySection = document.getElementById('gallery-section');
-    const loginForm     = document.getElementById('loginForm');
-    const loginEmailEl  = document.getElementById('loginEmail');
-    const loginBtn      = document.getElementById('loginBtn');
-    const loginError    = document.getElementById('login-error');
-    const galleryGreeting = document.getElementById('gallery-greeting');
-    const galleryCount  = document.getElementById('gallery-count');
-    const momentsGrid   = document.getElementById('moments-grid');
-    const loadingEl     = document.getElementById('loading');
-    const emptyState    = document.getElementById('empty-state');
-    const logoutBtn     = document.getElementById('logout-btn');
+  const cover       = document.getElementById('cover');
+  const loginForm   = document.getElementById('loginForm');
+  const loginEmail  = document.getElementById('loginEmail');
+  const loginBtn    = document.getElementById('loginBtn');
+  const coverError  = document.getElementById('cover-error');
+  const leftContent = document.getElementById('left-content');
+  const rightContent= document.getElementById('right-content');
+  const flipPage    = document.getElementById('flip-page');
+  const flipFront   = document.getElementById('flip-front');
+  const flipBack    = document.getElementById('flip-back');
+  const bookNav     = document.getElementById('book-nav');
+  const prevBtn     = document.getElementById('prevBtn');
+  const nextBtn     = document.getElementById('nextBtn');
+  const navInfo     = document.getElementById('nav-info');
 
-    function formatDate(iso) {
-      const d = new Date(iso);
-      return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  let moments     = [];
+  let spreadIndex = 0;
+  let totalSpreads= 0;
+  let isAnimating = false;
+
+  function formatDate(iso) {
+    return new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  function ordinal(n) {
+    const s = ['th','st','nd','rd'], v = n % 100;
+    return n + (s[(v-20)%10] || s[v] || s[0]);
+  }
+
+  const ARTIST_FACTS = {
+    'van gogh': 'Van Gogh created over 2,100 artworks in just 10 years — roughly one piece every two days. He only sold one painting during his lifetime.',
+    'monet':    'Monet painted his Water Lilies series almost blind, relying on memory and the labels on his paint tubes to identify colors.',
+    'picasso':  'Picasso could draw before he could walk. His first word was "piz" — short for lápiz, the Spanish word for pencil.',
+    'matisse':  'When arthritis made it too painful to paint, Matisse switched to cutting colored paper — and created some of his most beloved works.',
+    'warhol':   'Warhol kept a "time capsule" practice, sealing everyday objects and mail in boxes. He filled over 600 boxes by the time he died.',
+    'klimt':    'Klimt was so private he never allowed his own portrait to be painted and left almost no personal writings behind.',
+    'kandinsky':'Kandinsky experienced synesthesia — he could "hear" colors and "see" sounds, directly inspiring his abstract style.',
+    'pollock':  'Pollock laid his canvases on the floor and dripped paint from above, believing gravity was as much the artist as he was.',
+    'dali':     'Dalí claimed his melting clocks were inspired by watching Camembert cheese melt in the sun on a hot afternoon.',
+    'kahlo':    'Kahlo began painting seriously during a long recovery from a near-fatal bus accident at age 18, using a mirror mounted above her bed.',
+  };
+
+  function getArtistFact(artist) {
+    if (!artist) return null;
+    const key = artist.toLowerCase();
+    for (const [name, fact] of Object.entries(ARTIST_FACTS)) {
+      if (key.includes(name)) return fact;
     }
+    return null;
+  }
 
-    function renderCard(m) {
-      const card = document.createElement('div');
-      card.className = 'moment-card';
-      card.innerHTML = `
-        ${m.image_data ? `
-          <div class="card-artwork">
-            <img src="${m.image_data}" alt="Your painting" loading="lazy" />
-          </div>` : ''}
-        <div class="card-body">
-          <div class="card-date">${formatDate(m.created_at)}</div>
-          <div class="card-name">${m.visitor_name || 'Anonymous'}</div>
-          ${m.moment_text ? `<div class="card-moment">"${m.moment_text}"</div>` : ''}
-          <div class="card-painting">
-            <strong>${m.painting_name || ''}</strong>
-            ${m.painting_artist || ''}
+  // Build a single diary entry page (works for both left and right halves)
+  function buildEntry(m, vn, pgNum, paperClass, pgNumClass) {
+    if (!m) {
+      // blank/outro page
+      return `
+        <div class="page-paper ${paperClass}" style="width:100%;height:100%;position:relative;">
+          <div class="right-center">
+            <div class="outro-brand">MoMA MoMENT</div>
+            <div class="outro-line"></div>
+            <div class="outro-msg">every visit, a new story.</div>
           </div>
+        </div>`;
+    }
+
+    const photoHtml = m.image_data
+      ? `<div class="entry-photo"><img src="${m.image_data}" alt="your painting" loading="lazy"/></div>`
+      : `<div class="entry-no-photo">MoMENT</div>`;
+
+    const momentHtml = m.moment_text
+      ? `<div class="entry-moment">"${m.moment_text}"</div>`
+      : `<div class="entry-moment empty">—</div>`;
+
+    const fact = getArtistFact(m.painting_artist);
+    const factHtml = fact
+      ? `<div class="entry-fact">
+           <div class="entry-fact-label">did you know · ${m.painting_artist || 'the artist'}</div>
+           <div class="entry-fact-text">${fact}</div>
+         </div>`
+      : '';
+
+    return `
+      <div class="page-paper ${paperClass}" style="width:100%;height:100%;position:relative;">
+        <div class="right-body">
+          <div class="entry-top">
+            <div class="entry-name">${m.visitor_name || 'Anonymous'}</div>
+            <div class="entry-top-right">
+              <div class="entry-date">${formatDate(m.created_at)}</div>
+              <div class="entry-visit-badge">${ordinal(vn)} visit</div>
+            </div>
+          </div>
+          ${photoHtml}
+          <div class="entry-question">What's your MoMA Moment today?</div>
+          ${momentHtml}
+          ${factHtml}
         </div>
-      `;
-      return card;
+        ${pgNum != null ? `<span class="pg-num ${pgNumClass}">${pgNum}</span>` : ''}
+      </div>`;
+  }
+
+  // Title page shown on left while loading / empty state
+  function buildTitleLeft(name) {
+    return `
+      <div class="page-paper left-paper" style="width:100%;height:100%;position:relative;">
+        <div class="left-title-body">
+          <div class="lt-brand">MoMA</div>
+          <div class="lt-title">MoMENT</div>
+          <div class="lt-line"></div>
+          <div class="lt-name">${name}'s gallery</div>
+        </div>
+      </div>`;
+  }
+
+  function buildEmptyRight() {
+    return `
+      <div class="page-paper right-paper" style="width:100%;height:100%;position:relative;">
+        <div class="right-center">
+          <div class="empty-title">no moments yet</div>
+          <div class="empty-sub">Visit a MoMA kiosk and create your first painting to get started.</div>
+        </div>
+      </div>`;
+  }
+
+  // moments are oldest-first; visit #1 = moments[0]
+  function getVisitNum(momentIdx) { return momentIdx + 1; }
+
+  function renderSpread(si) {
+    // Each spread shows 2 moments: left = si*2, right = si*2+1
+    const li = si * 2;
+    const ri = si * 2 + 1;
+    leftContent.innerHTML  = buildEntry(moments[li] || null, getVisitNum(li), li * 1 + 2, 'left-paper', 'pg-num-l');
+    rightContent.innerHTML = buildEntry(moments[ri] || null, getVisitNum(ri), ri * 1 + 3, 'right-paper', 'pg-num-r');
+    updateNav();
+  }
+
+  function updateNav() {
+    prevBtn.disabled = spreadIndex <= 0;
+    nextBtn.disabled = spreadIndex >= totalSpreads - 1;
+    const first = spreadIndex * 2 + 1;
+    const last  = Math.min(spreadIndex * 2 + 2, moments.length);
+    navInfo.textContent = moments.length === 0
+      ? 'no moments found'
+      : `visits ${first}–${last} of ${moments.length}`;
+  }
+
+  // ── Page flip ──
+  function flipTo(nextSI, dir) {
+    if (isAnimating) return;
+    isAnimating = true;
+    const prevSI = spreadIndex;
+
+    if (dir === 'fwd') {
+      // right page of current spread flips left → back shows left page of next spread
+      const ri = prevSI * 2 + 1;
+      const nl = nextSI * 2;
+      flipFront.innerHTML = buildEntry(moments[ri] || null, getVisitNum(ri), ri + 3, 'right-paper', 'pg-num-r');
+      flipBack.innerHTML  = buildEntry(moments[nl] || null, getVisitNum(nl), nl + 2, 'left-paper',  'pg-num-l');
+      flipPage.className  = 'on-right visible';
+      flipPage.style.transform = '';
+      void flipPage.offsetWidth;
+      flipPage.classList.add('flipping-fwd');
+    } else {
+      // left page of current spread flips right → back shows right page of prev spread
+      const cl = prevSI * 2;
+      const pr = nextSI * 2 + 1;
+      flipFront.innerHTML = buildEntry(moments[cl] || null, getVisitNum(cl), cl + 2, 'left-paper',  'pg-num-l');
+      flipBack.innerHTML  = buildEntry(moments[pr] || null, getVisitNum(pr), pr + 3, 'right-paper', 'pg-num-r');
+      flipPage.className  = 'on-left visible';
+      flipPage.style.transform = 'rotateY(180deg)';
+      void flipPage.offsetWidth;
+      flipPage.classList.add('flipping-bwd');
     }
 
-    async function loadMoments(email) {
-      loadingEl.classList.add('visible');
-      emptyState.classList.remove('visible');
-      momentsGrid.innerHTML = '';
+    flipPage.addEventListener('transitionend', function handler() {
+      flipPage.removeEventListener('transitionend', handler);
+      spreadIndex = nextSI;
+      renderSpread(spreadIndex);
+      flipPage.className = 'on-right';
+      flipPage.style.transform = '';
+      isAnimating = false;
+    }, { once: true });
+  }
 
-      const { data, error } = await db
-        .from('moments')
-        .select('*')
-        .eq('email', email.toLowerCase())
-        .order('created_at', { ascending: false });
+  prevBtn.addEventListener('click', () => { if (!isAnimating && spreadIndex > 0) flipTo(spreadIndex - 1, 'bwd'); });
+  nextBtn.addEventListener('click', () => { if (!isAnimating && spreadIndex < totalSpreads - 1) flipTo(spreadIndex + 1, 'fwd'); });
 
-      loadingEl.classList.remove('visible');
+  // ── Login ──
+  loginForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = loginEmail.value.trim();
+    if (!email) return;
 
-      if (error) {
-        loginError.textContent = 'Could not load moments — please try again.';
-        showLogin();
-        return;
-      }
+    coverError.textContent = '';
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'opening…';
 
-      const name = data[0]?.visitor_name || email.split('@')[0];
-      galleryGreeting.textContent = `${name}'s MoMA MoMENTs`;
+    const dataPromise = db.from('moments').select('*').eq('email', email.toLowerCase()).order('created_at', { ascending: true });
 
-      const visits = data.length;
-      galleryCount.innerHTML = visits === 0 ? '' :
-        `${visits} visit${visits !== 1 ? 's' : ''} · <span class="visit-badge">${visits}× visitor</span>`;
+    cover.classList.add('open');
 
-      if (visits === 0) {
-        emptyState.classList.add('visible');
-        return;
-      }
+    const firstName = email.split('@')[0];
+    leftContent.innerHTML  = buildTitleLeft(firstName);
+    rightContent.innerHTML = `
+      <div class="page-paper right-paper" style="width:100%;height:100%;">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+          <span class="loading-text">finding your moments…</span>
+        </div>
+      </div>`;
 
-      data.forEach(m => momentsGrid.appendChild(renderCard(m)));
-    }
+    const { data, error } = await dataPromise;
 
-    function showLogin() {
-      loginSection.style.display = '';
-      gallerySection.classList.remove('visible');
+    if (error) {
+      cover.classList.remove('open');
+      coverError.textContent = 'Could not load — please try again.';
       loginBtn.disabled = false;
+      loginBtn.textContent = 'open your gallery';
+      return;
     }
 
-    function showGallery() {
-      loginSection.style.display = 'none';
-      gallerySection.classList.add('visible');
+    moments = data || [];
+    spreadIndex = 0;
+
+    if (moments.length === 0) {
+      totalSpreads = 1;
+      leftContent.innerHTML  = buildTitleLeft(firstName);
+      rightContent.innerHTML = buildEmptyRight();
+      bookNav.classList.add('visible');
+      navInfo.textContent = 'no moments found';
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+    } else {
+      totalSpreads = Math.ceil(moments.length / 2);
+      renderSpread(0);
+      bookNav.classList.add('visible');
+      updateNav();
     }
 
-    loginForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      const email = loginEmailEl.value.trim();
-      if (!email) return;
-      loginError.textContent = '';
-      loginBtn.disabled = true;
-      loginBtn.textContent = 'loading…';
-      showGallery();
-      await loadMoments(email);
-      loginBtn.disabled = false;
-      loginBtn.textContent = 'view moments';
-    });
-
-    logoutBtn.addEventListener('click', () => {
-      loginEmailEl.value = '';
-      showLogin();
-    });
-  </script>
+    loginBtn.disabled = false;
+    loginBtn.textContent = 'open your gallery';
+  });
+</script>
 </body>
 </html>
