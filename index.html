@@ -20,7 +20,7 @@
       * { margin: 0; padding: 0; box-sizing: border-box; }
 
       body {
-        background: #0a0a0f;
+        background: #E8DFC8;
         width: 100vw;
         height: 100vh;
         overflow: hidden;
@@ -127,7 +127,7 @@
         font-size: 8.5px;
         letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: rgba(80,40,10,0.55);
+        color: rgba(255,255,255,0.5);
         text-align: center;
         margin-bottom: 6px;
         font-weight: 600;
@@ -136,8 +136,8 @@
       #paintingSelect {
         width: 100%;
         background: rgba(0,0,0,0.22);
-        border: 1px solid rgba(100,60,20,0.4);
-        color: rgba(255,230,170,0.95);
+        border: 1px solid rgba(0,0,0,0.3);
+        color: rgba(255,255,255,0.92);
         padding: 5px 8px;
         border-radius: 8px;
         font-size: 11px;
@@ -147,10 +147,10 @@
         text-align: center;
         font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
       }
-      #paintingSelect option { background: #7a4820; color: #f0d090; }
+      #paintingSelect option { background: #333; color: #fff; }
       #paintingArtist {
         font-size: 10px;
-        color: rgba(80,40,10,0.5);
+        color: rgba(255,255,255,0.5);
         text-align: center;
         margin-top: 3px;
       }
@@ -233,7 +233,7 @@
       }
       .stamp-name {
         font-size: 8.5px;
-        color: rgba(80,40,10,0.5);
+        color: rgba(255,255,255,0.5);
         text-align: center;
         margin-top: 3px;
         font-weight: 600;
@@ -255,14 +255,14 @@
         width: 100%;
         font-size: 11px;
         padding: 7px 4px;
-        background: rgba(0,0,0,0.22);
-        border: 1px solid rgba(100,60,20,0.38);
-        color: rgba(255,225,160,0.9);
+        background: rgba(0,0,0,0.25);
+        border: 1px solid rgba(255,255,255,0.18);
+        color: rgba(255,255,255,0.85);
         border-radius: 20px;
         font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
         letter-spacing: 0.04em;
       }
-      #pal-actions button:hover { background: rgba(100,60,20,0.3); }
+      #pal-actions button:hover { background: rgba(0,0,0,0.4); }
 
       /* ── MoMA Moment diary modal ── */
       #share-modal {
@@ -281,14 +281,7 @@
       #share-modal.open { display: flex; }
 
       .modal-box {
-        background:
-          repeating-linear-gradient(
-            transparent,
-            transparent 31px,
-            rgba(160,110,50,0.1) 31px,
-            rgba(160,110,50,0.1) 32px
-          ),
-          linear-gradient(160deg, #FAF5E8 0%, #F0E8D2 100%);
+        background: #FFFFFF;
         border: none;
         border-radius: 4px 18px 18px 4px;
         padding: 0;
@@ -298,9 +291,9 @@
         overflow: auto;
         scrollbar-width: none;
         box-shadow:
-          -5px 0 0 0 #B8860B,
-          0 28px 80px rgba(0,0,0,0.65),
-          6px 6px 24px rgba(0,0,0,0.25);
+          -5px 0 0 0 #D4001A,
+          0 28px 80px rgba(0,0,0,0.55),
+          6px 6px 24px rgba(0,0,0,0.2);
         display: flex;
         flex-direction: column;
         position: relative;
@@ -311,7 +304,7 @@
         position: absolute;
         top: 0; left: 56px; bottom: 0;
         width: 1.5px;
-        background: rgba(220,80,80,0.22);
+        background: rgba(212,0,26,0.15);
         pointer-events: none;
         z-index: 1;
       }
@@ -319,7 +312,7 @@
       /* diary header */
       .diary-header {
         padding: 22px 28px 16px 72px;
-        border-bottom: 1px solid rgba(160,110,50,0.18);
+        border-bottom: 1px solid rgba(0,0,0,0.1);
         display: flex;
         align-items: flex-end;
         justify-content: space-between;
@@ -327,25 +320,32 @@
       }
       .diary-header-left {}
       .diary-brand {
-        font-size: 10px;
-        letter-spacing: 0.28em;
-        text-transform: uppercase;
-        color: #D4001A;
-        font-weight: 600;
-        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
-        margin-bottom: 1px;
+        margin-bottom: 5px;
+      }
+      .moma-logo-box {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #D4001A;
+        padding: 3px 7px 2px;
+        line-height: 1;
+      }
+      .moma-logo-box svg {
+        display: block;
+        height: 13px;
+        width: auto;
       }
       .diary-title {
         font-size: 30px;
         font-weight: 600;
-        color: #1A0800;
+        color: #111111;
         letter-spacing: -0.01em;
         line-height: 1;
         font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
       }
       .diary-date {
         font-size: 11px;
-        color: rgba(80,45,10,0.45);
+        color: rgba(0,0,0,0.4);
         font-style: italic;
         font-family: 'Caveat', cursive;
         white-space: nowrap;
@@ -371,15 +371,15 @@
         font-size: 8.5px;
         letter-spacing: 0.16em;
         text-transform: uppercase;
-        color: rgba(80,45,10,0.38);
+        color: rgba(0,0,0,0.4);
         margin-bottom: 3px;
       }
       .diary-field-input {
         width: 100%;
         background: transparent;
         border: none;
-        border-bottom: 1.5px solid rgba(160,110,50,0.3);
-        color: #1A0800;
+        border-bottom: 1.5px solid rgba(0,0,0,0.2);
+        color: #111111;
         padding: 5px 0;
         font-size: 17px;
         font-family: 'Caveat', cursive;
@@ -391,7 +391,7 @@
         display: block;
       }
       .diary-field-input::placeholder {
-        color: rgba(80,45,10,0.25);
+        color: rgba(0,0,0,0.25);
         font-style: italic;
       }
       .diary-field-input.active-field {
@@ -407,7 +407,7 @@
       .diary-moment-section {}
       .diary-question {
         font-size: 13px;
-        color: rgba(80,45,10,0.52);
+        color: rgba(0,0,0,0.55);
         font-style: normal;
         margin-bottom: 4px;
         font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
@@ -452,26 +452,26 @@
       .diary-artwork-painting {
         font-size: 13px;
         font-weight: 600;
-        color: #1A0800;
+        color: #111111;
         line-height: 1.3;
       }
       .diary-artwork-artist {
         font-size: 11px;
-        color: rgba(80,45,10,0.5);
+        color: rgba(0,0,0,0.5);
         font-style: italic;
       }
       .diary-artwork-inspired {
         font-size: 10px;
-        color: rgba(80,45,10,0.38);
+        color: rgba(0,0,0,0.4);
         letter-spacing: 0.06em;
         text-transform: uppercase;
       }
 
       /* VK inside diary */
       #vkWrap {
-        border: 1px solid rgba(160,110,50,0.2);
+        border: 1px solid rgba(0,0,0,0.1);
         border-radius: 10px;
-        background: rgba(250,240,210,0.6);
+        background: rgba(0,0,0,0.04);
         padding: 9px;
       }
       #vkRows {
@@ -486,10 +486,10 @@
       .vk-row[data-cols="7"]  { grid-template-columns: repeat(7, minmax(0, 1fr)); }
       .vk-row[data-cols="6"]  { grid-template-columns: repeat(6, minmax(0, 1fr)); }
       .vk-key {
-        border: 1px solid rgba(160,110,50,0.28);
+        border: 1px solid rgba(0,0,0,0.14);
         border-radius: 6px;
-        background: rgba(255,253,245,0.9);
-        color: rgba(30,12,2,0.82);
+        background: rgba(255,255,255,0.95);
+        color: rgba(0,0,0,0.82);
         font-size: 12px;
         height: 33px;
         display: flex;
@@ -519,7 +519,7 @@
       /* modal hint */
       .modal-hint {
         font-size: 9.5px;
-        color: rgba(80,45,10,0.28);
+        color: rgba(0,0,0,0.3);
         text-align: center;
         margin: -2px 0;
       }
@@ -537,10 +537,10 @@
       }
       #cancelModalBtn {
         background: transparent;
-        border: 1px solid rgba(160,110,50,0.28);
-        color: rgba(80,45,10,0.5);
+        border: 1px solid rgba(0,0,0,0.2);
+        color: rgba(0,0,0,0.5);
       }
-      #cancelModalBtn:hover { background: rgba(160,110,50,0.07); }
+      #cancelModalBtn:hover { background: rgba(0,0,0,0.05); }
       #sendBtn {
         background: #D4001A;
         border: 1px solid #D4001A;
@@ -555,16 +555,78 @@
         transform: scale(1.03);
       }
       #cancelModalBtn.finger-hover {
-        background: rgba(160,110,50,0.14);
-        box-shadow: 0 0 10px rgba(160,110,50,0.2);
+        background: rgba(0,0,0,0.08);
         transform: scale(1.03);
+      }
+      #qrBtn {
+        background: transparent;
+        border: 1.5px dashed rgba(0,0,0,0.25);
+        color: rgba(0,0,0,0.55);
+        font-size: 13px;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 6px;
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        letter-spacing: 0.03em;
+        transition: background 0.15s, border-color 0.15s;
+      }
+      #qrBtn:hover { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.45); }
+      #qrBtn.finger-hover { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.6); transform: scale(1.02); }
+
+      #qr-panel {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        padding: 20px 16px 16px;
+        background: #fff;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 12px;
+        animation: confirmFadeIn 0.3s ease;
+      }
+      #qr-panel.visible { display: flex; }
+      .qr-panel-label {
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(0,0,0,0.4);
+      }
+      .qr-panel-title {
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        font-size: 16px;
+        color: #111111;
+        text-align: center;
+        line-height: 1.3;
+      }
+      #qr-canvas-el {
+        border-radius: 8px;
+        border: 6px solid #fff;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      }
+      .qr-panel-sub {
+        font-size: 12px;
+        color: rgba(0,0,0,0.4);
+        text-align: center;
+        font-style: italic;
+      }
+      #qr-close-btn {
+        font-size: 11px;
+        color: rgba(0,0,0,0.4);
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-decoration: underline;
+        padding: 0;
+        font-family: inherit;
       }
 
       #sendStatus {
         font-size: 12px;
         text-align: center;
         min-height: 16px;
-        color: rgba(80,45,10,0.5);
+        color: rgba(0,0,0,0.45);
         transition: color .2s;
         font-family: 'Caveat', cursive;
         font-size: 14px;
@@ -602,9 +664,9 @@
       .confirm-notebook-cover {
         position: absolute;
         left: 18px; top: 0; right: 0; bottom: 0;
-        background: linear-gradient(160deg, #FAF5E8 0%, #EDE5CF 100%);
+        background: #FFFFFF;
         border-radius: 0 6px 6px 0;
-        border: 1px solid rgba(160,110,50,0.2);
+        border: 1px solid rgba(0,0,0,0.1);
         border-left: none;
         padding: 16px 12px 12px;
         display: flex;
@@ -613,7 +675,6 @@
         overflow: hidden;
       }
       .confirm-brand {
-        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
         font-size: 8px;
         letter-spacing: 0.28em;
         color: #D4001A;
@@ -623,13 +684,13 @@
         font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
         font-size: 15px;
         font-weight: 600;
-        color: #1A0800;
+        color: #111111;
         line-height: 1;
         margin-bottom: 4px;
       }
       .confirm-diary-line {
         height: 1px;
-        background: rgba(160,110,50,0.18);
+        background: rgba(0,0,0,0.1);
         margin: 2px 0;
       }
       .confirm-preview {
@@ -648,19 +709,19 @@
         font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
         font-size: 22px;
         font-weight: 600;
-        color: #1A0800;
+        color: #111111;
         line-height: 1.25;
         margin-bottom: 12px;
       }
       .confirm-sub {
         font-size: 13px;
-        color: rgba(80,45,10,0.6);
+        color: rgba(0,0,0,0.55);
         line-height: 1.6;
         margin-bottom: 22px;
         font-family: 'Caveat', cursive;
         font-size: 15px;
       }
-      .confirm-sub strong { color: #1A0800; }
+      .confirm-sub strong { color: #111111; }
       #confirmCloseBtn {
         background: #D4001A;
         border: none;
@@ -778,24 +839,144 @@
         font-size: 8.5px;
         letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: rgba(210,155,60,0.38);
+        color: #111111;
       }
       #prompt-text {
         font-size: 14px;
         font-style: italic;
-        color: rgba(245,215,128,0.85);
+        color: #D4001A;
         line-height: 1.55;
         letter-spacing: 0.01em;
-        /* soft glow so it reads against any canvas colour */
-        text-shadow:
-          0 0 18px rgba(0,0,0,0.9),
-          0 1px 6px  rgba(0,0,0,0.8);
       }
       #prompt-rule {
         width: 28px;
-        height: 1px;
-        background: rgba(210,155,60,0.28);
+        height: 2px;
+        background: #D4001A;
       }
+
+      /* ── Calibration overlay ── */
+      #calib-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.82);
+        z-index: 200;
+      }
+      #calib-overlay.active { display: block; }
+
+      /* edge glow strips — one per direction, only active one is bright */
+      .calib-edge {
+        position: absolute;
+        background: linear-gradient(to var(--dir), rgba(212,168,80,0.0), rgba(212,168,80,0.55));
+        opacity: 0;
+        transition: opacity 0.35s;
+        pointer-events: none;
+      }
+      .calib-edge.active-step { opacity: 1; animation: calib-edge-pulse 1.2s ease-in-out infinite; }
+      @keyframes calib-edge-pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+      #calib-edge-left   { --dir: right;  top:0; left:0;   width:80px;  height:100%; }
+      #calib-edge-right  { --dir: left;   top:0; right:0;  width:80px;  height:100%; }
+      #calib-edge-top    { --dir: bottom; top:0; left:0;   width:100%;  height:80px; }
+      #calib-edge-bottom { --dir: top;    bottom:0;left:0; width:100%;  height:80px; }
+
+      /* arrows pointing toward active edge */
+      .calib-arrow {
+        position: absolute;
+        font-size: 48px;
+        color: rgba(212,168,80,0.0);
+        transition: color 0.35s;
+        line-height: 1;
+        pointer-events: none;
+        animation: calib-arrow-bounce 0.7s ease-in-out infinite alternate;
+      }
+      .calib-arrow.active-step { color: rgba(212,168,80,0.85); }
+      @keyframes calib-arrow-bounce { from{transform:translateX(0) translateY(0)} to{transform:var(--bounce)} }
+
+      #calib-arrow-left   { --bounce:translateX(-12px); top:50%; left:24px;  transform:translateY(-50%); }
+      #calib-arrow-right  { --bounce:translateX(12px);  top:50%; right:24px; transform:translateY(-50%); }
+      #calib-arrow-top    { --bounce:translateY(-12px); left:50%;top:24px;   transform:translateX(-50%); }
+      #calib-arrow-bottom { --bounce:translateY(12px);  left:50%;bottom:24px;transform:translateX(-50%); }
+
+      /* center info box */
+      #calib-info {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+      }
+      #calib-step-label {
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        font-size: 13px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(212,168,80,0.55);
+      }
+      #calib-instruction {
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        font-size: 26px;
+        color: rgba(255,230,160,0.95);
+        line-height: 1.2;
+        max-width: 380px;
+      }
+      #calib-sub {
+        font-size: 13px;
+        color: rgba(212,168,80,0.5);
+        letter-spacing: 0.05em;
+      }
+
+      /* dwell progress ring in center */
+      #calib-progress {
+        width: 70px; height: 70px;
+        position: relative;
+      }
+      #calib-progress svg { position: absolute; inset: 0; }
+      #calib-prog-arc {
+        transition: stroke-dashoffset 0.05s linear;
+        stroke-linecap: round;
+        transform: rotate(-90deg);
+        transform-origin: 35px 35px;
+      }
+
+      #calib-done-msg {
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        font-size: 22px;
+        color: rgba(180,220,120,0.95);
+        display: none;
+      }
+
+      #calib-skip {
+        background: transparent;
+        border: 1px solid rgba(212,168,80,0.25);
+        color: rgba(212,168,80,0.4);
+        padding: 6px 20px;
+        border-radius: 20px;
+        font-size: 11px;
+        cursor: pointer;
+        font-family: 'MoMA Sans', sans-serif;
+        letter-spacing: 0.08em;
+        transition: border-color 0.15s, color 0.15s;
+      }
+      #calib-skip:hover { border-color: rgba(212,168,80,0.55); color: rgba(212,168,80,0.75); }
+
+      /* calibrate button in topbar */
+      #calibrateBtn {
+        font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+        font-size: 11px;
+        background: transparent;
+        border: 1px solid rgba(212,168,80,0.3);
+        color: rgba(212,168,80,0.6);
+        padding: 5px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        letter-spacing: 0.06em;
+        transition: background 0.15s, color 0.15s;
+      }
+      #calibrateBtn:hover { background: rgba(212,168,80,0.1); color: rgba(212,168,80,0.9); }
     </style>
   </head>
   <body>
@@ -808,6 +989,7 @@
         <button id="startBtn">start camera</button>
         <button id="switchBtn" style="display:none">⇄ switch camera</button>
         <button id="flipBtn">⟺ flip: on</button>
+        <button id="calibrateBtn">⊹ calibrate</button>
         <div id="status">loading model…</div>
       </div>
 
@@ -830,8 +1012,8 @@
           <input type="range" id="sizeSlider" min="2" max="64" value="28" />
         </div>
         <div id="pal-actions">
-          <button id="clearBtn">clear canvas</button>
-          <button id="shareBtn">share via email</button>
+          <button id="clearBtn">CLEAR CANVAS</button>
+          <button id="shareBtn">SHARE</button>
         </div>
       </div>
 
@@ -852,7 +1034,13 @@
         <div class="modal-box">
           <div class="diary-header">
             <div class="diary-header-left">
-              <div class="diary-brand">MoMA</div>
+              <div class="diary-brand">
+                <div class="moma-logo-box">
+                  <svg viewBox="0 0 120 28" xmlns="http://www.w3.org/2000/svg" aria-label="MoMA">
+                    <text x="0" y="22" font-family="Franklin Gothic Medium, Arial Black, sans-serif" font-size="26" font-weight="900" fill="#FFFFFF" letter-spacing="1">MoMA</text>
+                  </svg>
+                </div>
+              </div>
               <div class="diary-title">MoMENT</div>
             </div>
             <div class="diary-date" id="diary-date"></div>
@@ -890,6 +1078,14 @@
               <button id="cancelModalBtn">cancel</button>
               <button id="sendBtn">save my moment ✦</button>
             </div>
+            <button id="qrBtn">↗ fill this in on my phone</button>
+            <div id="qr-panel">
+              <div class="qr-panel-label">scan with your phone</div>
+              <div class="qr-panel-title">Point your camera here<br>to open on your phone</div>
+              <canvas id="qr-canvas-el"></canvas>
+              <div class="qr-panel-sub">Your painting is saved — just add your name &amp; email on your phone</div>
+              <button id="qr-close-btn">go back to form</button>
+            </div>
             <div id="sendStatus"></div>
           </div>
 
@@ -898,7 +1094,13 @@
             <div class="confirm-notebook">
               <div class="confirm-notebook-spine"></div>
               <div class="confirm-notebook-cover">
-                <div class="confirm-brand">MoMA</div>
+                <div class="confirm-brand">
+                  <div class="moma-logo-box" style="padding:2px 5px 1px;">
+                    <svg viewBox="0 0 120 28" xmlns="http://www.w3.org/2000/svg" aria-label="MoMA" style="height:10px;width:auto;display:block;">
+                      <text x="0" y="22" font-family="Franklin Gothic Medium, Arial Black, sans-serif" font-size="26" font-weight="900" fill="#FFFFFF" letter-spacing="1">MoMA</text>
+                    </svg>
+                  </div>
+                </div>
                 <div class="confirm-label">MoMENT</div>
                 <div class="confirm-diary-line"></div>
                 <div class="confirm-diary-line"></div>
@@ -922,6 +1124,36 @@
         <div id="prompt-text"></div>
       </div>
 
+      <!-- Calibration overlay -->
+      <div id="calib-overlay">
+        <!-- edge glows -->
+        <div class="calib-edge" id="calib-edge-left"></div>
+        <div class="calib-edge" id="calib-edge-right"></div>
+        <div class="calib-edge" id="calib-edge-top"></div>
+        <div class="calib-edge" id="calib-edge-bottom"></div>
+        <!-- directional arrows -->
+        <div class="calib-arrow" id="calib-arrow-left">←</div>
+        <div class="calib-arrow" id="calib-arrow-right">→</div>
+        <div class="calib-arrow" id="calib-arrow-top">↑</div>
+        <div class="calib-arrow" id="calib-arrow-bottom">↓</div>
+        <!-- center info -->
+        <div id="calib-info">
+          <div id="calib-step-label"></div>
+          <div id="calib-instruction"></div>
+          <div id="calib-progress">
+            <svg width="70" height="70" viewBox="0 0 70 70">
+              <circle cx="35" cy="35" r="28" fill="none" stroke="rgba(212,168,80,0.15)" stroke-width="3"/>
+              <circle id="calib-prog-arc" cx="35" cy="35" r="28" fill="none"
+                stroke="rgba(212,168,80,0.85)" stroke-width="3"
+                stroke-dasharray="175.9" stroke-dashoffset="175.9"/>
+            </svg>
+          </div>
+          <div id="calib-sub">hold still for 1.2 s to record</div>
+          <div id="calib-done-msg">✓ calibration saved</div>
+          <button id="calib-skip">skip</button>
+        </div>
+      </div>
+
       <div id="finger"></div>
       <svg id="dwell-ring" width="60" height="60" style="position:absolute;pointer-events:none;z-index:1000;display:none;transform:translate(-50%,-50%)">
         <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="3"/>
@@ -933,6 +1165,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
     <script src="camera-switch.js"></script>
@@ -978,22 +1211,6 @@
       const startBtn = document.getElementById('startBtn');
 
       // ── stamp drawing functions ────────────────────────────────────────────
-      function drawStar(ctx, cx, cy, size, color) {
-        const spikes = 5, outerR = size * 0.47, innerR = size * 0.19;
-        ctx.save();
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        for (let i = 0; i < spikes * 2; i++) {
-          const r = i % 2 === 0 ? outerR : innerR;
-          const a = (i * Math.PI) / spikes - Math.PI / 2;
-          i === 0 ? ctx.moveTo(cx + Math.cos(a)*r, cy + Math.sin(a)*r)
-                  : ctx.lineTo(cx + Math.cos(a)*r, cy + Math.sin(a)*r);
-        }
-        ctx.closePath();
-        ctx.fill();
-        ctx.restore();
-      }
-
       function drawCrescent(ctx, cx, cy, size, color) {
         const tmp = document.createElement('canvas');
         tmp.width = size * 2; tmp.height = size * 2;
@@ -1011,22 +1228,6 @@
         ctx.drawImage(tmp, cx - size, cy - size);
       }
 
-      function drawSwirl(ctx, cx, cy, size, color) {
-        ctx.save();
-        ctx.strokeStyle = color;
-        ctx.lineWidth = Math.max(size * 0.1, 2);
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        for (let i = 0; i <= 80; i++) {
-          const t = i / 80;
-          const a = t * 2.5 * Math.PI * 2;
-          const r = t * size * 0.46;
-          i === 0 ? ctx.moveTo(cx + Math.cos(a)*r, cy + Math.sin(a)*r)
-                  : ctx.lineTo(cx + Math.cos(a)*r, cy + Math.sin(a)*r);
-        }
-        ctx.stroke();
-        ctx.restore();
-      }
 
       function drawWave(ctx, cx, cy, size, color) {
         ctx.save();
@@ -1391,9 +1592,8 @@
           },
 
           stamps: [
-            { name: 'star',  draw: drawStar                             },
-            { name: 'moon',  src:  'assets/starry-night/moon.png'       },
-            { name: 'swirl', draw: drawSwirl                            },
+            { name: 'moon', src: 'assets/starry-night/moon.png' },
+            { name: 'glow', src: 'assets/starry-night/glow.png' },
           ],
         },
         great_wave: {
@@ -1594,7 +1794,7 @@
         const out  = document.createElement('canvas');
         out.width  = w; out.height = h;
         const octx = out.getContext('2d');
-        octx.fillStyle = '#0a0a0f';
+        octx.fillStyle = '#E8DFC8';
         octx.fillRect(0, 0, w, h);
         octx.globalAlpha = 0.22;
         octx.drawImage(camCvs, 0, 0, w, h);
@@ -1757,6 +1957,41 @@
         sendStatus.textContent = msg;
         sendStatus.className   = cls;
       }
+
+      // ── QR / phone flow ────────────────────────────────────────────────────
+      const qrBtn      = document.getElementById('qrBtn');
+      const qrPanel    = document.getElementById('qr-panel');
+      const qrCanvasEl = document.getElementById('qr-canvas-el');
+      const qrCloseBtn = document.getElementById('qr-close-btn');
+
+      qrBtn.addEventListener('click', async () => {
+        if (!SUPABASE_CONFIGURED) { setStatus('supabase not configured', 'err'); return; }
+        if (!shareImageData) prepareShareCanvas(shareCanvas || compositeSnapshot());
+        qrBtn.disabled = true;
+        qrBtn.textContent = 'saving image…';
+        try {
+          const { data, error } = await db.from('draft_moments').insert({
+            image_data:      shareImageData,
+            painting_name:   activePainting.name,
+            painting_artist: activePainting.artist,
+          }).select('token').single();
+          if (error) throw error;
+
+          const base = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+          const url  = `${base}complete.html?token=${data.token}`;
+          await QRCode.toCanvas(qrCanvasEl, url, {
+            width: 220, margin: 2,
+            color: { dark: '#1A0800', light: '#ffffff' },
+          });
+          qrPanel.classList.add('visible');
+        } catch (e) {
+          setStatus('could not save draft: ' + e.message, 'err');
+        }
+        qrBtn.disabled = false;
+        qrBtn.textContent = '↗ fill this in on my phone';
+      });
+
+      qrCloseBtn.addEventListener('click', () => qrPanel.classList.remove('visible'));
 
       async function saveMoment() {
         const name    = nameInput.value.trim();
@@ -2009,12 +2244,157 @@
         return (total / tips.length) / scale;
       }
 
+      // ── Calibration ────────────────────────────────────────────────────────
+      const CALIB_STEPS = [
+        { id: 'left',   label: 'Step 1 of 4', instruction: 'Move your hand as far LEFT as you can', edge: 'calib-edge-left',   arrow: 'calib-arrow-left'   },
+        { id: 'right',  label: 'Step 2 of 4', instruction: 'Move your hand as far RIGHT as you can', edge: 'calib-edge-right',  arrow: 'calib-arrow-right'  },
+        { id: 'top',    label: 'Step 3 of 4', instruction: 'Move your hand as far UP as you can',   edge: 'calib-edge-top',    arrow: 'calib-arrow-top'    },
+        { id: 'bottom', label: 'Step 4 of 4', instruction: 'Move your hand as far DOWN as you can', edge: 'calib-edge-bottom', arrow: 'calib-arrow-bottom' },
+      ];
+      const DWELL_MS   = 1200;
+      const DWELL_MOVE = 0.018; // normalized units — movement threshold to reset dwell
+      const CIRC       = 175.9; // 2π × 28px
+
+      let calibActive   = false;
+      let calibStepIdx  = 0;
+      let calibRaw      = {};   // {left, right, top, bottom} raw normalized values
+      let dwellAnchorX  = null;
+      let dwellAnchorY  = null;
+
+      // load saved calibration
+      let calib = JSON.parse(localStorage.getItem('moma-calib') || 'null');
+
+      const calibOverlay   = document.getElementById('calib-overlay');
+      const calibStepLabel = document.getElementById('calib-step-label');
+      const calibInstruct  = document.getElementById('calib-instruction');
+      const calibSub       = document.getElementById('calib-sub');
+      const calibDoneMsg   = document.getElementById('calib-done-msg');
+      const calibProgArc   = document.getElementById('calib-prog-arc');
+      const calibSkipBtn   = document.getElementById('calib-skip');
+
+      function setCalibStep(idx) {
+        calibStepIdx = idx;
+        dwellStart   = null;
+        dwellAnchorX = null;
+        dwellAnchorY = null;
+        calibProgArc.style.strokeDashoffset = CIRC;
+
+        // update UI labels
+        const s = CALIB_STEPS[idx];
+        calibStepLabel.textContent  = s.label;
+        calibInstruct.textContent   = s.instruction;
+        calibSub.style.display      = '';
+        calibDoneMsg.style.display  = 'none';
+
+        // activate correct edge + arrow, dim others
+        CALIB_STEPS.forEach((cs, i) => {
+          document.getElementById(cs.edge).classList.toggle('active-step',  i === idx);
+          document.getElementById(cs.arrow).classList.toggle('active-step', i === idx);
+        });
+      }
+
+      function startCalibration() {
+        calibActive  = true;
+        calibRaw     = {};
+        calibOverlay.classList.add('active');
+        setCalibStep(0);
+      }
+
+      function finishCalibration() {
+        // Map: rawX→screenX using left/right anchors; rawY→screenY using top/bottom anchors
+        calib = { xMin: calibRaw.left, xMax: calibRaw.right, yMin: calibRaw.top, yMax: calibRaw.bottom };
+        localStorage.setItem('moma-calib', JSON.stringify(calib));
+
+        // show done
+        CALIB_STEPS.forEach(cs => {
+          document.getElementById(cs.edge).classList.remove('active-step');
+          document.getElementById(cs.arrow).classList.remove('active-step');
+        });
+        calibStepLabel.textContent  = 'Calibration complete';
+        calibInstruct.textContent   = 'Your drawing area is now mapped to the full screen.';
+        calibSub.style.display      = 'none';
+        calibDoneMsg.style.display  = '';
+        calibProgArc.style.strokeDashoffset = 0;
+
+        setTimeout(() => {
+          calibOverlay.classList.remove('active');
+          calibActive = false;
+        }, 1800);
+      }
+
+      function tickCalibration(rawX, rawY) {
+        if (!calibActive) return;
+        const step = CALIB_STEPS[calibStepIdx];
+
+        // reset dwell if hand moved too much
+        if (dwellAnchorX === null) {
+          dwellStart   = Date.now();
+          dwellAnchorX = rawX;
+          dwellAnchorY = rawY;
+        } else if (Math.abs(rawX - dwellAnchorX) > DWELL_MOVE || Math.abs(rawY - dwellAnchorY) > DWELL_MOVE) {
+          dwellStart   = Date.now();
+          dwellAnchorX = rawX;
+          dwellAnchorY = rawY;
+        }
+
+        const elapsed  = Date.now() - dwellStart;
+        const progress = Math.min(elapsed / DWELL_MS, 1);
+        calibProgArc.style.strokeDashoffset = CIRC * (1 - progress);
+
+        if (elapsed >= DWELL_MS) {
+          // record this step's value
+          if (step.id === 'left')   calibRaw.left   = rawX;
+          if (step.id === 'right')  calibRaw.right  = rawX;
+          if (step.id === 'top')    calibRaw.top    = rawY;
+          if (step.id === 'bottom') calibRaw.bottom = rawY;
+
+          if (calibStepIdx < CALIB_STEPS.length - 1) {
+            setCalibStep(calibStepIdx + 1);
+          } else {
+            finishCalibration();
+          }
+        }
+      }
+
+      document.getElementById('calibrateBtn').addEventListener('click', startCalibration);
+      calibSkipBtn.addEventListener('click', () => {
+        calibOverlay.classList.remove('active');
+        calibActive = false;
+      });
+
       // Cursor tracks palm centre — stable from any camera angle
-      function palmCenter(lm) {
+      function rawPalmXY(lm) {
         return {
-          x: ((lm[0].x + lm[5].x + lm[9].x + lm[13].x + lm[17].x) / 5) * drawCvs.width,
-          y: ((lm[0].y + lm[5].y + lm[9].y + lm[13].y + lm[17].y) / 5) * drawCvs.height,
+          rawX: (lm[0].x + lm[5].x + lm[9].x + lm[13].x + lm[17].x) / 5,
+          rawY: (lm[0].y + lm[5].y + lm[9].y + lm[13].y + lm[17].y) / 5,
         };
+      }
+
+      function palmCenter(lm) {
+        const { rawX, rawY } = rawPalmXY(lm);
+        if (calib) {
+          const xRange = calib.xMax - calib.xMin || 1;
+          const yRange = calib.yMax - calib.yMin || 1;
+          return {
+            x: ((rawX - calib.xMin) / xRange) * drawCvs.width,
+            y: ((rawY - calib.yMin) / yRange) * drawCvs.height,
+          };
+        }
+        return { x: rawX * drawCvs.width, y: rawY * drawCvs.height };
+      }
+
+      // Index finger tip (lm[8]) — used for cursor & hit-testing (more precise than palm)
+      function indexTip(lm) {
+        const rawX = lm[8].x, rawY = lm[8].y;
+        if (calib) {
+          const xRange = calib.xMax - calib.xMin || 1;
+          const yRange = calib.yMax - calib.yMin || 1;
+          return {
+            x: ((rawX - calib.xMin) / xRange) * drawCvs.width,
+            y: ((rawY - calib.yMin) / yRange) * drawCvs.height,
+          };
+        }
+        return { x: rawX * drawCvs.width, y: rawY * drawCvs.height };
       }
 
       // ── hit detection (palette + modal buttons + vk + export) ───────────────
@@ -2139,13 +2519,22 @@
         }
 
         const lm = results.multiHandLandmarks[0].map(p => ({ ...p, x: camFlipped ? 1 - p.x : p.x }));
+
+        // feed calibration tick (uses raw, un-remapped coords)
+        if (calibActive) {
+          const { rawX, rawY } = rawPalmXY(lm);
+          tickCalibration(rawX, rawY);
+          return; // don't run normal drawing/UI while calibrating
+        }
+
         const score = gripScore(lm);
-        const { x, y } = palmCenter(lm);
+        const { x: cx, y: cy } = indexTip(lm);    // cursor/hit-test: index finger tip (lm[8])
+        const { x: dx, y: dy } = palmCenter(lm);  // drawing position: palm center
 
         if (!isGripping && score < GRIP_ON)  isGripping = true;
         if (isGripping  && score > GRIP_OFF) isGripping = false;
 
-        const hit    = hitTest(x, y);
+        const hit    = hitTest(cx, cy);
         const hitKey = hit ? `${hit.type}-${hit.idx ?? hit.action ?? hit.key}` : null;
         if (hitKey !== lastHitKey) { applyHover(hit); lastHitKey = hitKey; }
 
@@ -2162,8 +2551,8 @@
           // update ring
           const circumference = 150.8;
           dwellArcEl.setAttribute('stroke-dashoffset', circumference * (1 - progress));
-          dwellRingEl.style.left = x + 'px';
-          dwellRingEl.style.top  = y + 'px';
+          dwellRingEl.style.left = cx + 'px';
+          dwellRingEl.style.top  = cy + 'px';
           dwellRingEl.style.display = '';
           if (progress >= 1 && (now - lastDwellFire) > DWELL_COOLDOWN) {
             dwellFired = true;
@@ -2183,18 +2572,18 @@
           prevX = null; prevY = null;
         } else if (exportModeOpen) {
           if (gripEdge && !hit) {
-            beginCropSelection(x, y);
+            beginCropSelection(dx, dy);
           } else if (isGripping && cropActive) {
-            updateCropSelection(x, y);
+            updateCropSelection(dx, dy);
           } else if (!isGripping && cropActive) {
             endCropSelection();
           }
           prevX = null; prevY = null;
         } else if (isGripping && !hit && !gripStartedOnPal && !modalOpen) {
           if (activeStamp) {
-            if (gripEdge) placeStamp(x, y);
+            if (gripEdge) placeStamp(dx, dy);
           } else {
-            drawSegment(x, y);
+            drawSegment(dx, dy);
           }
         } else if (!isGripping) {
           prevX = null; prevY = null;
@@ -2229,8 +2618,8 @@
           : (isGripping ? activeColor : 'transparent');
         if (pushFlash > 0) pushFlash--;
         const isPushing = pushFlash > 0;
-        fingerEl.style.left       = x + 'px';
-        fingerEl.style.top        = y + 'px';
+        fingerEl.style.left       = cx + 'px';
+        fingerEl.style.top        = cy + 'px';
         fingerEl.style.opacity    = '1';
         fingerEl.style.width      = (isPushing ? dotSize * 1.8 : dotSize) + 'px';
         fingerEl.style.height     = (isPushing ? dotSize * 1.8 : dotSize) + 'px';

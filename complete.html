@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoMA MoMENT</title>
+  <style>
+    @font-face {
+      font-family: "MoMA Sans";
+      src: url("https://db.onlinewebfonts.com/t/211be15f3b79857b52ec64538f6032a2.woff2") format("woff2"),
+           url("https://db.onlinewebfonts.com/t/211be15f3b79857b52ec64538f6032a2.woff") format("woff"),
+           url("https://db.onlinewebfonts.com/t/211be15f3b79857b52ec64538f6032a2.ttf") format("truetype");
+      font-weight: 600;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #D4001A;
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --grey: #6b6b6b;
+      --rule: #e0e0e0;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── POSTER LAYOUT ─────────────────────────────────────────────────────── */
+    #poster {
+      display: grid;
+      grid-template-columns: 1fr 56px;
+      min-height: 100vh;
+    }
+
+    /* right column — giant rotated MoMA */
+    #moma-mark {
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #moma-mark span {
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-size: 52px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      white-space: nowrap;
+      line-height: 1;
+      user-select: none;
+    }
+
+    /* left column */
+    #main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* artwork image — bleeds full width of left column */
+    #artwork-block {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #111;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
+    #artwork-block img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    #artwork-block .artwork-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 12px 16px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.6));
+      color: #fff;
+    }
+    .artwork-label {
+      font-size: 8px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-bottom: 2px;
+    }
+    .artwork-title {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.1;
+    }
+    .artwork-artist-line {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 1px;
+    }
+
+    /* content area */
+    #content {
+      padding: 0 20px 48px;
+      flex: 1;
+    }
+
+    /* top header strip */
+    #top-strip {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 14px 20px 12px;
+      border-bottom: 2px solid var(--black);
+    }
+    .top-wordmark {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .top-sub {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    /* section heading */
+    .section-rule {
+      height: 1px;
+      background: var(--rule);
+      margin: 22px 0 0;
+    }
+    .section-head {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin: 8px 0 14px;
+    }
+
+    /* form fields — underline only */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .field-row.full { grid-template-columns: 1fr; }
+    .field-wrap { display: flex; flex-direction: column; gap: 4px; }
+    .field-label {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+    .field-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px solid var(--black);
+      padding: 6px 0 5px;
+      font-size: 16px;
+      color: var(--black);
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      outline: none;
+      width: 100%;
+      border-radius: 0;
+      -webkit-appearance: none;
+      transition: border-color 0.15s;
+    }
+    .field-input::placeholder { color: #bbb; font-size: 14px; }
+    .field-input:focus { border-color: var(--red); }
+    textarea.field-input {
+      resize: none;
+      min-height: 64px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    /* submit */
+    #submitBtn {
+      width: 100%;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 0;
+      cursor: pointer;
+      margin-top: 24px;
+      transition: background 0.15s;
+    }
+    #submitBtn:hover  { background: #b8001a; }
+    #submitBtn:disabled { opacity: 0.4; cursor: default; }
+
+    #formStatus {
+      margin-top: 10px;
+      font-size: 12px;
+      min-height: 16px;
+      color: var(--grey);
+      letter-spacing: 0.04em;
+    }
+    #formStatus.err { color: var(--red); }
+    #formStatus.ok  { color: #1a7a3a; }
+
+    /* ── states ── */
+    .state { display: none; }
+    .state.show { display: flex; flex-direction: column; }
+    #loading-state.show,
+    #error-state.show { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 40px; }
+
+    .state-msg {
+      text-align: center;
+      max-width: 280px;
+    }
+    .state-title {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 10px;
+    }
+    .state-sub {
+      font-size: 13px;
+      color: var(--grey);
+      line-height: 1.6;
+    }
+
+    /* ── success screen ── */
+    #success-state.show {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 56px;
+    }
+    #success-main {
+      display: flex;
+      flex-direction: column;
+    }
+    #success-image-block {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #111;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    #success-image-block img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    #success-content {
+      padding: 28px 20px 48px;
+      flex: 1;
+    }
+    .success-eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 10px;
+    }
+    .success-headline {
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .success-body {
+      font-size: 13px;
+      color: var(--grey);
+      line-height: 1.7;
+      border-top: 1px solid var(--rule);
+      padding-top: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- loading -->
+  <div id="loading-state" class="state show">
+    <div class="state-msg">
+      <div class="state-title">MoMA MoMENT</div>
+      <p class="state-sub">Loading your painting…</p>
+    </div>
+  </div>
+
+  <!-- error -->
+  <div id="error-state" class="state">
+    <div class="state-msg">
+      <div class="state-title">Link expired.</div>
+      <p class="state-sub">This painting could not be found. It may have already been saved, or the link has expired.<br><br>Visit a MoMA kiosk to create a new one.</p>
+    </div>
+  </div>
+
+  <!-- form -->
+  <div id="form-state" class="state">
+    <div id="poster">
+      <div id="main">
+        <div id="top-strip">
+          <span class="top-wordmark">MoMA</span>
+          <span class="top-sub">MoMENT</span>
+        </div>
+
+        <div id="artwork-block">
+          <img id="artwork-img" src="" alt="Your painting" />
+          <div class="artwork-overlay">
+            <div class="artwork-label">inspired by</div>
+            <div class="artwork-title" id="artwork-painting"></div>
+            <div class="artwork-artist-line" id="artwork-artist"></div>
+          </div>
+        </div>
+
+        <div id="content">
+          <div class="section-rule"></div>
+          <div class="section-head">Complete your moment</div>
+
+          <div class="field-row">
+            <div class="field-wrap">
+              <div class="field-label">Name</div>
+              <input id="nameInput" class="field-input" type="text" placeholder="first name" maxlength="60" autocomplete="given-name" />
+            </div>
+            <div class="field-wrap">
+              <div class="field-label">Email</div>
+              <input id="emailInput" class="field-input" type="email" placeholder="your@email.com" maxlength="100" autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="field-row full">
+            <div class="field-wrap">
+              <div class="field-label">Your MoMA MoMENT today</div>
+              <textarea id="momentInput" class="field-input" placeholder="describe your experience…" maxlength="280" rows="3"></textarea>
+            </div>
+          </div>
+
+          <button id="submitBtn">Save my moment ✦</button>
+          <div id="formStatus"></div>
+        </div>
+      </div>
+
+      <div id="moma-mark"><span>MoMA</span></div>
+    </div>
+  </div>
+
+  <!-- success -->
+  <div id="success-state" class="state">
+    <div id="success-main">
+      <div id="top-strip" style="display:flex;align-items:baseline;justify-content:space-between;padding:14px 20px 12px;border-bottom:2px solid #0a0a0a;">
+        <span class="top-wordmark">MoMA</span>
+        <span class="top-sub">MoMENT</span>
+      </div>
+      <div id="success-image-block">
+        <img id="success-img" src="" alt="Your painting" />
+      </div>
+      <div id="success-content">
+        <div class="success-eyebrow" id="success-eyebrow">Moment saved</div>
+        <div class="success-headline" id="success-headline">Your MoMA MoMENT<br>diary is ready.</div>
+        <p class="success-body" id="success-body">Visit the gallery at the kiosk to see your full collection.</p>
+      </div>
+    </div>
+    <div id="moma-mark" style="background:#0a0a0a;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+      <span style="font-family:'MoMA Sans','Franklin Gothic Medium',sans-serif;font-size:52px;font-weight:600;letter-spacing:-0.02em;color:#fff;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;line-height:1;">MoMA</span>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    const SUPABASE_URL      = 'https://eabaoxpoplpngczpuhps.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhYmFveHBvcGxwbmdjenB1aHBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MzAwMzEsImV4cCI6MjA5MDIwNjAzMX0.8UdSHdU3dbsfTeDRncfqY6C0do9nUuyDil9SvSj4MNg';
+    const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const states = {
+      loading: document.getElementById('loading-state'),
+      error:   document.getElementById('error-state'),
+      form:    document.getElementById('form-state'),
+      success: document.getElementById('success-state'),
+    };
+
+    function showState(name) {
+      Object.entries(states).forEach(([k, el]) => {
+        el.classList.toggle('show', k === name);
+      });
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const token  = params.get('token');
+    let draft    = null;
+
+    async function init() {
+      if (!token) { showState('error'); return; }
+
+      const { data, error } = await db
+        .from('draft_moments')
+        .select('*')
+        .eq('token', token)
+        .single();
+
+      if (error || !data) { showState('error'); return; }
+      draft = data;
+
+      document.getElementById('artwork-painting').textContent = data.painting_name   || '';
+      document.getElementById('artwork-artist').textContent   = data.painting_artist || '';
+      document.getElementById('artwork-img').src = data.image_data || '';
+
+      showState('form');
+    }
+
+    document.getElementById('submitBtn').addEventListener('click', async () => {
+      const name   = document.getElementById('nameInput').value.trim();
+      const email  = document.getElementById('emailInput').value.trim();
+      const moment = document.getElementById('momentInput').value.trim();
+      const status = document.getElementById('formStatus');
+
+      if (!name) {
+        status.textContent = 'Please enter your name.'; status.className = 'err'; return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        status.textContent = 'Please enter a valid email.'; status.className = 'err'; return;
+      }
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      status.textContent = 'Saving…'; status.className = '';
+
+      try {
+        const { data: existing } = await db.from('moments')
+          .select('id').eq('email', email.toLowerCase()).limit(1);
+        const isReturning = existing && existing.length > 0;
+
+        const { error: insertErr } = await db.from('moments').insert({
+          visitor_name:    name,
+          email:           email.toLowerCase(),
+          moment_text:     moment || null,
+          image_data:      draft.image_data,
+          painting_name:   draft.painting_name,
+          painting_artist: draft.painting_artist,
+        });
+        if (insertErr) throw insertErr;
+
+        await db.from('draft_moments').delete().eq('token', token);
+
+        // populate success
+        document.getElementById('success-img').src = draft.image_data || '';
+        if (isReturning) {
+          document.getElementById('success-eyebrow').textContent  = `Welcome back, ${name}.`;
+          document.getElementById('success-headline').innerHTML   = `Added to your<br>MoMENT diary.`;
+          document.getElementById('success-body').textContent     = `Today's painting has been written into your diary. Your collection keeps growing.`;
+        } else {
+          document.getElementById('success-eyebrow').textContent  = `Saved, ${name}.`;
+          document.getElementById('success-headline').innerHTML   = `Your MoMA MoMENT<br>diary is ready.`;
+          document.getElementById('success-body').textContent     = `We've noted your moment. Visit the gallery at the kiosk to see your full collection — or come back anytime.`;
+        }
+
+        showState('success');
+      } catch (e) {
+        status.textContent = 'Something went wrong — please try again.';
+        status.className = 'err';
+        btn.disabled = false;
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>

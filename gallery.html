@@ -20,7 +20,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: radial-gradient(ellipse at 50% 60%, #2a1608 0%, #0e0804 100%);
+      background: #EFEFEF;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -50,11 +50,11 @@
     #book::after {
       content: '';
       position: absolute;
-      bottom: -28px;
-      left: 8%; right: 8%;
-      height: 28px;
-      background: radial-gradient(ellipse, rgba(0,0,0,0.55) 0%, transparent 75%);
-      filter: blur(6px);
+      bottom: -22px;
+      left: 6%; right: 6%;
+      height: 22px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.18) 0%, transparent 75%);
+      filter: blur(8px);
       pointer-events: none;
     }
 
@@ -66,45 +66,39 @@
       height: 100%;
       overflow: hidden;
     }
-    #book-left  { left: 0;  border-radius: 4px 0 0 4px; box-shadow: inset -6px 0 18px rgba(0,0,0,0.12); }
-    #book-right { right: 0; border-radius: 0 4px 4px 0; box-shadow: inset 4px 0 12px rgba(0,0,0,0.06); }
+    #book-left  { left: 0;  border-radius: 2px 0 0 2px; box-shadow: -2px 0 12px rgba(0,0,0,0.08), inset -4px 0 10px rgba(0,0,0,0.04); }
+    #book-right { right: 0; border-radius: 0 2px 2px 0; box-shadow:  2px 0 12px rgba(0,0,0,0.08), inset  4px 0 10px rgba(0,0,0,0.04); }
 
     /* ── Spine ── */
     #spine {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      width: 18px;
+      width: 14px;
       height: 100%;
-      background: linear-gradient(90deg, #1a0505 0%, #4a0c0c 25%, #7a1818 50%, #4a0c0c 75%, #1a0505 100%);
+      background: #111111;
       z-index: 6;
-      box-shadow: 0 0 24px rgba(0,0,0,0.6), 0 0 8px rgba(0,0,0,0.4);
+      box-shadow: 0 0 18px rgba(0,0,0,0.3);
     }
 
-    /* ── Page paper textures ── */
+    /* ── Page paper ── */
     .page-paper {
       width: 100%;
       height: 100%;
       position: relative;
       overflow: hidden;
     }
-    .left-paper {
-      background:
-        repeating-linear-gradient(transparent, transparent 27px, rgba(160,110,50,0.08) 27px, rgba(160,110,50,0.08) 28px),
-        linear-gradient(165deg, #faf6ec 0%, #f2ebd8 100%);
-    }
+    .left-paper  { background: #FFFFFF; }
+    .right-paper { background: #FFFFFF; }
+
+    /* subtle inner shadow on right edge of left page */
     .left-paper::after {
       content: '';
       position: absolute;
-      top: 0; bottom: 0; left: 48px;
-      width: 1px;
-      background: rgba(200,70,70,0.13);
+      top: 0; bottom: 0; right: 0;
+      width: 18px;
+      background: linear-gradient(to left, rgba(0,0,0,0.04), transparent);
       pointer-events: none;
-    }
-    .right-paper {
-      background:
-        repeating-linear-gradient(transparent, transparent 27px, rgba(160,110,50,0.08) 27px, rgba(160,110,50,0.08) 28px),
-        linear-gradient(165deg, #f5efe0 0%, #ece4cc 100%);
     }
 
     /* page number */
@@ -112,8 +106,9 @@
       position: absolute;
       bottom: 16px;
       font-size: 9px;
-      color: rgba(100,60,20,0.26);
-      letter-spacing: 0.1em;
+      color: #BBBBBB;
+      letter-spacing: 0.12em;
+      font-family: 'MoMA Sans', sans-serif;
     }
     .pg-num-l { left: 28px; }
     .pg-num-r { right: 28px; }
@@ -127,39 +122,39 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      padding-left: 52px; /* clear margin line */
       gap: 6px;
       text-align: center;
+      padding: 40px;
     }
     .lv-label {
       font-size: 8px;
       letter-spacing: 0.38em;
       text-transform: uppercase;
-      color: rgba(160,80,20,0.3);
+      color: #AAAAAA;
     }
     .lv-num {
       font-family: 'MoMA Sans', sans-serif;
-      font-size: 80px;
-      color: rgba(160,80,20,0.1);
+      font-size: 96px;
+      color: #EEEEEE;
       line-height: 1;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.04em;
     }
     .lv-divider {
       width: 32px;
-      height: 1px;
-      background: rgba(160,80,20,0.15);
-      margin: 4px 0;
+      height: 2px;
+      background: #D4001A;
+      margin: 8px 0;
     }
     .lv-painting {
       font-family: 'MoMA Sans', sans-serif;
-      font-size: 11.5px;
-      color: rgba(100,55,15,0.42);
-      max-width: 180px;
-      line-height: 1.35;
+      font-size: 12px;
+      color: #555555;
+      max-width: 200px;
+      line-height: 1.4;
     }
     .lv-artist {
-      font-size: 9.5px;
-      color: rgba(100,55,15,0.26);
+      font-size: 10px;
+      color: #999999;
       font-style: italic;
     }
 
@@ -170,13 +165,13 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      padding-left: 52px;
       gap: 10px;
+      padding: 40px;
     }
-    .lt-brand { font-family: 'MoMA Sans', sans-serif; font-size: 9px; letter-spacing: 0.32em; color: rgba(160,80,20,0.38); text-transform: uppercase; }
-    .lt-title { font-family: 'MoMA Sans', sans-serif; font-size: 30px; color: rgba(80,30,10,0.5); }
-    .lt-line  { width: 36px; height: 1px; background: rgba(160,80,20,0.18); }
-    .lt-name  { font-size: 10px; color: rgba(100,60,20,0.28); font-style: italic; }
+    .lt-brand { font-family: 'MoMA Sans', sans-serif; font-size: 10px; letter-spacing: 0.38em; color: #D4001A; }
+    .lt-title { font-family: 'MoMA Sans', sans-serif; font-size: 36px; color: #111111; letter-spacing: -0.02em; }
+    .lt-line  { width: 36px; height: 2px; background: #111111; }
+    .lt-name  { font-size: 11px; color: #888888; font-style: italic; }
 
     /* ─────────────────────────────────────────
        RIGHT PAGE — full diary entry
@@ -185,7 +180,7 @@
       display: flex;
       flex-direction: column;
       height: 100%;
-      padding: 18px 22px 30px;
+      padding: 20px 24px 32px;
       font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
     }
 
@@ -194,50 +189,52 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 11px;
+      margin-bottom: 12px;
       flex-shrink: 0;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #111111;
     }
     .entry-name {
       font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 600;
-      color: #1A0800;
+      color: #111111;
       line-height: 1;
+      letter-spacing: -0.01em;
     }
     .entry-top-right {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 4px;
+      gap: 5px;
     }
     .entry-date {
       font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
-      font-size: 8.5px;
-      color: rgba(100,55,15,0.65);
-      letter-spacing: 0.08em;
+      font-size: 9px;
+      color: #777777;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
     .entry-visit-badge {
       background: #D4001A;
       color: #fff;
       font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
-      font-size: 7.5px;
+      font-size: 7px;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      padding: 2px 7px;
-      border-radius: 20px;
+      padding: 3px 8px;
       white-space: nowrap;
     }
 
     /* ② painting image */
     .entry-photo {
       width: 100%;
-      height: 170px;
+      height: 160px;
       overflow: hidden;
-      background: #0a0a0f;
+      background: #111111;
       flex-shrink: 0;
-      margin-bottom: 11px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      margin-bottom: 12px;
     }
     .entry-photo img {
       width: 100%;
@@ -249,55 +246,57 @@
       width: 100%;
       height: 170px;
       flex-shrink: 0;
-      margin-bottom: 11px;
-      background: rgba(160,110,50,0.06);
+      margin-bottom: 12px;
+      background: #F0F0F0;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: 'MoMA Sans', sans-serif;
-      font-size: 20px;
-      color: rgba(160,110,50,0.14);
+      font-size: 22px;
+      color: #CCCCCC;
+      letter-spacing: 0.1em;
     }
 
     /* ③ question + moment */
     .entry-question {
       font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
-      font-size: 7.5px;
-      letter-spacing: 0.2em;
+      font-size: 7px;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(180,30,30,0.82);
-      margin-bottom: 5px;
+      color: #D4001A;
+      margin-bottom: 6px;
       flex-shrink: 0;
     }
     .entry-moment {
       font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
       font-size: 13px;
-      color: rgba(55,25,5,0.85);
-      line-height: 1.5;
+      color: #222222;
+      line-height: 1.55;
       flex: 1;
       overflow: hidden;
     }
-    .entry-moment.empty { color: rgba(100,60,20,0.2); }
+    .entry-moment.empty { color: #CCCCCC; }
 
     /* ④ fun fact */
     .entry-fact {
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px solid rgba(160,110,50,0.14);
+      margin-top: 10px;
+      padding: 8px 10px;
+      background: #FFF5D6;
       flex-shrink: 0;
+      border-left: 3px solid #F5C800;
     }
     .entry-fact-label {
       font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
       font-size: 7px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(160,80,20,0.72);
+      color: #997700;
       margin-bottom: 3px;
     }
     .entry-fact-text {
       font-family: 'MoMA Sans', 'Franklin Gothic Medium', sans-serif;
-      font-size: 10px;
-      color: rgba(80,40,10,0.72);
+      font-size: 9.5px;
+      color: #555522;
       line-height: 1.5;
     }
 
@@ -308,14 +307,14 @@
       align-items: center;
       justify-content: center;
       height: 100%;
-      gap: 8px;
+      gap: 10px;
       font-family: 'MoMA Sans', sans-serif;
     }
-    .outro-brand { font-family: 'MoMA Sans', sans-serif; font-size: 9px; letter-spacing: 0.35em; color: rgba(160,80,20,0.28); text-transform: uppercase; }
-    .outro-line  { width: 32px; height: 1px; background: rgba(160,80,20,0.16); }
-    .outro-msg   { font-family: 'MoMA Sans', sans-serif; font-size: 10px; color: rgba(100,60,20,0.24); }
-    .empty-title { font-family: 'MoMA Sans', sans-serif; font-size: 22px; color: rgba(100,60,20,0.32); }
-    .empty-sub   { font-family: 'MoMA Sans', sans-serif; font-size: 10px; color: rgba(100,60,20,0.22); text-align: center; max-width: 240px; line-height: 1.6; }
+    .outro-brand { font-family: 'MoMA Sans', sans-serif; font-size: 9px; letter-spacing: 0.38em; color: #D4001A; }
+    .outro-line  { width: 32px; height: 2px; background: #111111; }
+    .outro-msg   { font-family: 'MoMA Sans', sans-serif; font-size: 11px; color: #888888; }
+    .empty-title { font-family: 'MoMA Sans', sans-serif; font-size: 26px; color: #CCCCCC; letter-spacing: -0.02em; }
+    .empty-sub   { font-family: 'MoMA Sans', sans-serif; font-size: 11px; color: #AAAAAA; text-align: center; max-width: 240px; line-height: 1.7; }
 
     /* ── Cover ── */
     #cover {
@@ -326,7 +325,6 @@
       transform-style: preserve-3d;
       transition: transform 1.15s cubic-bezier(0.77, 0, 0.175, 1);
       z-index: 10;
-      border-radius: 0 4px 4px 0;
     }
     #cover.open { transform: rotateY(-180deg); }
 
@@ -335,79 +333,67 @@
       inset: 0;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
-      border-radius: 0 4px 4px 0;
     }
 
     #cover-front {
-      background:
-        radial-gradient(ellipse at 30% 20%, rgba(180,40,40,0.18) 0%, transparent 60%),
-        linear-gradient(155deg, #5c0a14 0%, #380610 50%, #220308 100%);
+      background: #FFFFFF;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 52px 40px;
+      align-items: flex-start;
+      justify-content: flex-end;
+      padding: 44px 100px 44px 40px;
       overflow: hidden;
     }
+    /* Bold red top bar */
     #cover-front::before {
       content: '';
       position: absolute;
-      inset: 14px;
-      border: 1.5px solid rgba(212,168,80,0.35);
+      top: 0; left: 0; right: 0;
+      height: 8px;
+      background: #D4001A;
       pointer-events: none;
     }
-    #cover-front::after {
-      content: '';
-      position: absolute;
-      inset: 20px;
-      border: 1px solid rgba(212,168,80,0.14);
-      pointer-events: none;
-    }
-
-    .cover-corner {
-      position: absolute;
-      width: 22px; height: 22px;
-      border-color: rgba(212,168,80,0.55);
-      border-style: solid;
-    }
-    .cover-corner.tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
-    .cover-corner.tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
-    .cover-corner.bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
-    .cover-corner.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
 
     .cover-eyebrow {
-      font-family: 'MoMA Sans', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.42em;
-      color: rgba(212,168,80,0.65);
-      text-transform: uppercase;
       margin-bottom: 14px;
+    }
+    .moma-logo-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #D4001A;
+      padding: 5px 10px 4px;
+      line-height: 1;
+    }
+    .moma-logo-box svg {
+      display: block;
+      height: 18px;
+      width: auto;
     }
     .cover-title {
       font-family: 'MoMA Sans', sans-serif;
-      font-size: 52px;
-      color: rgba(255,230,160,0.96);
-      letter-spacing: -0.01em;
-      line-height: 0.95;
-      text-align: center;
-      margin-bottom: 6px;
+      font-size: 68px;
+      color: #111111;
+      letter-spacing: -0.03em;
+      line-height: 0.9;
+      margin-bottom: 4px;
     }
     .cover-sub {
       font-size: 10px;
-      color: rgba(212,168,80,0.42);
-      letter-spacing: 0.22em;
+      color: #999999;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      margin-bottom: 36px;
+      margin-bottom: 32px;
     }
     .cover-rule {
-      width: 56px; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(212,168,80,0.5), transparent);
-      margin-bottom: 32px;
+      width: 100%;
+      height: 1px;
+      background: #DDDDDD;
+      margin-bottom: 28px;
     }
 
     #loginForm {
       width: 100%;
-      max-width: 272px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -415,63 +401,82 @@
       z-index: 1;
     }
     #loginForm input[type="email"] {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(212,168,80,0.32);
-      border-radius: 6px;
-      padding: 13px 18px;
-      font-size: 14px;
-      color: rgba(255,230,160,0.9);
+      background: #FFFFFF;
+      border: 1.5px solid #DDDDDD;
+      border-radius: 0;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: #111111;
       outline: none;
-      text-align: center;
       font-family: system-ui, sans-serif;
-      transition: border-color 0.2s, background 0.2s;
+      transition: border-color 0.2s;
       width: 100%;
     }
-    #loginForm input[type="email"]::placeholder { color: rgba(212,168,80,0.28); }
-    #loginForm input[type="email"]:focus {
-      border-color: rgba(212,168,80,0.65);
-      background: rgba(255,255,255,0.11);
-    }
+    #loginForm input[type="email"]::placeholder { color: #BBBBBB; }
+    #loginForm input[type="email"]:focus { border-color: #111111; }
     #loginBtn {
-      background: rgba(212,168,80,0.16);
-      border: 1px solid rgba(212,168,80,0.45);
-      border-radius: 6px;
-      color: rgba(255,225,140,0.9);
-      font-size: 11px;
+      background: #D4001A;
+      border: none;
+      color: #FFFFFF;
+      font-size: 10px;
       font-weight: 600;
       padding: 13px 20px;
       cursor: pointer;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       font-family: 'MoMA Sans', system-ui, sans-serif;
       transition: background 0.15s;
       width: 100%;
     }
-    #loginBtn:hover:not(:disabled) { background: rgba(212,168,80,0.32); }
+    #loginBtn:hover:not(:disabled) { background: #AA0014; }
     #loginBtn:disabled { opacity: 0.45; cursor: default; }
     #cover-error {
       font-size: 11px;
-      color: rgba(255,100,80,0.8);
-      text-align: center;
+      color: #D4001A;
       min-height: 14px;
       margin-top: 2px;
     }
 
-    #cover-back {
-      background: linear-gradient(155deg, #320510 0%, #1e0308 100%);
-      transform: rotateY(180deg);
+    /* Cover decorative right strip */
+    .cover-strip {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 48px;
+      background: #111111;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 0 4px 4px 0;
     }
-    #cover-back::before {
-      content: 'MoMA MoMENT';
+    .cover-strip-text {
       font-family: 'MoMA Sans', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.3em;
-      color: rgba(212,168,80,0.08);
+      font-size: 8px;
+      letter-spacing: 0.28em;
+      color: rgba(255,255,255,0.25);
       text-transform: uppercase;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    /* Cover corners removed */
+    .cover-corner { display: none; }
+
+    #cover-back {
+      background: #111111;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    #cover-back-logo {
+      opacity: 0.12;
+    }
+    #cover-back-title {
+      font-family: 'MoMA Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      color: rgba(255,255,255,0.12);
     }
 
     /* ── Flip page ── */
@@ -502,36 +507,38 @@
     #flip-back { transform: rotateY(180deg); }
 
     /* ── Nav ── */
-    #book-nav { display: none; align-items: center; gap: 24px; }
+    #book-nav { display: none; align-items: center; gap: 20px; }
     #book-nav.visible { display: flex; }
 
     .nav-btn {
-      background: rgba(212,168,80,0.1);
-      border: 1px solid rgba(212,168,80,0.28);
-      color: rgba(255,215,100,0.65);
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      font-size: 17px;
+      background: #111111;
+      border: none;
+      color: #FFFFFF;
+      width: 38px; height: 38px;
+      border-radius: 0;
+      font-size: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.15s, transform 0.1s;
+      transition: background 0.15s;
     }
-    .nav-btn:hover:not(:disabled) { background: rgba(212,168,80,0.24); transform: scale(1.08); }
-    .nav-btn:disabled { opacity: 0.22; cursor: default; }
+    .nav-btn:hover:not(:disabled) { background: #D4001A; }
+    .nav-btn:disabled { background: #DDDDDD; color: #AAAAAA; cursor: default; }
 
     #nav-info {
-      font-size: 11px;
-      color: rgba(212,168,80,0.42);
-      letter-spacing: 0.1em;
+      font-size: 10px;
+      color: #888888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       text-align: center;
       min-width: 130px;
+      font-family: 'MoMA Sans', sans-serif;
     }
 
     .loading-text {
       font-size: 11px;
-      color: rgba(100,60,20,0.35);
+      color: #AAAAAA;
       font-style: italic;
       letter-spacing: 0.12em;
       animation: pulse 1.4s ease-in-out infinite;
@@ -547,16 +554,12 @@
 
     <!-- Static left page -->
     <div class="book-half" id="book-left">
-      <div class="page-paper left-paper" style="width:100%;height:100%;">
-        <div id="left-content"></div>
-      </div>
+      <div id="left-content" class="page-paper left-paper" style="width:100%;height:100%;position:relative;"></div>
     </div>
 
     <!-- Static right page -->
     <div class="book-half" id="book-right">
-      <div class="page-paper right-paper" style="width:100%;height:100%;">
-        <div id="right-content"></div>
-      </div>
+      <div id="right-content" class="page-paper right-paper" style="width:100%;height:100%;position:relative;"></div>
     </div>
 
     <!-- Flip page (animated) -->
@@ -568,11 +571,16 @@
     <!-- Cover -->
     <div id="cover">
       <div class="cover-face" id="cover-front">
-        <span class="cover-corner tl"></span>
-        <span class="cover-corner tr"></span>
-        <span class="cover-corner bl"></span>
-        <span class="cover-corner br"></span>
-        <div class="cover-eyebrow">MoMA</div>
+        <div class="cover-strip">
+          <span class="cover-strip-text">Museum of Modern Art</span>
+        </div>
+        <div class="cover-eyebrow">
+          <div class="moma-logo-box">
+            <svg viewBox="0 0 120 28" xmlns="http://www.w3.org/2000/svg" aria-label="MoMA">
+              <text x="0" y="22" font-family="Franklin Gothic Medium, Arial Black, sans-serif" font-size="26" font-weight="900" fill="#FFFFFF" letter-spacing="1">MoMA</text>
+            </svg>
+          </div>
+        </div>
         <div class="cover-title">MoMENT</div>
         <div class="cover-sub">your museum diary</div>
         <div class="cover-rule"></div>
@@ -582,7 +590,16 @@
           <div id="cover-error"></div>
         </form>
       </div>
-      <div class="cover-face" id="cover-back"></div>
+      <div class="cover-face" id="cover-back">
+        <div id="cover-back-logo">
+          <div class="moma-logo-box">
+            <svg viewBox="0 0 120 28" xmlns="http://www.w3.org/2000/svg" aria-label="MoMA">
+              <text x="0" y="22" font-family="Franklin Gothic Medium, Arial Black, sans-serif" font-size="26" font-weight="900" fill="#FFFFFF" letter-spacing="1">MoMA</text>
+            </svg>
+          </div>
+        </div>
+        <div id="cover-back-title">MoMENT</div>
+      </div>
     </div>
   </div>
 
@@ -615,9 +632,9 @@
   const navInfo     = document.getElementById('nav-info');
 
   let moments     = [];
-  let spreadIndex = 0;
-  let totalSpreads= 0;
+  let pageIndex   = 0;   // one entry per page
   let isAnimating = false;
+  let visitorName = '';
 
   function formatDate(iso) {
     return new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -651,16 +668,14 @@
   }
 
   // Build a single diary entry page (works for both left and right halves)
-  function buildEntry(m, vn, pgNum, paperClass, pgNumClass) {
+  // buildEntry returns inner HTML only — the .page-paper wrapper is already on #left-content / #right-content
+  function buildEntry(m, vn, pgNum, pgNumClass) {
     if (!m) {
-      // blank/outro page
       return `
-        <div class="page-paper ${paperClass}" style="width:100%;height:100%;position:relative;">
-          <div class="right-center">
-            <div class="outro-brand">MoMA MoMENT</div>
-            <div class="outro-line"></div>
-            <div class="outro-msg">every visit, a new story.</div>
-          </div>
+        <div class="right-center">
+          <div class="outro-brand">MoMA MoMENT</div>
+          <div class="outro-line"></div>
+          <div class="outro-msg">every visit, a new story.</div>
         </div>`;
     }
 
@@ -681,91 +696,81 @@
       : '';
 
     return `
-      <div class="page-paper ${paperClass}" style="width:100%;height:100%;position:relative;">
-        <div class="right-body">
-          <div class="entry-top">
-            <div class="entry-name">${m.visitor_name || 'Anonymous'}</div>
-            <div class="entry-top-right">
-              <div class="entry-date">${formatDate(m.created_at)}</div>
-              <div class="entry-visit-badge">${ordinal(vn)} visit</div>
-            </div>
+      <div class="right-body">
+        <div class="entry-top">
+          <div class="entry-name">${m.visitor_name || 'Anonymous'}</div>
+          <div class="entry-top-right">
+            <div class="entry-date">${formatDate(m.created_at)}</div>
+            <div class="entry-visit-badge">${ordinal(vn)} visit</div>
           </div>
-          ${photoHtml}
-          <div class="entry-question">What's your MoMA Moment today?</div>
-          ${momentHtml}
-          ${factHtml}
         </div>
-        ${pgNum != null ? `<span class="pg-num ${pgNumClass}">${pgNum}</span>` : ''}
-      </div>`;
+        ${photoHtml}
+        <div class="entry-question">What's your MoMA MoMENT today?</div>
+        ${momentHtml}
+        ${factHtml}
+      </div>
+      ${pgNum != null ? `<span class="pg-num ${pgNumClass}">${pgNum}</span>` : ''}`;
   }
 
-  // Title page shown on left while loading / empty state
   function buildTitleLeft(name) {
     return `
-      <div class="page-paper left-paper" style="width:100%;height:100%;position:relative;">
-        <div class="left-title-body">
-          <div class="lt-brand">MoMA</div>
-          <div class="lt-title">MoMENT</div>
-          <div class="lt-line"></div>
-          <div class="lt-name">${name}'s gallery</div>
-        </div>
+      <div class="left-title-body">
+        <div class="lt-brand">MoMA</div>
+        <div class="lt-title">MoMENT</div>
+        <div class="lt-line"></div>
+        <div class="lt-name">${name}'s gallery</div>
       </div>`;
   }
 
   function buildEmptyRight() {
     return `
-      <div class="page-paper right-paper" style="width:100%;height:100%;position:relative;">
-        <div class="right-center">
-          <div class="empty-title">no moments yet</div>
-          <div class="empty-sub">Visit a MoMA kiosk and create your first painting to get started.</div>
-        </div>
+      <div class="right-center">
+        <div class="empty-title">no moments yet</div>
+        <div class="empty-sub">Visit a MoMA kiosk and create your first painting to get started.</div>
       </div>`;
   }
 
-  // moments are oldest-first; visit #1 = moments[0]
-  function getVisitNum(momentIdx) { return momentIdx + 1; }
+  // Single entry per page: left = title, right = moments[pageIndex]
 
-  function renderSpread(si) {
-    // Each spread shows 2 moments: left = si*2, right = si*2+1
-    const li = si * 2;
-    const ri = si * 2 + 1;
-    leftContent.innerHTML  = buildEntry(moments[li] || null, getVisitNum(li), li * 1 + 2, 'left-paper', 'pg-num-l');
-    rightContent.innerHTML = buildEntry(moments[ri] || null, getVisitNum(ri), ri * 1 + 3, 'right-paper', 'pg-num-r');
+  function renderPage(idx) {
+    leftContent.className  = 'page-paper left-paper';
+    rightContent.className = 'page-paper right-paper';
+    leftContent.innerHTML  = buildTitleLeft(visitorName);
+    rightContent.innerHTML = moments.length > 0
+      ? buildEntry(moments[idx], idx + 1, idx + 1, 'pg-num-r')
+      : buildEmptyRight();
     updateNav();
   }
 
   function updateNav() {
-    prevBtn.disabled = spreadIndex <= 0;
-    nextBtn.disabled = spreadIndex >= totalSpreads - 1;
-    const first = spreadIndex * 2 + 1;
-    const last  = Math.min(spreadIndex * 2 + 2, moments.length);
+    prevBtn.disabled = pageIndex <= 0;
+    nextBtn.disabled = pageIndex >= moments.length - 1;
     navInfo.textContent = moments.length === 0
       ? 'no moments found'
-      : `visits ${first}–${last} of ${moments.length}`;
+      : `visit ${pageIndex + 1} of ${moments.length}`;
   }
 
   // ── Page flip ──
-  function flipTo(nextSI, dir) {
+  function flipTo(nextIdx, dir) {
     if (isAnimating) return;
     isAnimating = true;
-    const prevSI = spreadIndex;
 
     if (dir === 'fwd') {
-      // right page of current spread flips left → back shows left page of next spread
-      const ri = prevSI * 2 + 1;
-      const nl = nextSI * 2;
-      flipFront.innerHTML = buildEntry(moments[ri] || null, getVisitNum(ri), ri + 3, 'right-paper', 'pg-num-r');
-      flipBack.innerHTML  = buildEntry(moments[nl] || null, getVisitNum(nl), nl + 2, 'left-paper',  'pg-num-l');
+      // right page flips left; its back shows the next entry
+      flipFront.className = 'flip-face page-paper right-paper';
+      flipBack.className  = 'flip-face page-paper right-paper';
+      flipFront.innerHTML = buildEntry(moments[pageIndex], pageIndex + 1, pageIndex + 1, 'pg-num-r');
+      flipBack.innerHTML  = buildEntry(moments[nextIdx],  nextIdx + 1,   nextIdx + 1,   'pg-num-r');
       flipPage.className  = 'on-right visible';
       flipPage.style.transform = '';
       void flipPage.offsetWidth;
       flipPage.classList.add('flipping-fwd');
     } else {
-      // left page of current spread flips right → back shows right page of prev spread
-      const cl = prevSI * 2;
-      const pr = nextSI * 2 + 1;
-      flipFront.innerHTML = buildEntry(moments[cl] || null, getVisitNum(cl), cl + 2, 'left-paper',  'pg-num-l');
-      flipBack.innerHTML  = buildEntry(moments[pr] || null, getVisitNum(pr), pr + 3, 'right-paper', 'pg-num-r');
+      // left page flips right; its back shows the previous entry on the right
+      flipFront.className = 'flip-face page-paper left-paper';
+      flipBack.className  = 'flip-face page-paper right-paper';
+      flipFront.innerHTML = buildTitleLeft(visitorName);
+      flipBack.innerHTML  = buildEntry(moments[nextIdx], nextIdx + 1, nextIdx + 1, 'pg-num-r');
       flipPage.className  = 'on-left visible';
       flipPage.style.transform = 'rotateY(180deg)';
       void flipPage.offsetWidth;
@@ -774,16 +779,16 @@
 
     flipPage.addEventListener('transitionend', function handler() {
       flipPage.removeEventListener('transitionend', handler);
-      spreadIndex = nextSI;
-      renderSpread(spreadIndex);
+      pageIndex = nextIdx;
+      renderPage(pageIndex);
       flipPage.className = 'on-right';
       flipPage.style.transform = '';
       isAnimating = false;
     }, { once: true });
   }
 
-  prevBtn.addEventListener('click', () => { if (!isAnimating && spreadIndex > 0) flipTo(spreadIndex - 1, 'bwd'); });
-  nextBtn.addEventListener('click', () => { if (!isAnimating && spreadIndex < totalSpreads - 1) flipTo(spreadIndex + 1, 'fwd'); });
+  prevBtn.addEventListener('click', () => { if (!isAnimating && pageIndex > 0) flipTo(pageIndex - 1, 'bwd'); });
+  nextBtn.addEventListener('click', () => { if (!isAnimating && pageIndex < moments.length - 1) flipTo(pageIndex + 1, 'fwd'); });
 
   // ── Login ──
   loginForm.addEventListener('submit', async e => {
@@ -800,12 +805,12 @@
     cover.classList.add('open');
 
     const firstName = email.split('@')[0];
+    leftContent.className  = 'page-paper left-paper';
+    rightContent.className = 'page-paper right-paper';
     leftContent.innerHTML  = buildTitleLeft(firstName);
     rightContent.innerHTML = `
-      <div class="page-paper right-paper" style="width:100%;height:100%;">
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
-          <span class="loading-text">finding your moments…</span>
-        </div>
+      <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">
+        <span class="loading-text">finding your moments…</span>
       </div>`;
 
     const { data, error } = await dataPromise;
@@ -818,23 +823,11 @@
       return;
     }
 
-    moments = data || [];
-    spreadIndex = 0;
-
-    if (moments.length === 0) {
-      totalSpreads = 1;
-      leftContent.innerHTML  = buildTitleLeft(firstName);
-      rightContent.innerHTML = buildEmptyRight();
-      bookNav.classList.add('visible');
-      navInfo.textContent = 'no moments found';
-      prevBtn.disabled = true;
-      nextBtn.disabled = true;
-    } else {
-      totalSpreads = Math.ceil(moments.length / 2);
-      renderSpread(0);
-      bookNav.classList.add('visible');
-      updateNav();
-    }
+    moments     = data || [];
+    visitorName = firstName;
+    pageIndex   = 0;
+    renderPage(0);
+    bookNav.classList.add('visible');
 
     loginBtn.disabled = false;
     loginBtn.textContent = 'open your gallery';
