@@ -544,6 +544,55 @@
       animation: pulse 1.4s ease-in-out infinite;
     }
     @keyframes pulse { 0%,100% { opacity: 0.4 } 50% { opacity: 1 } }
+
+    /* ── Mobile ── */
+    @media (max-width: 700px) {
+      body { overflow-y: auto; justify-content: flex-start; padding: 16px 0 32px; }
+
+      #scene { gap: 16px; width: 100%; padding: 0 12px; }
+
+      #book {
+        width: 100%;
+        height: auto;
+        min-height: 520px;
+      }
+      #book::after { display: none; }
+
+      /* hide left page and spine on mobile — single page only */
+      #book-left, #spine { display: none; }
+
+      .book-half { width: 100%; position: relative; top: auto; }
+      #book-right { right: auto; left: 0; border-radius: 2px; width: 100%; height: auto; min-height: 520px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); }
+
+      #right-content { min-height: 520px; height: auto; }
+
+      /* cover spans full width */
+      #cover { width: 100%; right: 0; }
+      .cover-face { border-radius: 2px; }
+      #cover-front { padding: 36px 28px 36px; min-height: 520px; height: auto; }
+      .cover-title { font-size: 52px; }
+      .cover-strip { width: 36px; }
+
+      /* flip page spans full width */
+      #flip-page { width: 100%; }
+      #flip-page.on-right { right: 0; left: auto; }
+      #flip-page.on-left  { left: 0; right: auto; }
+
+      /* entry layout */
+      .right-body { padding: 16px 18px 24px; }
+      .entry-photo { height: 200px; }
+      .entry-name { font-size: 17px; }
+      .entry-moment { font-size: 13px; }
+
+      /* nav */
+      #book-nav { gap: 16px; }
+      .nav-btn { width: 44px; height: 44px; font-size: 18px; }
+      #nav-info { font-size: 11px; min-width: 100px; }
+
+      /* left title page inside flip animation */
+      .left-title-body { padding: 28px; }
+      .lt-title { font-size: 28px; }
+    }
   </style>
 </head>
 <body>
@@ -789,6 +838,20 @@
 
   prevBtn.addEventListener('click', () => { if (!isAnimating && pageIndex > 0) flipTo(pageIndex - 1, 'bwd'); });
   nextBtn.addEventListener('click', () => { if (!isAnimating && pageIndex < moments.length - 1) flipTo(pageIndex + 1, 'fwd'); });
+
+  // ── Swipe to flip on mobile ──
+  let touchStartX = null;
+  document.getElementById('book').addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  document.getElementById('book').addEventListener('touchend', e => {
+    if (touchStartX === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    touchStartX = null;
+    if (Math.abs(dx) < 40) return;
+    if (dx < 0 && pageIndex < moments.length - 1) flipTo(pageIndex + 1, 'fwd');
+    if (dx > 0 && pageIndex > 0) flipTo(pageIndex - 1, 'bwd');
+  }, { passive: true });
 
   // ── Login ──
   loginForm.addEventListener('submit', async e => {
