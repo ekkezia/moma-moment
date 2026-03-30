@@ -1,6 +1,7 @@
-# MoMA Moment
+# MoMA MoMENT
 
-🏆 **Best Overall Winner — MoMA's First Ever Hackathon (in collaboration with NYU SPS)**
+🏆 **Best Overall Winner — NYU School of Professional Studies x Museum of Modern Art: Digital Futures Hackathon 
+The first ever MoMA Hackathon**
 
 ## Competition Prompt
 > How might MoMA reimagine the onsite visitor experience, through design, technology, or communication, to help visitors more easily navigate the museum, discover art that resonates with them, and feel more connected before, during, and after their visit?
@@ -35,9 +36,9 @@ MoMA Moment is an innovative project designed to transform the visitor experienc
 - Sofia Bernasconi Le Roy
 
 ## Team Members
-- Elizabeth Kezia Widjaja [https://instagram.com/ekezia]
-- Ines Lucas [https://www.linkedin.com/in/mariaineslucas]
-- Ranjani Ramakrishnan [https://ranjani.website/]
+- [Elizabeth Kezia Widjaja](https://instagram.com/ekezia)
+- [Ines Lucas](https://www.linkedin.com/in/mariaineslucas)
+- [Ranjani Ramakrishnan](https://ranjani.website/)
 
 ---
 
